@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ImagePickerAndroid</string>
+    <string name="pick_image">Pick Image</string>
 </resources>
