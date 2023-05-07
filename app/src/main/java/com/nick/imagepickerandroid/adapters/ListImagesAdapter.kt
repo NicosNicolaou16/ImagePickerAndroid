@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.nick.imagepickerandroid.databinding.ImageAdapterLayoutBinding
 
-class ListImages(private var imageList: MutableList<Bitmap>) :
+class ListImagesAdapter(private var imageList: MutableList<Bitmap>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ImagesViewHolder(

@@ -64,7 +64,7 @@ object ImagePicker {
                     handlePickAImage(
                         uri = uri,
                         contentResolver = it.contentResolver,
-                        fileAndImageTakePickerInterface = fileAndImageTakePickerInterface
+                        imagePickerInterface = fileAndImageTakePickerInterface
                     )
                 }
         }
@@ -74,7 +74,7 @@ object ImagePicker {
                     handlePickAImage(
                         uri = uri,
                         contentResolver = it.requireActivity().contentResolver,
-                        fileAndImageTakePickerInterface = fileAndImageTakePickerInterface
+                        imagePickerInterface = fileAndImageTakePickerInterface
                     )
                 }
         }
@@ -83,25 +83,25 @@ object ImagePicker {
     /**
      * @param uri get a uri with images
      * @param contentResolver content resolver from Activity
-     * @param fileAndImageTakePickerInterface call for Picker Helper class
+     * @param imagePickerInterface call for Picker Helper class
      * */
     private fun handlePickAImage(
         uri: Uri?,
         contentResolver: ContentResolver,
-        fileAndImageTakePickerInterface: ImagePickerInterface?
+        imagePickerInterface: ImagePickerInterface?
     ) {
         val bitmap: Bitmap?
         try {
             if (uri != null) {
                 bitmap = convertUriToBitmap(contentResolver = contentResolver, uri = uri)
-                fileAndImageTakePickerInterface?.onBitmap(
+                imagePickerInterface?.onBitmap(
                     bitmap = bitmap,
                     uri = uri,
                 )
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            fileAndImageTakePickerInterface?.onBitmap(
+            imagePickerInterface?.onBitmap(
                 bitmap = null,
                 uri = null,
             )
@@ -136,14 +136,14 @@ object ImagePicker {
      * @param fragmentActivity instance for current Activity
      * @param fragment instance for current Fragment
      * @param maxNumberOfImages max number for select images from picker
-     * @param fileAndImageTakePickerInterface call for Picker Helper class
+     * @param imagePickerInterface call for Picker Helper class
      * */
     internal fun initPickMultiplePhotoFromGalleryResultLauncher(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
         @IntRange(from = 1, to = Long.MAX_VALUE) maxNumberOfImages: Int = 9,
         coroutineScope: CoroutineScope,
-        fileAndImageTakePickerInterface: ImagePickerInterface?
+        imagePickerInterface: ImagePickerInterface?
     ) {
         fragmentActivity?.let {
             pickMultipleImageFromGalleryResultLauncher = it.registerForActivityResult(
@@ -153,7 +153,7 @@ object ImagePicker {
                     handleTheMultipleImagesPicker(
                         uris = uris,
                         contentResolver = it.contentResolver,
-                        fileAndImageTakePickerInterface = fileAndImageTakePickerInterface
+                        imagePickerInterface = imagePickerInterface
                     )
                 }
             }
@@ -166,7 +166,7 @@ object ImagePicker {
                     handleTheMultipleImagesPicker(
                         uris = uris,
                         contentResolver = it.requireActivity().contentResolver,
-                        fileAndImageTakePickerInterface = fileAndImageTakePickerInterface
+                        imagePickerInterface = imagePickerInterface
                     )
                 }
             }
@@ -176,12 +176,12 @@ object ImagePicker {
     /**
      * @param uris get a list of uri with images
      * @param contentResolver content resolver from Activity
-     * @param fileAndImageTakePickerInterface call for Picker Helper class
+     * @param imagePickerInterface call for Picker Helper class
      * */
     private suspend fun handleTheMultipleImagesPicker(
         uris: List<Uri>?,
         contentResolver: ContentResolver,
-        fileAndImageTakePickerInterface: ImagePickerInterface?
+        imagePickerInterface: ImagePickerInterface?
     ) = withContext(Dispatchers.Default) {
         try {
             if (!uris.isNullOrEmpty()) {
@@ -194,19 +194,19 @@ object ImagePicker {
                         )
                     if (bitmap != null) bitmapList.add(bitmap)
                 }
-                fileAndImageTakePickerInterface?.onMultipleBitmaps(
+                imagePickerInterface?.onMultipleBitmaps(
                     bitmapList = bitmapList,
                     uriList = uris.toMutableList(),
                 )
             } else {
-                fileAndImageTakePickerInterface?.onMultipleBitmaps(
+                imagePickerInterface?.onMultipleBitmaps(
                     bitmapList = null,
                     uriList = null,
                 )
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            fileAndImageTakePickerInterface?.onMultipleBitmaps(
+            imagePickerInterface?.onMultipleBitmaps(
                 bitmapList = null,
                 uriList = null,
             )

@@ -5,22 +5,20 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.nick.imagepickerandroid.adapters.ListImages
+import com.nick.imagepickerandroid.adapters.ListImagesAdapter
 import com.nick.imagepickerandroid.databinding.ActivityMainBinding
 import com.nick.imagepickerandroid.image_picker.ImagePicker.initPickAPhotoFromGalleryResultLauncher
 import com.nick.imagepickerandroid.image_picker.ImagePicker.initPickMultiplePhotoFromGalleryResultLauncher
 import com.nick.imagepickerandroid.image_picker.ImagePicker.pickAnImageFromGallery
 import com.nick.imagepickerandroid.image_picker.ImagePicker.pickMultipleImagesFromGallery
 import com.nick.imagepickerandroid.image_picker.ImagePickerInterface
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 class MainActivity : AppCompatActivity(), ImagePickerInterface {
 
     private lateinit var binding: ActivityMainBinding
-    private var listImage: ListImages? = null
+    private var listImageAdapter: ListImagesAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +31,8 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     }
 
     private fun initAdapter() {
-        listImage = ListImages(mutableListOf())
-        binding.recyclerView.adapter = listImage
+        listImageAdapter = ListImagesAdapter(mutableListOf())
+        binding.recyclerView.adapter = listImageAdapter
     }
 
     private fun initImagePicker() {
@@ -45,7 +43,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         initPickMultiplePhotoFromGalleryResultLauncher(
             fragmentActivity = this,
             coroutineScope = lifecycleScope,
-            fileAndImageTakePickerInterface = this
+            imagePickerInterface = this
         )
     }
 
@@ -58,6 +56,9 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         }
     }
 
+    /**
+     * Call Back - Get Bitmap and Uri
+     * */
     override fun onBitmap(bitmap: Bitmap?, uri: Uri?) {
         if (bitmap != null) binding.image.setImageBitmap(bitmap)
         super.onBitmap(bitmap, uri)
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 
     override fun onMultipleBitmaps(bitmapList: MutableList<Bitmap>?, uriList: MutableList<Uri>?) {
         lifecycleScope.launch(Dispatchers.Main) {
-            if (bitmapList != null) listImage?.loadData(bitmapList)
+            if (bitmapList != null) listImageAdapter?.loadData(bitmapList)
         }
         super.onMultipleBitmaps(bitmapList, uriList)
     }
