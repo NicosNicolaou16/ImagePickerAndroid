@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     private fun initImagePicker() {
         initPickAPhotoFromGalleryResultLauncher(
             fragmentActivity = this,
-            fileAndImageTakePickerInterface = this
+            imagePickerInterface = this
         )
         initPickMultiplePhotoFromGalleryResultLauncher(
             fragmentActivity = this,

@@ -51,12 +51,12 @@ object ImagePicker {
     /**
      * @param fragmentActivity instance for current Activity (Optional)
      * @param fragment instance for current Fragment (Optional)
-     * @param fileAndImageTakePickerInterface call for Picker Helper class
+     * @param imagePickerInterface call for Picker Helper class
      * */
     internal fun initPickAPhotoFromGalleryResultLauncher(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
-        fileAndImageTakePickerInterface: ImagePickerInterface?
+        imagePickerInterface: ImagePickerInterface?
     ) {
         fragmentActivity?.let {
             pickImageFromGalleryResultLauncher =
@@ -64,7 +64,7 @@ object ImagePicker {
                     handlePickAImage(
                         uri = uri,
                         contentResolver = it.contentResolver,
-                        imagePickerInterface = fileAndImageTakePickerInterface
+                        imagePickerInterface = imagePickerInterface
                     )
                 }
         }
@@ -74,7 +74,7 @@ object ImagePicker {
                     handlePickAImage(
                         uri = uri,
                         contentResolver = it.requireActivity().contentResolver,
-                        imagePickerInterface = fileAndImageTakePickerInterface
+                        imagePickerInterface = imagePickerInterface
                     )
                 }
         }
