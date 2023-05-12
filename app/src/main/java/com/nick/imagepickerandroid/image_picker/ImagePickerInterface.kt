@@ -5,8 +5,9 @@ import android.net.Uri
 
 interface ImagePickerInterface {
 
-    fun onBitmap(bitmap: Bitmap?, uri: Uri?) {}
-    fun onMultipleBitmaps(
+    fun onBitmapGallery(bitmap: Bitmap?, uri: Uri?) {}
+    fun onBitmapCamera(bitmap: Bitmap?, uri: Uri?) {}
+    fun onMultipleBitmapsGallery(
         bitmapList: MutableList<Bitmap>?,
         uriList: MutableList<Uri>?,
     ) {

@@ -1,6 +1,10 @@
 package com.nick.imagepickerandroid.image_picker
 
+import android.Manifest
+import android.app.Activity
 import android.content.ContentResolver
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -10,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IntRange
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.CoroutineScope
@@ -23,6 +28,9 @@ object ImagePicker {
         null
     private var pickMultipleImageFromGalleryResultLauncher: ActivityResultLauncher<PickVisualMediaRequest>? =
         null
+    private var takeAPhotoWithCameraResultLauncher: ActivityResultLauncher<Intent>? = null
+    private var activityResultLauncherPermissionFragment: ActivityResultLauncher<String>? = null
+    private var activityResultLauncherPermissionActivity: ActivityResultLauncher<String>? = null
 
     /**
      * @param fragmentActivity instance for current Activity (Optional)
@@ -94,14 +102,14 @@ object ImagePicker {
         try {
             if (uri != null) {
                 bitmap = convertUriToBitmap(contentResolver = contentResolver, uri = uri)
-                imagePickerInterface?.onBitmap(
+                imagePickerInterface?.onBitmapGallery(
                     bitmap = bitmap,
                     uri = uri,
                 )
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            imagePickerInterface?.onBitmap(
+            imagePickerInterface?.onBitmapGallery(
                 bitmap = null,
                 uri = null,
             )
@@ -194,19 +202,19 @@ object ImagePicker {
                         )
                     if (bitmap != null) bitmapList.add(bitmap)
                 }
-                imagePickerInterface?.onMultipleBitmaps(
+                imagePickerInterface?.onMultipleBitmapsGallery(
                     bitmapList = bitmapList,
                     uriList = uris.toMutableList(),
                 )
             } else {
-                imagePickerInterface?.onMultipleBitmaps(
+                imagePickerInterface?.onMultipleBitmapsGallery(
                     bitmapList = null,
                     uriList = null,
                 )
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            imagePickerInterface?.onMultipleBitmaps(
+            imagePickerInterface?.onMultipleBitmapsGallery(
                 bitmapList = null,
                 uriList = null,
             )
@@ -223,6 +231,113 @@ object ImagePicker {
             val source: ImageDecoder.Source? =
                 uri?.let { ImageDecoder.createSource(contentResolver, it) }
             source?.let { ImageDecoder.decodeBitmap(it) }
+        }
+    }
+
+    /**
+     * @param fragmentActivity instance for current Activity
+     * @param fragment instance for current Fragment
+     * @param permissionTag separate the Camera Permission from other Permission if it has
+     * */
+    internal fun takeAPhotoWithCamera(
+        fragmentActivity: FragmentActivity? = null,
+        fragment: Fragment? = null,
+    ) {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+            fragmentActivity?.let {
+                if (isPermissionGranted(it))
+                    takeAPhotoWithCameraResultLauncher?.launch(this)
+                else {
+                    activityResultLauncherPermissionActivity?.launch(Manifest.permission.CAMERA)
+                }
+            }
+            fragment?.let {
+                if (isPermissionGranted(it))
+                    takeAPhotoWithCameraResultLauncher?.launch(this)
+                else {
+                    activityResultLauncherPermissionActivity?.launch(Manifest.permission.CAMERA)
+                }
+            }
+        }
+    }
+
+    /**
+     * @param fragmentActivity instance for current Activity
+     * @param fragment instance for current Fragment
+     * @param imagePickerInterface call for Picker Helper class
+     * */
+    internal fun initTakeAPhotoWithCameraResultLauncher(
+        fragmentActivity: FragmentActivity? = null,
+        fragment: Fragment? = null,
+        imagePickerInterface: ImagePickerInterface?
+    ) {
+        fragmentActivity?.let {
+            initRegisterForRequestPermissionInActivity(fragmentActivity = fragmentActivity)
+            takeAPhotoWithCameraResultLauncher = it.registerForActivityResult(
+                ActivityResultContracts.StartActivityForResult()
+            ) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    result?.data?.apply {
+                        val bitmap = getExtrasBitmapAccordingWithSDK(this)
+                        imagePickerInterface?.onBitmapCamera(
+                            bitmap = bitmap,
+                            uri = null,
+                        )
+                    }
+                }
+            }
+        }
+        fragment?.let {
+            initRegisterForRequestPermissionInFragment(fragment = it)
+            takeAPhotoWithCameraResultLauncher = it.registerForActivityResult(
+                ActivityResultContracts.StartActivityForResult()
+            ) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    result?.data?.apply {
+                        val bitmap = getExtrasBitmapAccordingWithSDK(this)
+                        imagePickerInterface?.onBitmapCamera(
+                            bitmap = bitmap,
+                            uri = null,
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getExtrasBitmapAccordingWithSDK(intent: Intent) =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) intent.extras?.getParcelable(
+            "data",
+            Bitmap::class.java
+        ) else intent.extras?.get("data") as? Bitmap
+
+    private fun isPermissionGranted(fragmentActivity: FragmentActivity) =
+        (ActivityCompat.checkSelfPermission(
+            fragmentActivity,
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED)
+
+
+    private fun isPermissionGranted(fragment: Fragment) =
+        (fragment.context?.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
+
+    private fun initRegisterForRequestPermissionInFragment(
+        fragment: Fragment?,
+    ) {
+        activityResultLauncherPermissionFragment = fragment?.registerForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { isGranted ->
+            if (isGranted) takeAPhotoWithCamera(fragment = fragment)
+        }
+    }
+
+    private fun initRegisterForRequestPermissionInActivity(
+        fragmentActivity: FragmentActivity?,
+    ) {
+        activityResultLauncherPermissionActivity = fragmentActivity?.registerForActivityResult(
+            ActivityResultContracts.RequestPermission(),
+        ) { isGranted ->
+            if (isGranted) ImagePicker.takeAPhotoWithCamera(fragmentActivity = fragmentActivity)
         }
     }
 }

@@ -9,8 +9,10 @@ import com.nick.imagepickerandroid.adapters.ListImagesAdapter
 import com.nick.imagepickerandroid.databinding.ActivityMainBinding
 import com.nick.imagepickerandroid.image_picker.ImagePicker.initPickAPhotoFromGalleryResultLauncher
 import com.nick.imagepickerandroid.image_picker.ImagePicker.initPickMultiplePhotoFromGalleryResultLauncher
+import com.nick.imagepickerandroid.image_picker.ImagePicker.initTakeAPhotoWithCameraResultLauncher
 import com.nick.imagepickerandroid.image_picker.ImagePicker.pickAnImageFromGallery
 import com.nick.imagepickerandroid.image_picker.ImagePicker.pickMultipleImagesFromGallery
+import com.nick.imagepickerandroid.image_picker.ImagePicker.takeAPhotoWithCamera
 import com.nick.imagepickerandroid.image_picker.ImagePickerInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,6 +47,10 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             coroutineScope = lifecycleScope,
             imagePickerInterface = this
         )
+        initTakeAPhotoWithCameraResultLauncher(
+            fragmentActivity = this,
+            imagePickerInterface = this
+        )
     }
 
     private fun initListeners() {
@@ -53,6 +59,9 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         }
         binding.pickImages.setOnClickListener {
             pickMultipleImagesFromGallery(fragmentActivity = this)
+        }
+        binding.camera.setOnClickListener {
+            takeAPhotoWithCamera(fragmentActivity = this)
         }
     }
 
@@ -64,10 +73,10 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         super.onBitmap(bitmap, uri)
     }
 
-    override fun onMultipleBitmaps(bitmapList: MutableList<Bitmap>?, uriList: MutableList<Uri>?) {
+    override fun onMultipleBitmapsGallery(bitmapList: MutableList<Bitmap>?, uriList: MutableList<Uri>?) {
         lifecycleScope.launch(Dispatchers.Main) {
             if (bitmapList != null) listImageAdapter?.loadData(bitmapList)
         }
-        super.onMultipleBitmaps(bitmapList, uriList)
+        super.onMultipleBitmapsGallery(bitmapList, uriList)
     }
 }

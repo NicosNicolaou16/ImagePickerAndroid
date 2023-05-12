@@ -57,5 +57,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pickImage" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/camera"
+        android:layout_width="190dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pickImages" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
