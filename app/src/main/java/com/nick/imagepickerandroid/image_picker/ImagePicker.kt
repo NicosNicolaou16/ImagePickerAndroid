@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -14,23 +13,21 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IntRange
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.nick.imagepickerandroid.utils.permissions.PermissionsHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-object ImagePicker {
+object ImagePicker : PermissionsHelper() {
 
     private var pickImageFromGalleryResultLauncher: ActivityResultLauncher<PickVisualMediaRequest>? =
         null
     private var pickMultipleImageFromGalleryResultLauncher: ActivityResultLauncher<PickVisualMediaRequest>? =
         null
     private var takeAPhotoWithCameraResultLauncher: ActivityResultLauncher<Intent>? = null
-    private var activityResultLauncherPermissionFragment: ActivityResultLauncher<String>? = null
-    private var activityResultLauncherPermissionActivity: ActivityResultLauncher<String>? = null
 
     /**
      * @param fragmentActivity instance for current Activity (Optional)
@@ -255,7 +252,7 @@ object ImagePicker {
                 if (isPermissionGranted(it))
                     takeAPhotoWithCameraResultLauncher?.launch(this)
                 else {
-                    activityResultLauncherPermissionActivity?.launch(Manifest.permission.CAMERA)
+                    activityResultLauncherPermissionFragment?.launch(Manifest.permission.CAMERA)
                 }
             }
         }
@@ -310,34 +307,4 @@ object ImagePicker {
             "data",
             Bitmap::class.java
         ) else intent.extras?.get("data") as? Bitmap
-
-    private fun isPermissionGranted(fragmentActivity: FragmentActivity) =
-        (ActivityCompat.checkSelfPermission(
-            fragmentActivity,
-            Manifest.permission.CAMERA
-        ) == PackageManager.PERMISSION_GRANTED)
-
-
-    private fun isPermissionGranted(fragment: Fragment) =
-        (fragment.context?.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
-
-    private fun initRegisterForRequestPermissionInFragment(
-        fragment: Fragment?,
-    ) {
-        activityResultLauncherPermissionFragment = fragment?.registerForActivityResult(
-            ActivityResultContracts.RequestPermission(),
-        ) { isGranted ->
-            if (isGranted) takeAPhotoWithCamera(fragment = fragment)
-        }
-    }
-
-    private fun initRegisterForRequestPermissionInActivity(
-        fragmentActivity: FragmentActivity?,
-    ) {
-        activityResultLauncherPermissionActivity = fragmentActivity?.registerForActivityResult(
-            ActivityResultContracts.RequestPermission(),
-        ) { isGranted ->
-            if (isGranted) ImagePicker.takeAPhotoWithCamera(fragmentActivity = fragmentActivity)
-        }
-    }
 }

@@ -68,12 +68,20 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     /**
      * Call Back - Get Bitmap and Uri
      * */
-    override fun onBitmap(bitmap: Bitmap?, uri: Uri?) {
+    override fun onBitmapGallery(bitmap: Bitmap?, uri: Uri?) {
         if (bitmap != null) binding.image.setImageBitmap(bitmap)
-        super.onBitmap(bitmap, uri)
+        super.onBitmapGallery(bitmap, uri)
     }
 
-    override fun onMultipleBitmapsGallery(bitmapList: MutableList<Bitmap>?, uriList: MutableList<Uri>?) {
+    override fun onBitmapCamera(bitmap: Bitmap?, uri: Uri?) {
+        if (bitmap != null) binding.image.setImageBitmap(bitmap)
+        super.onBitmapCamera(bitmap, uri)
+    }
+
+    override fun onMultipleBitmapsGallery(
+        bitmapList: MutableList<Bitmap>?,
+        uriList: MutableList<Uri>?
+    ) {
         lifecycleScope.launch(Dispatchers.Main) {
             if (bitmapList != null) listImageAdapter?.loadData(bitmapList)
         }
