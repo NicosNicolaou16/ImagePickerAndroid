@@ -32,7 +32,7 @@ initTakePhotoWithCameraResultLauncher(
 )
 ```
 
-### Step 3 - Call the interfaces (Optional methods)
+### Step 3 - Callbacks (Optional)
 
 ```Kotlin
 class MainActivity : AppCompatActivity(), ImagePickerInterface {
