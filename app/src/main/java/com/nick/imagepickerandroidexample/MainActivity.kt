@@ -1,19 +1,19 @@
-package com.nick.imagepickerandroid
+package com.nick.imagepickerandroidexample
 
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.nick.imagepickerandroid.adapters.ListImagesAdapter
-import com.nick.imagepickerandroid.databinding.ActivityMainBinding
-import com.nick.imagepickerandroid.image_picker.ImagePicker.initPickAnImageFromGalleryResultLauncher
-import com.nick.imagepickerandroid.image_picker.ImagePicker.initPickMultipleImagesFromGalleryResultLauncher
-import com.nick.imagepickerandroid.image_picker.ImagePicker.initTakePhotoWithCameraResultLauncher
-import com.nick.imagepickerandroid.image_picker.ImagePicker.pickAnImageFromGallery
-import com.nick.imagepickerandroid.image_picker.ImagePicker.pickMultipleImagesFromGallery
-import com.nick.imagepickerandroid.image_picker.ImagePicker.takeAPhotoWithCamera
-import com.nick.imagepickerandroid.image_picker.ImagePickerInterface
+import com.nick.imagepickerandroidexample.adapters.ListImagesAdapter
+import com.nicos.imagepickerandroid.image_picker.ImagePicker.initPickAnImageFromGalleryResultLauncher
+import com.nicos.imagepickerandroid.image_picker.ImagePicker.initPickMultipleImagesFromGalleryResultLauncher
+import com.nicos.imagepickerandroid.image_picker.ImagePicker.initTakePhotoWithCameraResultLauncher
+import com.nicos.imagepickerandroid.image_picker.ImagePicker.pickAnImageFromGallery
+import com.nicos.imagepickerandroid.image_picker.ImagePicker.pickMultipleImagesFromGallery
+import com.nicos.imagepickerandroid.image_picker.ImagePicker.takeAPhotoWithCamera
+import com.nicos.imagepickerandroid.image_picker.ImagePickerInterface
+import com.nicos.imagepickerandroidexample.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

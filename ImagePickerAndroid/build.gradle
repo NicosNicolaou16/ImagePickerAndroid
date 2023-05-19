@@ -1,30 +1,26 @@
 plugins {
-    id 'com.android.application'
+    id "com.android.library"
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'maven-publish'
 }
 
 android {
-    namespace 'com.nicos.imagepickerandroidexample'
+    namespace 'com.nick.imagepickerandroid'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.nicos.imagepickerandroidexample"
         minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
-        buildFeatures {
-            viewBinding true
-        }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -52,7 +48,6 @@ ext {
 }
 
 dependencies {
-    implementation project(":ImagePickerAndroid")
     implementation "androidx.core:core-ktx:$coreKtxVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "com.google.android.material:material:$materialDesignVersion"
@@ -70,4 +65,17 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = 'com.github.nicos:imagepickerandroid'
+                artifactId = 'ImagePickerAndroid'
+                version = '1.0.0-beta01'
+                from components.release
+            }
+        }
+    }
 }

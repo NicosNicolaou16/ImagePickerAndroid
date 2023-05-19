@@ -1,4 +1,4 @@
-package com.nick.imagepickerandroid.image_picker
+package com.nicos.imagepickerandroid.image_picker
 
 import android.Manifest
 import android.app.Activity
@@ -15,7 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IntRange
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.nick.imagepickerandroid.utils.permissions.PermissionsHelper
+import com.nicos.imagepickerandroid.utils.permissions.PermissionsHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,7 +33,7 @@ object ImagePicker : PermissionsHelper() {
      * @param fragmentActivity instance for current Activity (Optional)
      * @param fragment instance for current Fragment (Optional)
      * */
-    internal fun pickAnImageFromGallery(
+    fun pickAnImageFromGallery(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
     ) {
@@ -58,7 +58,7 @@ object ImagePicker : PermissionsHelper() {
      * @param fragment instance for current Fragment (Optional)
      * @param imagePickerInterface call for Picker Helper class
      * */
-    internal fun initPickAnImageFromGalleryResultLauncher(
+    fun initPickAnImageFromGalleryResultLauncher(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
         imagePickerInterface: ImagePickerInterface?
@@ -117,7 +117,7 @@ object ImagePicker : PermissionsHelper() {
      * @param fragmentActivity instance for current Activity
      * @param fragment instance for current Fragment
      * */
-    internal fun pickMultipleImagesFromGallery(
+    fun pickMultipleImagesFromGallery(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
     ) {
@@ -143,7 +143,7 @@ object ImagePicker : PermissionsHelper() {
      * @param maxNumberOfImages max number for select images from picker
      * @param imagePickerInterface call for Picker Helper class
      * */
-    internal fun initPickMultipleImagesFromGalleryResultLauncher(
+    fun initPickMultipleImagesFromGalleryResultLauncher(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
         @IntRange(from = 1, to = Long.MAX_VALUE) maxNumberOfImages: Int = 9,
@@ -236,7 +236,7 @@ object ImagePicker : PermissionsHelper() {
      * @param fragment instance for current Fragment
      * @param permissionTag separate the Camera Permission from other Permission if it has
      * */
-    internal fun takeAPhotoWithCamera(
+    fun takeAPhotoWithCamera(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
     ) {
@@ -263,7 +263,7 @@ object ImagePicker : PermissionsHelper() {
      * @param fragment instance for current Fragment
      * @param imagePickerInterface call for Picker Helper class
      * */
-    internal fun initTakePhotoWithCameraResultLauncher(
+    fun initTakePhotoWithCameraResultLauncher(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
         imagePickerInterface: ImagePickerInterface?

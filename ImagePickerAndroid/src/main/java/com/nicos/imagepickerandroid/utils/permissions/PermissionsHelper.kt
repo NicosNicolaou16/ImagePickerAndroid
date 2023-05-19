@@ -1,4 +1,4 @@
-package com.nick.imagepickerandroid.utils.permissions
+package com.nicos.imagepickerandroid.utils.permissions
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -7,7 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.nick.imagepickerandroid.image_picker.ImagePicker
+import com.nicos.imagepickerandroid.image_picker.ImagePicker
 
 open class PermissionsHelper {
 

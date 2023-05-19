@@ -1,10 +1,10 @@
-package com.nick.imagepickerandroid.adapters
+package com.nick.imagepickerandroidexample.adapters
 
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.nick.imagepickerandroid.databinding.ImageAdapterLayoutBinding
+import com.nicos.imagepickerandroidexample.databinding.ImageAdapterLayoutBinding
 
 class ListImagesAdapter(private var imageList: MutableList<Bitmap>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
