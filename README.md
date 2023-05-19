@@ -12,7 +12,7 @@ allprojects {
 }
 ```
 
-### Step 2 - Initialize the methods for Image Pickers
+### Step 2 - Initialize the methods for Image Pickers (choose the preferred methods)
 
 ```Kotlin
 initPickAnImageFromGalleryResultLauncher(
@@ -32,9 +32,13 @@ initTakePhotoWithCameraResultLauncher(
 )
 ```
 
-### Step 3 - Call the interface (Optional)
+### Step 3 - Call the interfaces (Optional methods)
 
 ```Kotlin
+class MainActivity : AppCompatActivity(), ImagePickerInterface {
+    //...
+}
+
 override fun onGalleryImage(bitmap: Bitmap?, uri: Uri?) {
     super.onGalleryImage(bitmap, uri)
 }
