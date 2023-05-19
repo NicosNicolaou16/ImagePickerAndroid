@@ -1,8 +1,8 @@
 # Image Picker Android
 
-# Configuration
+## Configuration
 
-# Step 1
+### Step 1
 
 ```Groovy
 allprojects {
@@ -12,7 +12,7 @@ allprojects {
 }
 ```
 
-# Step 2 - Initialize the methods for Image Pickers
+### Step 2 - Initialize the methods for Image Pickers
 
 ```Kotlin
 initPickAnImageFromGalleryResultLauncher(
@@ -32,7 +32,7 @@ initTakePhotoWithCameraResultLauncher(
 )
 ```
 
-# Step 3 - Call the interface (Optional)
+### Step 3 - Call the interface (Optional)
 
 ```Kotlin
 override fun onGalleryImage(bitmap: Bitmap?, uri: Uri?) {
@@ -47,7 +47,9 @@ override fun onMultipleGalleryImages(
     bitmapList: MutableList<Bitmap>?,
     uriList: MutableList<Uri>?
 ) {
-    lifecycleScope.launch(Dispatchers.Main) {}
     super.onMultipleGalleryImages(bitmapList, uriList)
+    lifecycleScope.launch(Dispatchers.Main) {
+        //...your code here
+    }
 }
 ```
