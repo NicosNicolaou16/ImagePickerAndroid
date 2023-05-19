@@ -7,9 +7,9 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.nick.imagepickerandroid.adapters.ListImagesAdapter
 import com.nick.imagepickerandroid.databinding.ActivityMainBinding
-import com.nick.imagepickerandroid.image_picker.ImagePicker.initPickAPhotoFromGalleryResultLauncher
-import com.nick.imagepickerandroid.image_picker.ImagePicker.initPickMultiplePhotoFromGalleryResultLauncher
-import com.nick.imagepickerandroid.image_picker.ImagePicker.initTakeAPhotoWithCameraResultLauncher
+import com.nick.imagepickerandroid.image_picker.ImagePicker.initPickAnImageFromGalleryResultLauncher
+import com.nick.imagepickerandroid.image_picker.ImagePicker.initPickMultipleImagesFromGalleryResultLauncher
+import com.nick.imagepickerandroid.image_picker.ImagePicker.initTakePhotoWithCameraResultLauncher
 import com.nick.imagepickerandroid.image_picker.ImagePicker.pickAnImageFromGallery
 import com.nick.imagepickerandroid.image_picker.ImagePicker.pickMultipleImagesFromGallery
 import com.nick.imagepickerandroid.image_picker.ImagePicker.takeAPhotoWithCamera
@@ -38,16 +38,16 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     }
 
     private fun initImagePicker() {
-        initPickAPhotoFromGalleryResultLauncher(
+        initPickAnImageFromGalleryResultLauncher(
             fragmentActivity = this,
             imagePickerInterface = this
         )
-        initPickMultiplePhotoFromGalleryResultLauncher(
+        initPickMultipleImagesFromGalleryResultLauncher(
             fragmentActivity = this,
             coroutineScope = lifecycleScope,
             imagePickerInterface = this
         )
-        initTakeAPhotoWithCameraResultLauncher(
+        initTakePhotoWithCameraResultLauncher(
             fragmentActivity = this,
             imagePickerInterface = this
         )
@@ -68,23 +68,23 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     /**
      * Call Back - Get Bitmap and Uri
      * */
-    override fun onBitmapGallery(bitmap: Bitmap?, uri: Uri?) {
+    override fun onGalleryImage(bitmap: Bitmap?, uri: Uri?) {
         if (bitmap != null) binding.image.setImageBitmap(bitmap)
-        super.onBitmapGallery(bitmap, uri)
+        super.onGalleryImage(bitmap, uri)
     }
 
-    override fun onBitmapCamera(bitmap: Bitmap?, uri: Uri?) {
+    override fun onCameraImage(bitmap: Bitmap?, uri: Uri?) {
         if (bitmap != null) binding.image.setImageBitmap(bitmap)
-        super.onBitmapCamera(bitmap, uri)
+        super.onCameraImage(bitmap, uri)
     }
 
-    override fun onMultipleBitmapsGallery(
+    override fun onMultipleGalleryImages(
         bitmapList: MutableList<Bitmap>?,
         uriList: MutableList<Uri>?
     ) {
         lifecycleScope.launch(Dispatchers.Main) {
             if (bitmapList != null) listImageAdapter?.loadData(bitmapList)
         }
-        super.onMultipleBitmapsGallery(bitmapList, uriList)
+        super.onMultipleGalleryImages(bitmapList, uriList)
     }
 }

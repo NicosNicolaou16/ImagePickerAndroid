@@ -24,7 +24,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -45,14 +45,13 @@ ext {
     lifeCycleAndLiveDataCompilerAndViewModelKTXVersion = '2.6.1'
     activityVersion = '1.7.1'
     fragmentVersion = '1.5.7'
-    coroutineVersion = '1.7.0'
+    coroutineVersion = '1.7.1'
     multidexVersion = "2.0.1"
     materialDesignVersion = '1.9.0'
     recyclerViewVersion = '1.3.0'
 }
 
 dependencies {
-
     implementation "androidx.core:core-ktx:$coreKtxVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "com.google.android.material:material:$materialDesignVersion"
@@ -63,7 +62,6 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion"
-    //implementation "androidx.lifecycle:lifecycle-extensions:lifeCycleAndLiveDataCompilerAndViewModelKTXVersion"
     //noinspection LifecycleAnnotationProcessorWithJava8
     kapt "androidx.lifecycle:lifecycle-compiler:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion"

@@ -58,7 +58,7 @@ object ImagePicker : PermissionsHelper() {
      * @param fragment instance for current Fragment (Optional)
      * @param imagePickerInterface call for Picker Helper class
      * */
-    internal fun initPickAPhotoFromGalleryResultLauncher(
+    internal fun initPickAnImageFromGalleryResultLauncher(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
         imagePickerInterface: ImagePickerInterface?
@@ -99,14 +99,14 @@ object ImagePicker : PermissionsHelper() {
         try {
             if (uri != null) {
                 bitmap = convertUriToBitmap(contentResolver = contentResolver, uri = uri)
-                imagePickerInterface?.onBitmapGallery(
+                imagePickerInterface?.onGalleryImage(
                     bitmap = bitmap,
                     uri = uri,
                 )
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            imagePickerInterface?.onBitmapGallery(
+            imagePickerInterface?.onGalleryImage(
                 bitmap = null,
                 uri = null,
             )
@@ -143,7 +143,7 @@ object ImagePicker : PermissionsHelper() {
      * @param maxNumberOfImages max number for select images from picker
      * @param imagePickerInterface call for Picker Helper class
      * */
-    internal fun initPickMultiplePhotoFromGalleryResultLauncher(
+    internal fun initPickMultipleImagesFromGalleryResultLauncher(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
         @IntRange(from = 1, to = Long.MAX_VALUE) maxNumberOfImages: Int = 9,
@@ -199,19 +199,19 @@ object ImagePicker : PermissionsHelper() {
                         )
                     if (bitmap != null) bitmapList.add(bitmap)
                 }
-                imagePickerInterface?.onMultipleBitmapsGallery(
+                imagePickerInterface?.onMultipleGalleryImages(
                     bitmapList = bitmapList,
                     uriList = uris.toMutableList(),
                 )
             } else {
-                imagePickerInterface?.onMultipleBitmapsGallery(
+                imagePickerInterface?.onMultipleGalleryImages(
                     bitmapList = null,
                     uriList = null,
                 )
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            imagePickerInterface?.onMultipleBitmapsGallery(
+            imagePickerInterface?.onMultipleGalleryImages(
                 bitmapList = null,
                 uriList = null,
             )
@@ -263,7 +263,7 @@ object ImagePicker : PermissionsHelper() {
      * @param fragment instance for current Fragment
      * @param imagePickerInterface call for Picker Helper class
      * */
-    internal fun initTakeAPhotoWithCameraResultLauncher(
+    internal fun initTakePhotoWithCameraResultLauncher(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
         imagePickerInterface: ImagePickerInterface?
@@ -276,7 +276,7 @@ object ImagePicker : PermissionsHelper() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     result?.data?.apply {
                         val bitmap = getExtrasBitmapAccordingWithSDK(this)
-                        imagePickerInterface?.onBitmapCamera(
+                        imagePickerInterface?.onCameraImage(
                             bitmap = bitmap,
                             uri = null,
                         )
@@ -292,7 +292,7 @@ object ImagePicker : PermissionsHelper() {
                 if (result.resultCode == Activity.RESULT_OK) {
                     result?.data?.apply {
                         val bitmap = getExtrasBitmapAccordingWithSDK(this)
-                        imagePickerInterface?.onBitmapCamera(
+                        imagePickerInterface?.onCameraImage(
                             bitmap = bitmap,
                             uri = null,
                         )
