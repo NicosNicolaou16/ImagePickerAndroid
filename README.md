@@ -2,11 +2,11 @@
 
 ### Versioning
 
-Gradle Version 8.0.1
-Kotlin Version 1.8.21
-JDK Version 17
-Minimum SDK 24
-Target SDK 33
+Gradle Version 8.0.1 <br />
+Kotlin Version 1.8.21 <br />
+JDK Version 17 <br />
+Minimum SDK 24 <br />
+Target SDK 33 <br />
 
 ## Configuration
 
