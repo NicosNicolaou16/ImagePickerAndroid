@@ -13,7 +13,7 @@ Target SDK 33 <br />
 ### Step 1
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:1.0.0-beta01'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:1.0.0-beta1'
 ```
 
 ```Groovy
