@@ -1,5 +1,13 @@
 # Image Picker Android
 
+### Versioning
+
+Gradle Version 8.0.1
+Kotlin Version 1.8.21
+JDK Version 17
+Minimum SDK 24
+Target SDK 33
+
 ## Configuration
 
 ### Step 1
