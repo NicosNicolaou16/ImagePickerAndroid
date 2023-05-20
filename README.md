@@ -56,6 +56,7 @@ override fun onMultipleGalleryImages(
     uriList: MutableList<Uri>?
 ) {
     super.onMultipleGalleryImages(bitmapList, uriList)
+    //Main Thread
     lifecycleScope.launch(Dispatchers.Main) {
         //...your code here
     }
