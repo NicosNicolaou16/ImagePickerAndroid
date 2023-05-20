@@ -71,7 +71,7 @@ afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                groupId = 'com.github.nicos:imagepickerandroid'
+                groupId = 'com.github.NicosNicolaou16'
                 artifactId = 'ImagePickerAndroid'
                 version = '1.0.0-beta01'
                 from components.release
