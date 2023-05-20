@@ -5,6 +5,10 @@
 ### Step 1
 
 ```Groovy
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:1.0.0-beta01'
+```
+
+```Groovy
 allprojects {
     repositories {
         maven { url "https://jitpack.io" }
