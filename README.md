@@ -10,9 +10,9 @@ Target SDK 33 <br />
 
 ## Configuration
 
-### Step 1
-
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
+
+### Step 1
 
 ```Groovy
 implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:1.0.0-beta1'
