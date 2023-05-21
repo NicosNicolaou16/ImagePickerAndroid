@@ -8,6 +8,9 @@ JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 33 <br />
 
+## IMPORTANT NOTE
+THE NEXT BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
+
 ## Configuration
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
