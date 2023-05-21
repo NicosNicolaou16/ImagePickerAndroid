@@ -49,7 +49,16 @@ initTakePhotoWithCameraResultLauncher(
 )
 ```
 
-### Step 3 - Callbacks (Optional)
+### Step 3 Call from Click Listeners (choose the preferred methods)
+
+```Kotlin
+pickAnImageFromGallery(fragmentActivity = this)
+         pickMultipleImagesFromGallery(fragmentActivity = this)
+
+takeAPhotoWithCamera(fragmentActivity = this)
+```
+
+### Step 4 - Callbacks (Optional)
 
 ```Kotlin
 class MainActivity : AppCompatActivity(), ImagePickerInterface {
