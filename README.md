@@ -53,7 +53,8 @@ initTakePhotoWithCameraResultLauncher(
 
 ```Kotlin
 pickAnImageFromGallery(fragmentActivity = this)
-         pickMultipleImagesFromGallery(fragmentActivity = this)
+
+pickMultipleImagesFromGallery(fragmentActivity = this)
 
 takeAPhotoWithCamera(fragmentActivity = this)
 ```
