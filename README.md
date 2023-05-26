@@ -19,7 +19,7 @@ THE NEXT BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
 ### Step 1
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:1.0.0-beta1'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:1.0.0-beta2'
 ```
 
 ```Groovy
