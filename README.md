@@ -2,13 +2,14 @@
 
 ### Versioning
 
-Gradle Version 8.0.1 <br />
+Gradle Version 8.0.2 <br />
 Kotlin Version 1.8.21 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 33 <br />
 
 ## IMPORTANT NOTE
+
 THE NEXT BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
 
 ## Configuration
@@ -32,7 +33,7 @@ allprojects {
 ### Step 2 - Initialize the methods for Image Pickers (choose the preferred methods)
 
 ```Kotlin
-initPickAnImageFromGalleryResultLauncher(
+initPickSingleImageFromGalleryResultLauncher(
     fragmentActivity = this,
     imagePickerInterface = this
 )
@@ -52,7 +53,7 @@ initTakePhotoWithCameraResultLauncher(
 ### Step 3 Call from Click Listeners (choose the preferred methods)
 
 ```Kotlin
-pickAnImageFromGallery(fragmentActivity = this)
+pickSigleImageFromGallery(fragmentActivity = this)
 
 pickMultipleImagesFromGallery(fragmentActivity = this)
 
@@ -64,24 +65,23 @@ takeAPhotoWithCamera(fragmentActivity = this)
 ```Kotlin
 class MainActivity : AppCompatActivity(), ImagePickerInterface {
     //...
-}
+    override fun onGalleryImage(bitmap: Bitmap?, uri: Uri?) {
+        super.onGalleryImage(bitmap, uri)
+    }
 
-override fun onGalleryImage(bitmap: Bitmap?, uri: Uri?) {
-    super.onGalleryImage(bitmap, uri)
-}
+    override fun onCameraImage(bitmap: Bitmap?, uri: Uri?) {
+        super.onCameraImage(bitmap, uri)
+    }
 
-override fun onCameraImage(bitmap: Bitmap?, uri: Uri?) {
-    super.onCameraImage(bitmap, uri)
-}
-
-override fun onMultipleGalleryImages(
-    bitmapList: MutableList<Bitmap>?,
-    uriList: MutableList<Uri>?
-) {
-    super.onMultipleGalleryImages(bitmapList, uriList)
-    //Main Thread
-    lifecycleScope.launch(Dispatchers.Main) {
-        //...your code here
+    override fun onMultipleGalleryImages(
+        bitmapList: MutableList<Bitmap>?,
+        uriList: MutableList<Uri>?
+    ) {
+        super.onMultipleGalleryImages(bitmapList, uriList)
+        //Main Thread
+        lifecycleScope.launch(Dispatchers.Main) {
+            //...your code here
+        }
     }
 }
 ```

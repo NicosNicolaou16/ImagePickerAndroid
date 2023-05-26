@@ -6,10 +6,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.nick.imagepickerandroidexample.adapters.ListImagesAdapter
-import com.nicos.imagepickerandroid.image_picker.ImagePicker.initPickAnImageFromGalleryResultLauncher
+import com.nicos.imagepickerandroid.image_picker.ImagePicker.initPickSingleImageFromGalleryResultLauncher
 import com.nicos.imagepickerandroid.image_picker.ImagePicker.initPickMultipleImagesFromGalleryResultLauncher
 import com.nicos.imagepickerandroid.image_picker.ImagePicker.initTakePhotoWithCameraResultLauncher
-import com.nicos.imagepickerandroid.image_picker.ImagePicker.pickAnImageFromGallery
+import com.nicos.imagepickerandroid.image_picker.ImagePicker.pickSigleImageFromGallery
 import com.nicos.imagepickerandroid.image_picker.ImagePicker.pickMultipleImagesFromGallery
 import com.nicos.imagepickerandroid.image_picker.ImagePicker.takeAPhotoWithCamera
 import com.nicos.imagepickerandroid.image_picker.ImagePickerInterface
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     }
 
     private fun initImagePicker() {
-        initPickAnImageFromGalleryResultLauncher(
+        initPickSingleImageFromGalleryResultLauncher(
             fragmentActivity = this,
             imagePickerInterface = this
         )
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 
     private fun initListeners() {
         binding.pickImage.setOnClickListener {
-            pickAnImageFromGallery(fragmentActivity = this)
+            pickSigleImageFromGallery(fragmentActivity = this)
         }
         binding.pickImages.setOnClickListener {
             pickMultipleImagesFromGallery(fragmentActivity = this)

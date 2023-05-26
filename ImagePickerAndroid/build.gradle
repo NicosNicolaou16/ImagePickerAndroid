@@ -12,8 +12,6 @@ android {
     defaultConfig {
         minSdk 24
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,7 +37,7 @@ ext {
     coreKtxVersion = '1.10.1'
     constraintLayoutVersion = '2.1.4'
     lifeCycleAndLiveDataCompilerAndViewModelKTXVersion = '2.6.1'
-    activityVersion = '1.7.1'
+    activityVersion = '1.7.2'
     fragmentVersion = '1.5.7'
     coroutineVersion = '1.7.1'
     multidexVersion = "2.0.1"
@@ -73,7 +71,7 @@ afterEvaluate {
             release(MavenPublication) {
                 groupId = 'com.github.NicosNicolaou16'
                 artifactId = 'ImagePickerAndroid'
-                version = '1.0.0-beta1'
+                version = '1.0.0-beta2'
                 from components.release
             }
         }
