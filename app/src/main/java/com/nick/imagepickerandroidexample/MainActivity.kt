@@ -9,7 +9,7 @@ import com.nick.imagepickerandroidexample.adapters.ListImagesAdapter
 import com.nicos.imagepickerandroid.image_picker.ImagePicker.initPickSingleImageFromGalleryResultLauncher
 import com.nicos.imagepickerandroid.image_picker.ImagePicker.initPickMultipleImagesFromGalleryResultLauncher
 import com.nicos.imagepickerandroid.image_picker.ImagePicker.initTakePhotoWithCameraResultLauncher
-import com.nicos.imagepickerandroid.image_picker.ImagePicker.pickSigleImageFromGallery
+import com.nicos.imagepickerandroid.image_picker.ImagePicker.pickSingleImageFromGallery
 import com.nicos.imagepickerandroid.image_picker.ImagePicker.pickMultipleImagesFromGallery
 import com.nicos.imagepickerandroid.image_picker.ImagePicker.takeAPhotoWithCamera
 import com.nicos.imagepickerandroid.image_picker.ImagePickerInterface
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 
     private fun initListeners() {
         binding.pickImage.setOnClickListener {
-            pickSigleImageFromGallery(fragmentActivity = this)
+            pickSingleImageFromGallery(fragmentActivity = this)
         }
         binding.pickImages.setOnClickListener {
             pickMultipleImagesFromGallery(fragmentActivity = this)

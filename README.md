@@ -53,7 +53,7 @@ initTakePhotoWithCameraResultLauncher(
 ### Step 3 Call from Click Listeners (choose the preferred methods)
 
 ```Kotlin
-pickSigleImageFromGallery(fragmentActivity = this)
+pickSingleImageFromGallery(fragmentActivity = this)
 
 pickMultipleImagesFromGallery(fragmentActivity = this)
 

@@ -33,7 +33,7 @@ object ImagePicker : PermissionsHelper() {
      * @param fragmentActivity instance for current Activity (Optional)
      * @param fragment instance for current Fragment (Optional)
      * */
-    fun pickSigleImageFromGallery(
+    fun pickSingleImageFromGallery(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
     ) {
