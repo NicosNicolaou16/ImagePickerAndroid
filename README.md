@@ -57,7 +57,7 @@ pickSingleImageFromGallery(fragmentActivity = this)
 
 pickMultipleImagesFromGallery(fragmentActivity = this)
 
-takeAPhotoWithCamera(fragmentActivity = this)
+takeSinglePhotoWithCamera(fragmentActivity = this)
 ```
 
 ### Step 4 - Callbacks (Optional)
@@ -67,10 +67,12 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     //...
     override fun onGalleryImage(bitmap: Bitmap?, uri: Uri?) {
         super.onGalleryImage(bitmap, uri)
+        //...your code here
     }
 
     override fun onCameraImage(bitmap: Bitmap?, uri: Uri?) {
         super.onCameraImage(bitmap, uri)
+        //...your code here
     }
 
     override fun onMultipleGalleryImages(
@@ -78,10 +80,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         uriList: MutableList<Uri>?
     ) {
         super.onMultipleGalleryImages(bitmapList, uriList)
-        //Main Thread
-        lifecycleScope.launch(Dispatchers.Main) {
-            //...your code here
-        }
+        //...your code here
     }
 }
 ```

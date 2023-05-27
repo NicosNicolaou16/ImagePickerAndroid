@@ -30,7 +30,7 @@ open class PermissionsHelper {
         activityResultLauncherPermissionFragment = fragment?.registerForActivityResult(
             ActivityResultContracts.RequestPermission(),
         ) { isGranted ->
-            if (isGranted) ImagePicker.takeAPhotoWithCamera(fragment = fragment)
+            if (isGranted) ImagePicker.takeSinglePhotoWithCamera(fragment = fragment)
         }
     }
 
@@ -40,7 +40,7 @@ open class PermissionsHelper {
         activityResultLauncherPermissionActivity = fragmentActivity?.registerForActivityResult(
             ActivityResultContracts.RequestPermission(),
         ) { isGranted ->
-            if (isGranted) ImagePicker.takeAPhotoWithCamera(fragmentActivity = fragmentActivity)
+            if (isGranted) ImagePicker.takeSinglePhotoWithCamera(fragmentActivity = fragmentActivity)
         }
     }
 }

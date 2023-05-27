@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IntRange
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethod
 import com.nicos.imagepickerandroid.utils.permissions.PermissionsHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +29,8 @@ object ImagePicker : PermissionsHelper() {
     private var pickMultipleImageFromGalleryResultLauncher: ActivityResultLauncher<PickVisualMediaRequest>? =
         null
     private var takeAPhotoWithCameraResultLauncher: ActivityResultLauncher<Intent>? = null
+
+    private var imageHelperMethod = ImageHelperMethod()
 
     /**
      * @param fragmentActivity instance for current Activity (Optional)
@@ -61,14 +64,18 @@ object ImagePicker : PermissionsHelper() {
     fun initPickSingleImageFromGalleryResultLauncher(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
+        coroutineScope: CoroutineScope,
+        enabledBase64: Boolean = false,
         imagePickerInterface: ImagePickerInterface?
     ) {
         fragmentActivity?.let {
             pickImageFromGalleryResultLauncher =
                 it.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-                    handlePickAImage(
+                    handlePickSingleImage(
                         uri = uri,
                         contentResolver = it.contentResolver,
+                        coroutineScope = coroutineScope,
+                        enabledBase64 = enabledBase64,
                         imagePickerInterface = imagePickerInterface
                     )
                 }
@@ -76,9 +83,11 @@ object ImagePicker : PermissionsHelper() {
         fragment?.let {
             pickImageFromGalleryResultLauncher =
                 it.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-                    handlePickAImage(
+                    handlePickSingleImage(
                         uri = uri,
                         contentResolver = it.requireActivity().contentResolver,
+                        coroutineScope = coroutineScope,
+                        enabledBase64 = enabledBase64,
                         imagePickerInterface = imagePickerInterface
                     )
                 }
@@ -90,18 +99,41 @@ object ImagePicker : PermissionsHelper() {
      * @param contentResolver content resolver from Activity
      * @param imagePickerInterface call for Picker Helper class
      * */
-    private fun handlePickAImage(
+    private fun handlePickSingleImage(
         uri: Uri?,
         contentResolver: ContentResolver,
+        coroutineScope: CoroutineScope,
+        enabledBase64: Boolean,
         imagePickerInterface: ImagePickerInterface?
     ) {
-        val bitmap: Bitmap?
         try {
             if (uri != null) {
-                bitmap = convertUriToBitmap(contentResolver = contentResolver, uri = uri)
+                val bitmap = convertUriToBitmap(contentResolver = contentResolver, uri = uri)
+                if (enabledBase64) {
+                    coroutineScope.launch(Dispatchers.Default) {
+                        imageHelperMethod.convertBitmapToBase64(bitmap)
+                            .collect { base64AsString ->
+                                coroutineScope.launch(Dispatchers.Main) {
+                                    imagePickerInterface?.onGalleryImage(
+                                        bitmap = bitmap,
+                                        uri = uri,
+                                        base64AsString = base64AsString,
+                                    )
+                                }
+                            }
+                    }
+                } else {
+                    imagePickerInterface?.onGalleryImage(
+                        bitmap = bitmap,
+                        uri = uri,
+                        base64AsString = null,
+                    )
+                }
+            } else {
                 imagePickerInterface?.onGalleryImage(
-                    bitmap = bitmap,
-                    uri = uri,
+                    bitmap = null,
+                    uri = null,
+                    base64AsString = null,
                 )
             }
         } catch (e: Exception) {
@@ -109,6 +141,7 @@ object ImagePicker : PermissionsHelper() {
             imagePickerInterface?.onGalleryImage(
                 bitmap = null,
                 uri = null,
+                base64AsString = null,
             )
         }
     }
@@ -148,32 +181,33 @@ object ImagePicker : PermissionsHelper() {
         fragment: Fragment? = null,
         @IntRange(from = 1, to = Long.MAX_VALUE) maxNumberOfImages: Int = 9,
         coroutineScope: CoroutineScope,
+        enabledBase64: Boolean = false,
         imagePickerInterface: ImagePickerInterface?
     ) {
         fragmentActivity?.let {
             pickMultipleImageFromGalleryResultLauncher = it.registerForActivityResult(
                 ActivityResultContracts.PickMultipleVisualMedia(maxNumberOfImages)
             ) { uris ->
-                coroutineScope.launch(Dispatchers.Default) {
-                    handleTheMultipleImagesPicker(
-                        uris = uris,
-                        contentResolver = it.contentResolver,
-                        imagePickerInterface = imagePickerInterface
-                    )
-                }
+                handleTheMultipleImagesPicker(
+                    uris = uris,
+                    contentResolver = it.contentResolver,
+                    coroutineScope = coroutineScope,
+                    enabledBase64 = enabledBase64,
+                    imagePickerInterface = imagePickerInterface,
+                )
             }
         }
         fragment?.let {
             pickMultipleImageFromGalleryResultLauncher = it.registerForActivityResult(
                 ActivityResultContracts.PickMultipleVisualMedia(maxNumberOfImages)
             ) { uris ->
-                coroutineScope.launch(Dispatchers.Default) {
-                    handleTheMultipleImagesPicker(
-                        uris = uris,
-                        contentResolver = it.requireActivity().contentResolver,
-                        imagePickerInterface = imagePickerInterface
-                    )
-                }
+                handleTheMultipleImagesPicker(
+                    uris = uris,
+                    contentResolver = it.requireActivity().contentResolver,
+                    coroutineScope = coroutineScope,
+                    enabledBase64 = enabledBase64,
+                    imagePickerInterface = imagePickerInterface,
+                )
             }
         }
     }
@@ -183,30 +217,51 @@ object ImagePicker : PermissionsHelper() {
      * @param contentResolver content resolver from Activity
      * @param imagePickerInterface call for Picker Helper class
      * */
-    private suspend fun handleTheMultipleImagesPicker(
+    private fun handleTheMultipleImagesPicker(
         uris: List<Uri>?,
         contentResolver: ContentResolver,
+        coroutineScope: CoroutineScope,
+        enabledBase64: Boolean = false,
         imagePickerInterface: ImagePickerInterface?
-    ) = withContext(Dispatchers.Default) {
+    ) = coroutineScope.launch(Dispatchers.Main) {
         try {
             if (!uris.isNullOrEmpty()) {
                 val bitmapList = mutableListOf<Bitmap>()
-                uris.forEach { uri ->
-                    val bitmap =
-                        convertUriToBitmap(
-                            contentResolver = contentResolver,
-                            uri = uri
-                        )
-                    if (bitmap != null) bitmapList.add(bitmap)
+                withContext(Dispatchers.Default) {
+                    uris.forEach { uri ->
+                        val bitmap =
+                            convertUriToBitmap(
+                                contentResolver = contentResolver,
+                                uri = uri
+                            )
+                        if (bitmap != null) bitmapList.add(bitmap)
+                    }
                 }
-                imagePickerInterface?.onMultipleGalleryImages(
-                    bitmapList = bitmapList,
-                    uriList = uris.toMutableList(),
-                )
+                if (enabledBase64) {
+                    coroutineScope.launch(Dispatchers.Default) {
+                        imageHelperMethod.convertListOfBitmapsToListOfBase64(bitmapList)
+                            .collect { base64AsStringList ->
+                                coroutineScope.launch(Dispatchers.Main) {
+                                    imagePickerInterface?.onMultipleGalleryImages(
+                                        bitmapList = bitmapList,
+                                        uriList = uris.toMutableList(),
+                                        base64AsStringList = base64AsStringList,
+                                    )
+                                }
+                            }
+                    }
+                } else {
+                    imagePickerInterface?.onMultipleGalleryImages(
+                        bitmapList = bitmapList,
+                        uriList = uris.toMutableList(),
+                        base64AsStringList = null,
+                    )
+                }
             } else {
                 imagePickerInterface?.onMultipleGalleryImages(
                     bitmapList = null,
                     uriList = null,
+                    base64AsStringList = null,
                 )
             }
         } catch (e: Exception) {
@@ -214,6 +269,7 @@ object ImagePicker : PermissionsHelper() {
             imagePickerInterface?.onMultipleGalleryImages(
                 bitmapList = null,
                 uriList = null,
+                base64AsStringList = null,
             )
         }
     }
@@ -236,7 +292,7 @@ object ImagePicker : PermissionsHelper() {
      * @param fragment instance for current Fragment
      * @param permissionTag separate the Camera Permission from other Permission if it has
      * */
-    fun takeAPhotoWithCamera(
+    fun takeSinglePhotoWithCamera(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
     ) {
@@ -266,6 +322,8 @@ object ImagePicker : PermissionsHelper() {
     fun initTakePhotoWithCameraResultLauncher(
         fragmentActivity: FragmentActivity? = null,
         fragment: Fragment? = null,
+        coroutineScope: CoroutineScope,
+        enabledBase64: Boolean = false,
         imagePickerInterface: ImagePickerInterface?
     ) {
         fragmentActivity?.let {
@@ -275,10 +333,11 @@ object ImagePicker : PermissionsHelper() {
             ) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     result?.data?.apply {
-                        val bitmap = getExtrasBitmapAccordingWithSDK(this)
-                        imagePickerInterface?.onCameraImage(
-                            bitmap = bitmap,
-                            uri = null,
+                        handleImageFromCamera(
+                            coroutineScope,
+                            enabledBase64,
+                            this,
+                            imagePickerInterface
                         )
                     }
                 }
@@ -291,14 +350,42 @@ object ImagePicker : PermissionsHelper() {
             ) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
                     result?.data?.apply {
-                        val bitmap = getExtrasBitmapAccordingWithSDK(this)
-                        imagePickerInterface?.onCameraImage(
-                            bitmap = bitmap,
-                            uri = null,
+                        handleImageFromCamera(
+                            coroutineScope,
+                            enabledBase64,
+                            this,
+                            imagePickerInterface
                         )
                     }
                 }
             }
+        }
+    }
+
+    private fun handleImageFromCamera(
+        coroutineScope: CoroutineScope,
+        enabledBase64: Boolean = false,
+        intent: Intent,
+        imagePickerInterface: ImagePickerInterface?,
+    ) {
+        val bitmap = getExtrasBitmapAccordingWithSDK(intent)
+        if (enabledBase64) {
+            coroutineScope.launch(Dispatchers.Default) {
+                imageHelperMethod.convertBitmapToBase64(bitmap)
+                    .collect { base64AsString ->
+                        coroutineScope.launch(Dispatchers.Main) {
+                            imagePickerInterface?.onCameraImage(
+                                bitmap = bitmap,
+                                base64AsString = base64AsString,
+                            )
+                        }
+                    }
+            }
+        } else {
+            imagePickerInterface?.onCameraImage(
+                bitmap = bitmap,
+                base64AsString = null,
+            )
         }
     }
 
