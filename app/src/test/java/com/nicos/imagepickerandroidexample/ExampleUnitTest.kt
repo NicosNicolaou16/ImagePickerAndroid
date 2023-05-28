@@ -1,4 +1,4 @@
-package com.nick.imagepickerandroidexample
+package com.nicos.imagepickerandroidexample
 
 import org.junit.Test
 

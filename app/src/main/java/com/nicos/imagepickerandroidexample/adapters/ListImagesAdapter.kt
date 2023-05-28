@@ -1,4 +1,4 @@
-package com.nick.imagepickerandroidexample.adapters
+package com.nicos.imagepickerandroidexample.adapters
 
 import android.graphics.Bitmap
 import android.view.LayoutInflater

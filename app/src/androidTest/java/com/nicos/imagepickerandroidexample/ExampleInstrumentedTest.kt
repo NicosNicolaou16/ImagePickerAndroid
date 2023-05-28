@@ -1,4 +1,4 @@
-package com.nick.imagepickerandroidexample
+package com.nicos.imagepickerandroidexample
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
