@@ -6,20 +6,16 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.nicos.imagepickerandroidexample.adapters.ListImagesAdapter
-import com.nicos.imagepickerandroid.image_picker.ImagePicker.initPickMultipleImagesFromGalleryResultLauncher
-import com.nicos.imagepickerandroid.image_picker.ImagePicker.initPickSingleImageFromGalleryResultLauncher
-import com.nicos.imagepickerandroid.image_picker.ImagePicker.initTakePhotoWithCameraResultLauncher
-import com.nicos.imagepickerandroid.image_picker.ImagePicker.pickMultipleImagesFromGallery
-import com.nicos.imagepickerandroid.image_picker.ImagePicker.pickSingleImageFromGallery
-import com.nicos.imagepickerandroid.image_picker.ImagePicker.takeSinglePhotoWithCamera
+import com.nicos.imagepickerandroid.image_picker.ImagePicker
 import com.nicos.imagepickerandroid.image_picker.ImagePickerInterface
+import com.nicos.imagepickerandroidexample.adapters.ListImagesAdapter
 import com.nicos.imagepickerandroidexample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity(), ImagePickerInterface {
 
     private lateinit var binding: ActivityMainBinding
     private var listImageAdapter: ListImagesAdapter? = null
+    private var imagePicker: ImagePicker? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,54 +33,53 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     }
 
     private fun initImagePicker() {
-        initPickSingleImageFromGalleryResultLauncher(
+        imagePicker = ImagePicker(
             fragmentActivity = this,
             coroutineScope = lifecycleScope,
-            enabledBase64 = true, //optional
-            imagePickerInterface = this,
+            enabledBase64ValueForMultipleImages = true,
+            enabledBase64ValueForSingleImage = true,
+            imagePickerInterface = this
         )
-        initPickMultipleImagesFromGalleryResultLauncher(
-            fragmentActivity = this,
-            coroutineScope = lifecycleScope,
-            enabledBase64 = true, //optional
-            imagePickerInterface = this,
+        imagePicker?.initPickSingleImageFromGalleryResultLauncher()
+        imagePicker?.initPickMultipleImagesFromGalleryResultLauncher(
+
         )
-        initTakePhotoWithCameraResultLauncher(
-            fragmentActivity = this,
-            coroutineScope = lifecycleScope,
-            enabledBase64 = true, //optional
-            imagePickerInterface = this,
+        imagePicker?.initTakePhotoWithCameraResultLauncher(
+
         )
     }
 
     private fun initListeners() {
         binding.pickImage.setOnClickListener {
-            pickSingleImageFromGallery(fragmentActivity = this)
+            imagePicker?.pickSingleImageFromGallery()
         }
         binding.pickImages.setOnClickListener {
-            pickMultipleImagesFromGallery(fragmentActivity = this)
+            imagePicker?.pickMultipleImagesFromGallery()
         }
         binding.camera.setOnClickListener {
-            takeSinglePhotoWithCamera(fragmentActivity = this)
+            imagePicker?.takeSinglePhotoWithCamera()
         }
     }
 
     /**
      * Call Back - Get Bitmap and Uri
      * */
-    override fun onGalleryImage(bitmap: Bitmap?, uri: Uri?, base64AsString: String?) {
+    override fun onGallerySingleImageWithBase64Value(
+        bitmap: Bitmap?,
+        uri: Uri?,
+        base64AsString: String?
+    ) {
         if (bitmap != null) binding.image.setImageBitmap(bitmap)
         base64AsString?.let { Log.d("base64AsString", it) }
-        super.onGalleryImage(bitmap, uri, base64AsString)
+        super.onGallerySingleImageWithBase64Value(bitmap, uri, base64AsString)
     }
 
-    override fun onCameraImage(bitmap: Bitmap?, base64AsString: String?) {
+    override fun onCameraImage(bitmap: Bitmap?) {
         if (bitmap != null) binding.image.setImageBitmap(bitmap)
-        base64AsString?.let { Log.d("base64AsString", it) }
-        super.onCameraImage(bitmap, base64AsString)
+        super.onCameraImage(bitmap)
     }
 
-    override fun onMultipleGalleryImages(
+    override fun onMultipleGalleryImagesWithBase64Value(
         bitmapList: MutableList<Bitmap>?,
         uriList: MutableList<Uri>?,
         base64AsStringList: MutableList<String>?
@@ -93,6 +88,6 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         base64AsStringList?.forEach {
             it.let { Log.d("base64AsString", it) }
         }
-        super.onMultipleGalleryImages(bitmapList, uriList, base64AsStringList)
+        super.onMultipleGalleryImagesWithBase64Value(bitmapList, uriList, base64AsStringList)
     }
 }

@@ -30,48 +30,56 @@ allprojects {
 }
 ```
 
-### Step 2 - Initialize the methods for Image Pickers (choose the preferred methods)
+### Step 2 - Get Instance
 
 ```Kotlin
-initPickSingleImageFromGalleryResultLauncher(
-    fragmentActivity = this,
-    imagePickerInterface = this
-)
-
-initPickMultipleImagesFromGalleryResultLauncher(
-    fragmentActivity = this,
-    coroutineScope = lifecycleScope,
-    imagePickerInterface = this
-)
-
-initTakePhotoWithCameraResultLauncher(
-    fragmentActivity = this,
-    imagePickerInterface = this
+private var imagePicker: ImagePicker? = null
+//...other code
+//Builder
+//Note: fragmentActivity or fragment are mandatory one of them
+imagePicker = ImagePicker(
+    fragmentActivity = this, //activity instance
+    fragment = this, // fragment instance
+    coroutineScope = lifecycleScope, // mandatory - coroutine scope from activity or fragment
+    enabledBase64ValueForMultipleImages = true, // optional, by default is false
+    enabledBase64ValueForSingleImage = true, // optional, by default is false
+    enabledBase64ValueForCameraImage = true, // optional, by default is false
+    imagePickerInterface = this // call back interface
 )
 ```
 
-### Step 3 Call from Click Listeners (choose the preferred methods)
+### Step 3 - Initialize the methods for Image Pickers (choose the preferred methods)
 
 ```Kotlin
-pickSingleImageFromGallery(fragmentActivity = this)
+imagePicker?.initPickSingleImageFromGalleryResultLauncher()
 
-pickMultipleImagesFromGallery(fragmentActivity = this)
+imagePicker?.initPickMultipleImagesFromGalleryResultLauncher()
 
-takeSinglePhotoWithCamera(fragmentActivity = this)
+imagePicker?.initTakePhotoWithCameraResultLauncher()
 ```
 
-### Step 4 - Callbacks (Optional)
+### Step 4 Call from Click Listeners (choose the preferred methods)
+
+```Kotlin
+imagePicker?.pickSingleImageFromGallery()
+
+imagePicker?.pickMultipleImagesFromGallery()
+
+imagePicker?.takeSinglePhotoWithCamera()
+```
+
+### Step 5 - Callbacks (Optional)
 
 ```Kotlin
 class MainActivity : AppCompatActivity(), ImagePickerInterface {
     //...
-    override fun onGalleryImage(bitmap: Bitmap?, uri: Uri?) {
+    override fun onGallerySingleImage(bitmap: Bitmap?, uri: Uri?) {
         super.onGalleryImage(bitmap, uri)
         //...your code here
     }
 
-    override fun onCameraImage(bitmap: Bitmap?, uri: Uri?) {
-        super.onCameraImage(bitmap, uri)
+    override fun onCameraImage(bitmap: Bitmap?) {
+        super.onCameraImage(bitmap)
         //...your code here
     }
 
@@ -80,6 +88,29 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         uriList: MutableList<Uri>?
     ) {
         super.onMultipleGalleryImages(bitmapList, uriList)
+        //...your code here
+    }
+
+    override fun onGallerySingleImageWithBase64Value(
+        bitmap: Bitmap?,
+        uri: Uri?,
+        base64AsString: String?
+    ) {
+        super.onGalleryImage(bitmap, uri, base64AsString)
+        //...your code here
+    }
+
+    override fun onCameraImageWithBase64Value(bitmap: Bitmap?, base64AsString: String?) {
+        super.onCameraImage(bitmap, base64AsString)
+        //...your code here
+    }
+
+    override fun onMultipleGalleryImagesWithBase64Value(
+        bitmapList: MutableList<Bitmap>?,
+        uriList: MutableList<Uri>?,
+        base64AsStringList: MutableList<String>?
+    ) {
+        super.onMultipleGalleryImages(bitmapList, uriList, base64AsStringList)
         //...your code here
     }
 }

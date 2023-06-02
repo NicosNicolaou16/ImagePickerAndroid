@@ -9,38 +9,40 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.nicos.imagepickerandroid.image_picker.ImagePicker
 
-open class PermissionsHelper {
+class PermissionsHelper(
+    private var imagePicker: ImagePicker
+) {
 
-    protected var activityResultLauncherPermissionFragment: ActivityResultLauncher<String>? = null
-    protected var activityResultLauncherPermissionActivity: ActivityResultLauncher<String>? = null
+    internal var activityResultLauncherPermissionFragment: ActivityResultLauncher<String>? = null
+    internal var activityResultLauncherPermissionActivity: ActivityResultLauncher<String>? = null
 
-    protected fun isPermissionGranted(fragmentActivity: FragmentActivity) =
+    internal fun isPermissionGranted(fragmentActivity: FragmentActivity) =
         (ActivityCompat.checkSelfPermission(
             fragmentActivity,
             Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED)
 
 
-    protected fun isPermissionGranted(fragment: Fragment) =
+    internal fun isPermissionGranted(fragment: Fragment) =
         (fragment.context?.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
 
-    protected fun initRegisterForRequestPermissionInFragment(
+    internal fun initRegisterForRequestPermissionInFragment(
         fragment: Fragment?,
     ) {
         activityResultLauncherPermissionFragment = fragment?.registerForActivityResult(
             ActivityResultContracts.RequestPermission(),
         ) { isGranted ->
-            if (isGranted) ImagePicker.takeSinglePhotoWithCamera(fragment = fragment)
+            if (isGranted) imagePicker.takeSinglePhotoWithCamera()
         }
     }
 
-    protected fun initRegisterForRequestPermissionInActivity(
+    internal fun initRegisterForRequestPermissionInActivity(
         fragmentActivity: FragmentActivity?,
     ) {
         activityResultLauncherPermissionActivity = fragmentActivity?.registerForActivityResult(
             ActivityResultContracts.RequestPermission(),
         ) { isGranted ->
-            if (isGranted) ImagePicker.takeSinglePhotoWithCamera(fragmentActivity = fragmentActivity)
+            if (isGranted) imagePicker.takeSinglePhotoWithCamera()
         }
     }
 }
