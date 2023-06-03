@@ -1,5 +1,9 @@
 # Image Picker Android
 
+This library built to give to other developers an easy way to implement the image picker in Android
+application with latest Android technologies.
+Support me and I will appreciate if you provide me your feedback(s).
+
 ### Versioning
 
 Gradle Version 8.0.2 <br />
@@ -38,17 +42,17 @@ private var imagePicker: ImagePicker? = null
 //Builder
 //Note: fragmentActivity or fragment are mandatory one of them
 imagePicker = ImagePicker(
-    fragmentActivity = this, //activity instance
-    fragment = this, // fragment instance
-    coroutineScope = lifecycleScope, // mandatory - coroutine scope from activity or fragment
-    enabledBase64ValueForMultipleImages = true, // optional, by default is false
-    enabledBase64ValueForSingleImage = true, // optional, by default is false
-    enabledBase64ValueForCameraImage = true, // optional, by default is false
+    fragmentActivity = this, //activity instance - private
+    fragment = this, // fragment instance - private
+    coroutineScope = lifecycleScope, // mandatory - coroutine scope from activity or fragment - private
+    enabledBase64ValueForMultipleImages = true, // optional, by default is false - private
+    enabledBase64ValueForSingleImage = true, // optional, by default is false - private
+    enabledBase64ValueForCameraImage = true, // optional, by default is false - private
     imagePickerInterface = this // call back interface
 )
 ```
 
-### Step 3 - Initialize the methods for Image Pickers (choose the preferred methods)
+### Step 3 - Initialize the methods for Image Pickers (choose the preferred method(s))
 
 ```Kotlin
 imagePicker?.initPickSingleImageFromGalleryResultLauncher()
@@ -58,7 +62,7 @@ imagePicker?.initPickMultipleImagesFromGalleryResultLauncher()
 imagePicker?.initTakePhotoWithCameraResultLauncher()
 ```
 
-### Step 4 Call from Click Listeners (choose the preferred methods)
+### Step 4 Call from Click Listeners (choose the preferred method(s))
 
 ```Kotlin
 imagePicker?.pickSingleImageFromGallery()
@@ -68,7 +72,7 @@ imagePicker?.pickMultipleImagesFromGallery()
 imagePicker?.takeSinglePhotoWithCamera()
 ```
 
-### Step 5 - Callbacks (Optional)
+### Step 5 - Callbacks (Optionals)
 
 ```Kotlin
 class MainActivity : AppCompatActivity(), ImagePickerInterface {

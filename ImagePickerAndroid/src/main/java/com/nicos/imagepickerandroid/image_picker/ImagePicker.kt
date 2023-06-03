@@ -154,7 +154,7 @@ data class ImagePicker(
     }
 
     /**
-     * @param maxNumberOfImages max number for select images from picker
+     * @param maxNumberOfImages max number for select images from picker, by default is 9
      * */
     fun initPickMultipleImagesFromGalleryResultLauncher(
         @IntRange(from = 1, to = Long.MAX_VALUE) maxNumberOfImages: Int = 9,
