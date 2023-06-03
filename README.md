@@ -40,8 +40,7 @@ allprojects {
 class MainActivity : AppCompatActivity(), ImagePickerInterface {
     //...
     private var imagePicker: ImagePicker? = null
-
-    //...other code
+    //...
     fun initImagePicker() {
         //Builder
         //Note: fragmentActivity or fragment are mandatory one of them
