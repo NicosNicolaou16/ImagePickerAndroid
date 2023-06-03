@@ -23,21 +23,21 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * @param fragmentActivity instance for current Activity (Optional)
- * @param fragment instance for current Fragment (Optional)
+ * @param fragmentActivity instance for current Activity (Optional), but need one of the two, FragmentActivity/Fragment
+ * @param fragment instance for current Fragment (Optional), but need one of the two, FragmentActivity/Fragment
  * @param coroutineScope coroutine scope from Activity or Fragment
  * @param enabledBase64ValueForSingleImage convert the image to base64 for a single image
  * @param enabledBase64ValueForMultipleImages convert the image to base64 for multiples images
  * @param enabledBase64ValueForCameraImage convert the image to base64 for a camera image
- * @param imagePickerInterface call for Picker Helper class
+ * @param imagePickerInterface call back, return the data to the activity/fragment
  * */
 data class ImagePicker(
-    var fragmentActivity: FragmentActivity? = null,
-    var fragment: Fragment? = null,
-    var coroutineScope: CoroutineScope,
-    var enabledBase64ValueForSingleImage: Boolean = false,
-    var enabledBase64ValueForMultipleImages: Boolean = false,
-    var enabledBase64ValueForCameraImage: Boolean = false,
+    private var fragmentActivity: FragmentActivity? = null,
+    private var fragment: Fragment? = null,
+    private var coroutineScope: CoroutineScope,
+    private var enabledBase64ValueForSingleImage: Boolean = false,
+    private var enabledBase64ValueForMultipleImages: Boolean = false,
+    private var enabledBase64ValueForCameraImage: Boolean = false,
     var imagePickerInterface: ImagePickerInterface?
 ) {
     private var pickImageFromGalleryResultLauncher: ActivityResultLauncher<PickVisualMediaRequest>? =
@@ -53,10 +53,6 @@ data class ImagePicker(
         require(fragmentActivity != null || fragment != null) { "pass activity or fragment" }
     }
 
-    /**
-     * @param fragmentActivity instance for current Activity (Optional)
-     * @param fragment instance for current Fragment (Optional)
-     * */
     fun pickSingleImageFromGallery() {
         fragmentActivity?.let {
             pickImageFromGalleryResultLauncher?.launch(
