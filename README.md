@@ -37,19 +37,27 @@ allprojects {
 ### Step 2 - Get Instance
 
 ```Kotlin
-private var imagePicker: ImagePicker? = null
-//...other code
-//Builder
-//Note: fragmentActivity or fragment are mandatory one of them
-imagePicker = ImagePicker(
-    fragmentActivity = this, //activity instance - private
-    fragment = this, // fragment instance - private
-    coroutineScope = lifecycleScope, // mandatory - coroutine scope from activity or fragment - private
-    enabledBase64ValueForMultipleImages = true, // optional, by default is false - private
-    enabledBase64ValueForSingleImage = true, // optional, by default is false - private
-    enabledBase64ValueForCameraImage = true, // optional, by default is false - private
-    imagePickerInterface = this // call back interface
-)
+class MainActivity : AppCompatActivity(), ImagePickerInterface {
+    //...
+    private var imagePicker: ImagePicker? = null
+
+    //...other code
+    fun initImagePicker() {
+        //Builder
+        //Note: fragmentActivity or fragment are mandatory one of them
+        imagePicker = ImagePicker(
+            fragmentActivity = this, //activity instance - private
+            fragment = this, // fragment instance - private
+            coroutineScope = lifecycleScope, // mandatory - coroutine scope from activity or fragment - private
+            enabledBase64ValueForMultipleImages = true, // optional, by default is false - private
+            enabledBase64ValueForSingleImage = true, // optional, by default is false - private
+            enabledBase64ValueForCameraImage = true, // optional, by default is false - private
+            imagePickerInterface = this // call back interface
+        )
+        //...other image picker initialization method(s)
+    }
+    //...
+}
 ```
 
 ### Step 3 - Initialize the methods for Image Pickers (choose the preferred method(s))
