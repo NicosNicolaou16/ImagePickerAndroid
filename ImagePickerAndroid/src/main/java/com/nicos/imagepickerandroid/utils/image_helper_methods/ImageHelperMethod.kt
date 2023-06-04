@@ -9,7 +9,7 @@ import java.io.ByteArrayOutputStream
 
 class ImageHelperMethod {
 
-    fun convertBitmapToBase64(bitmap: Bitmap?) = flow {
+    internal fun convertBitmapToBase64(bitmap: Bitmap?) = flow {
         if (bitmap != null) {
             try {
                 val byteArrayOutputStream = ByteArrayOutputStream()
@@ -24,7 +24,7 @@ class ImageHelperMethod {
             emit(null)
     }.flowOn(Dispatchers.Default)
 
-    fun convertListOfBitmapsToListOfBase64(bitmapList: MutableList<Bitmap>?) = flow {
+    internal fun convertListOfBitmapsToListOfBase64(bitmapList: MutableList<Bitmap>?) = flow {
         if (bitmapList != null) {
             try {
                 val bitmapListToBase64List = mutableListOf<String>()
@@ -42,4 +42,55 @@ class ImageHelperMethod {
         } else
             emit(null)
     }.flowOn(Dispatchers.Default)
+
+    /**
+     * The method is using to change the scale of bitmap
+     * @param bitmap gives a bitmap
+     * @param scaleBitmapModel set height and width for given bitmap
+     * */
+    internal fun scaleBitmap(bitmap: Bitmap?, scaleBitmapModel: ScaleBitmapModel) = flow {
+        if (bitmap != null) {
+            try {
+                emit(
+                    Bitmap.createScaledBitmap(
+                        bitmap,
+                        scaleBitmapModel.width,
+                        scaleBitmapModel.height,
+                        true
+                    ) ?: null
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emit(null)
+            }
+        } else
+            emit(null)
+    }.flowOn(Dispatchers.Default)
+
+    /**
+     * The method is using to change the scale of bitmap
+     * @param bitmapList gives a bitmap list
+     * @param scaleBitmapModel set height and width for given bitmap
+     * */
+    internal fun scaleBitmapList(
+        bitmapList: MutableList<Bitmap>,
+        scaleBitmapModel: ScaleBitmapModel
+    ) =
+        flow {
+            try {
+                val bitmapAfterScaleList = mutableListOf<Bitmap>()
+                bitmapList.forEach { bitmap ->
+                    Bitmap.createScaledBitmap(
+                        bitmap,
+                        scaleBitmapModel.width,
+                        scaleBitmapModel.height,
+                        true
+                    )
+                }
+                emit(bitmapAfterScaleList)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emit(null)
+            }
+        }.flowOn(Dispatchers.Default)
 }

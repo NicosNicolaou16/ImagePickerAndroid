@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.nicos.imagepickerandroid.image_picker.ImagePicker
 import com.nicos.imagepickerandroid.image_picker.ImagePickerInterface
+import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import com.nicos.imagepickerandroidexample.adapters.ListImagesAdapter
 import com.nicos.imagepickerandroidexample.databinding.ActivityMainBinding
 
@@ -36,8 +37,10 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         imagePicker = ImagePicker(
             fragmentActivity = this,
             coroutineScope = lifecycleScope,
-            enabledBase64ValueForMultipleImages = true,
+            scaleBitmapModelForSingleImage = ScaleBitmapModel(height = 100, width = 100),
+            scaleBitmapModelForMultipleImages = ScaleBitmapModel(height = 100, width = 100),
             enabledBase64ValueForSingleImage = true,
+            enabledBase64ValueForMultipleImages = true,
             imagePickerInterface = this
         )
         imagePicker?.initPickSingleImageFromGalleryResultLauncher()

@@ -40,6 +40,7 @@ allprojects {
 class MainActivity : AppCompatActivity(), ImagePickerInterface {
     //...
     private var imagePicker: ImagePicker? = null
+
     //...
     fun initImagePicker() {
         //Builder
@@ -48,6 +49,9 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             fragmentActivity = this, //activity instance - private
             fragment = this, // fragment instance - private
             coroutineScope = lifecycleScope, // mandatory - coroutine scope from activity or fragment - private
+            scaleBitmapModelForSingleImage = ScaleBitmapModel(height = 100, width = 100), // optional, change the scale for image, by default is null
+            scaleBitmapModelForMultipleImages = ScaleBitmapModel(height = 100, width = 100), // optional, change the scale for image, by default is null
+            scaleBitmapModelForCameraImage = ScaleBitmapModel(height = 100, width = 100), // optional, change the scale for image, by default is null
             enabledBase64ValueForMultipleImages = true, // optional, by default is false - private
             enabledBase64ValueForSingleImage = true, // optional, by default is false - private
             enabledBase64ValueForCameraImage = true, // optional, by default is false - private
