@@ -9,24 +9,17 @@ import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IntRange
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethod
+import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import com.nicos.imagepickerandroid.utils.permissions.PermissionsHelper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -34,6 +27,9 @@ import kotlinx.coroutines.withContext
  * @param fragmentActivity instance for current Activity (Optional), but need one of the two, FragmentActivity/Fragment
  * @param fragment instance for current Fragment (Optional), but need one of the two, FragmentActivity/Fragment
  * @param coroutineScope coroutine scope from Activity or Fragment
+ * @param scaleBitmapModelForSingleImage pass ScaleBitmapModel with height and width to resize an image
+ * @param scaleBitmapModelForMultipleImages pass ScaleBitmapModel with height and width to resize multiple images
+ * @param scaleBitmapModelForCameraImage pass ScaleBitmapModel with height and width to resize the camera image
  * @param enabledBase64ValueForSingleImage convert the image to base64 for a single image
  * @param enabledBase64ValueForMultipleImages convert the image to base64 for multiples images
  * @param enabledBase64ValueForCameraImage convert the image to base64 for a camera image
@@ -57,13 +53,16 @@ data class ImagePicker(
         null
     private var takeAPhotoWithCameraResultLauncher: ActivityResultLauncher<Intent>? = null
 
-    private var imageHelperMethod = ImageHelperMethod()
+    private var imageHelperMethods = ImageHelperMethods()
     private var permissionsHelper: PermissionsHelper? = null
 
     init {
         require(fragmentActivity != null || fragment != null) { "pass activity or fragment" }
     }
 
+    /**
+     * Method call in listener to open image picker
+     * */
     fun pickSingleImageFromGallery() {
         fragmentActivity?.let {
             pickImageFromGalleryResultLauncher?.launch(
@@ -81,6 +80,9 @@ data class ImagePicker(
         }
     }
 
+    /**
+     * This method is the initialization for single image from gallery
+     * */
     fun initPickSingleImageFromGalleryResultLauncher() {
         fragmentActivity?.let {
             pickImageFromGalleryResultLauncher =
@@ -114,7 +116,7 @@ data class ImagePicker(
             if (uri != null) {
                 val bitmap = convertUriToBitmap(contentResolver = contentResolver, uri = uri)
                 if (scaleBitmapModelForSingleImage != null) {
-                    imageHelperMethod.scaleBitmap(bitmap, scaleBitmapModelForSingleImage!!)
+                    imageHelperMethods.scaleBitmap(bitmap, scaleBitmapModelForSingleImage!!)
                         .collect {
                             handleImage(uri = uri, bitmap = bitmap)
                         }
@@ -136,9 +138,12 @@ data class ImagePicker(
         }
     }
 
+    /**
+     * This method handle the image on UI
+     * */
     private fun handleImage(uri: Uri?, bitmap: Bitmap?) = coroutineScope.launch(Dispatchers.Main) {
         if (enabledBase64ValueForSingleImage) {
-            imageHelperMethod.convertBitmapToBase64(bitmap)
+            imageHelperMethods.convertBitmapToBase64(bitmap)
                 .collect { base64AsString ->
                     imagePickerInterface?.onGallerySingleImageWithBase64Value(
                         bitmap = bitmap,
@@ -154,6 +159,9 @@ data class ImagePicker(
         }
     }
 
+    /**
+     * Method call in listener to open image picker
+     * */
     fun pickMultipleImagesFromGallery() {
         fragmentActivity?.let {
             pickMultipleImageFromGalleryResultLauncher?.launch(
@@ -221,7 +229,7 @@ data class ImagePicker(
                     }
                 }
                 if (scaleBitmapModelForMultipleImages != null) {
-                    imageHelperMethod.scaleBitmapList(
+                    imageHelperMethods.scaleBitmapList(
                         bitmapList = bitmapList,
                         scaleBitmapModel = scaleBitmapModelForMultipleImages!!
                     ).collect {
@@ -252,7 +260,7 @@ data class ImagePicker(
     private fun handleMultipleImages(bitmapList: MutableList<Bitmap>?, uris: List<Uri>) =
         coroutineScope.launch(Dispatchers.Main) {
             if (enabledBase64ValueForMultipleImages) {
-                imageHelperMethod.convertListOfBitmapsToListOfBase64(bitmapList)
+                imageHelperMethods.convertListOfBitmapsToListOfBase64(bitmapList)
                     .collect { base64AsStringList ->
                         imagePickerInterface?.onMultipleGalleryImagesWithBase64Value(
                             bitmapList = bitmapList,
@@ -268,6 +276,9 @@ data class ImagePicker(
             }
         }
 
+    /**
+     * This make the conversion from Uri to Bitmap
+     * */
     private fun convertUriToBitmap(
         contentResolver: ContentResolver,
         uri: Uri?
@@ -338,7 +349,7 @@ data class ImagePicker(
     ) = coroutineScope.launch(Dispatchers.Main) {
         val bitmap = getExtrasBitmapAccordingWithSDK(intent)
         if (scaleBitmapModelForCameraImage != null) {
-            imageHelperMethod.scaleBitmap(bitmap, scaleBitmapModelForCameraImage!!)
+            imageHelperMethods.scaleBitmap(bitmap, scaleBitmapModelForCameraImage!!)
                 .collect {
                     handleCameraImage(bitmap = bitmap)
                 }
@@ -350,7 +361,7 @@ data class ImagePicker(
 
     private fun handleCameraImage(bitmap: Bitmap?) = coroutineScope.launch(Dispatchers.Main) {
         if (enabledBase64ValueForCameraImage) {
-            imageHelperMethod.convertBitmapToBase64(bitmap)
+            imageHelperMethods.convertBitmapToBase64(bitmap)
                 .collect { base64AsString ->
                     imagePickerInterface?.onCameraImageWithBase64Value(
                         bitmap = bitmap,
@@ -364,6 +375,9 @@ data class ImagePicker(
         }
     }
 
+    /**
+     * This method return the image from Intent when take with Camera
+     * */
     private fun getExtrasBitmapAccordingWithSDK(intent: Intent) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) intent.extras?.getParcelable(
             "data",

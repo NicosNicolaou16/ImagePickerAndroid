@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.io.ByteArrayOutputStream
 
-class ImageHelperMethod {
+class ImageHelperMethods {
 
     internal fun convertBitmapToBase64(bitmap: Bitmap?) = flow {
         if (bitmap != null) {
