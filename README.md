@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             enabledBase64ValueForMultipleImages = true, // optional, by default is false - private
             enabledBase64ValueForSingleImage = true, // optional, by default is false - private
             enabledBase64ValueForCameraImage = true, // optional, by default is false - private
+            enabledBase64ValueForSingleVideo = true, // optional, by default is false - private
             imagePickerInterface = this // call back interface
         )
         //...other image picker initialization method(s)
@@ -71,6 +72,8 @@ imagePicker?.initPickSingleImageFromGalleryResultLauncher()
 imagePicker?.initPickMultipleImagesFromGalleryResultLauncher()
 
 imagePicker?.initTakePhotoWithCameraResultLauncher()
+
+imagePicker?.initPickSingleVideoFromGalleryResultLauncher()
 ```
 
 ### Step 4 Call from Click Listeners (choose the preferred method(s))
@@ -81,6 +84,8 @@ imagePicker?.pickSingleImageFromGallery()
 imagePicker?.pickMultipleImagesFromGallery()
 
 imagePicker?.takeSinglePhotoWithCamera()
+
+imagePicker?.pickSingleVideoFromGallery()
 ```
 
 ### Step 5 - Callbacks (Optionals)
@@ -126,6 +131,11 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         base64AsStringList: MutableList<String>?
     ) {
         super.onMultipleGalleryImages(bitmapList, uriList, base64AsStringList)
+        //...your code here
+    }
+
+    override fun onGallerySingleVideoWithBase64Value(uri: Uri?, base64AsString: String?) {
+        super.onGallerySingleVideoWithBase64Value(uri, base64AsString)
         //...your code here
     }
 }

@@ -12,6 +12,8 @@ interface ImagePickerInterface {
     ) {
     }
 
+    fun onGallerySingleVideo(uri: Uri?) {}
+
     fun onGallerySingleImageWithBase64Value(bitmap: Bitmap?, uri: Uri?, base64AsString: String?) {}
     fun onCameraImageWithBase64Value(bitmap: Bitmap?, base64AsString: String?) {}
     fun onMultipleGalleryImagesWithBase64Value(
@@ -20,4 +22,6 @@ interface ImagePickerInterface {
         base64AsStringList: MutableList<String>?
     ) {
     }
+
+    fun onGallerySingleVideoWithBase64Value(uri: Uri?, base64AsString: String?) {}
 }

@@ -45,6 +45,7 @@ data class ImagePicker(
     private var enabledBase64ValueForSingleImage: Boolean = false,
     private var enabledBase64ValueForMultipleImages: Boolean = false,
     private var enabledBase64ValueForCameraImage: Boolean = false,
+    private var enabledBase64ValueForSingleVideo: Boolean = false,
     var imagePickerInterface: ImagePickerInterface?
 ) {
     private var pickImageFromGalleryResultLauncher: ActivityResultLauncher<PickVisualMediaRequest>? =
@@ -383,4 +384,92 @@ data class ImagePicker(
             "data",
             Bitmap::class.java
         ) else intent.extras?.get("data") as? Bitmap
+
+    /**
+     * Method call in listener to open the picker
+     * */
+    fun pickSingleVideoFromGallery() {
+        fragmentActivity?.let {
+            pickImageFromGalleryResultLauncher?.launch(
+                PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.VideoOnly
+                )
+            )
+        }
+        fragment?.let {
+            pickImageFromGalleryResultLauncher?.launch(
+                PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.VideoOnly
+                )
+            )
+        }
+    }
+
+    /**
+     * This method is the initialization for single video from gallery
+     * */
+    fun initPickSingleVideoFromGalleryResultLauncher() {
+        fragmentActivity?.let {
+            pickImageFromGalleryResultLauncher =
+                it.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                    handlePickSingleVideo(
+                        uri = uri,
+                        contentResolver = it.contentResolver,
+                    )
+                }
+        }
+        fragment?.let {
+            pickImageFromGalleryResultLauncher =
+                it.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+                    handlePickSingleVideo(
+                        uri = uri,
+                        contentResolver = it.requireActivity().contentResolver,
+                    )
+                }
+        }
+    }
+
+    /**
+     * @param uri get a uri with images
+     * @param contentResolver content resolver from Activity
+     * */
+    private fun handlePickSingleVideo(
+        uri: Uri?,
+        contentResolver: ContentResolver,
+    ) = coroutineScope.launch(Dispatchers.Main) {
+        try {
+            if (uri != null) {
+                handleVideo(uri = uri, contentResolver = contentResolver)
+            } else {
+                imagePickerInterface?.onGallerySingleVideo(
+                    uri = null,
+                )
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            imagePickerInterface?.onGallerySingleVideo(
+                uri = null,
+            )
+        }
+    }
+
+    /**
+     * This method handle the image on UI
+     * */
+    private fun handleVideo(uri: Uri?, contentResolver: ContentResolver) =
+        coroutineScope.launch(Dispatchers.Main) {
+            if (enabledBase64ValueForSingleVideo) {
+                imageHelperMethods.convertUriToBase64(uri = uri, contentResolver = contentResolver)
+                    .collect { base64AsString ->
+                        imagePickerInterface?.onGallerySingleVideoWithBase64Value(
+                            uri = uri,
+                            base64AsString = base64AsString,
+                        )
+                    }
+            } else {
+                imagePickerInterface?.onGallerySingleVideo(
+                    uri = uri,
+                )
+            }
+        }
 }

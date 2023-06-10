@@ -3,4 +3,5 @@
     <string name="pick_image">Pick Image</string>
     <string name="pick_images">Pick Images</string>
     <string name="camera">Camera</string>
+    <string name="pick_video">Pick Video</string>
 </resources>

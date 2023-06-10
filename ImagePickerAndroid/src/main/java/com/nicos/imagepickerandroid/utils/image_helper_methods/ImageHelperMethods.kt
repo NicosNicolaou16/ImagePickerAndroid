@@ -1,6 +1,8 @@
 package com.nicos.imagepickerandroid.utils.image_helper_methods
 
+import android.content.ContentResolver
 import android.graphics.Bitmap
+import android.net.Uri
 import android.util.Base64
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -23,6 +25,21 @@ class ImageHelperMethods {
         } else
             emit(null)
     }.flowOn(Dispatchers.Default)
+
+    internal fun convertUriToBase64(uri: Uri?, contentResolver: ContentResolver?) = flow {
+        try {
+            if (uri != null) {
+                val inputStream = contentResolver?.openInputStream(uri)
+                val bytes = inputStream?.readBytes()
+                inputStream?.close()
+                emit(Base64.encodeToString(bytes, Base64.DEFAULT))
+            }
+            emit(null)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(null)
+        }
+    }.flowOn(Dispatchers.IO)
 
     internal fun convertListOfBitmapsToListOfBase64(bitmapList: MutableList<Bitmap>?) = flow {
         if (bitmapList != null) {

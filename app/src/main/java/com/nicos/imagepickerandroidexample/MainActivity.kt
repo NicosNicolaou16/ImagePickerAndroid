@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.MediaController
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.nicos.imagepickerandroid.image_picker.ImagePicker
@@ -41,11 +42,13 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             scaleBitmapModelForMultipleImages = ScaleBitmapModel(height = 100, width = 100),
             enabledBase64ValueForSingleImage = true,
             enabledBase64ValueForMultipleImages = true,
+            enabledBase64ValueForSingleVideo = true,
             imagePickerInterface = this
         )
         imagePicker?.initPickSingleImageFromGalleryResultLauncher()
         imagePicker?.initPickMultipleImagesFromGalleryResultLauncher()
         imagePicker?.initTakePhotoWithCameraResultLauncher()
+        imagePicker?.initPickSingleVideoFromGalleryResultLauncher()
     }
 
     private fun initListeners() {
@@ -57,6 +60,9 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         }
         binding.camera.setOnClickListener {
             imagePicker?.takeSinglePhotoWithCamera()
+        }
+        binding.pickVideo.setOnClickListener {
+            imagePicker?.pickSingleVideoFromGallery()
         }
     }
 
@@ -88,5 +94,12 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             it.let { Log.d("base64AsString", it) }
         }
         super.onMultipleGalleryImagesWithBase64Value(bitmapList, uriList, base64AsStringList)
+    }
+
+    override fun onGallerySingleVideoWithBase64Value(uri: Uri?, base64AsString: String?) {
+        if (uri != null) binding.video.setVideoURI(uri)
+        binding.video.start()
+        base64AsString?.let { Log.d("base64AsString", it) }
+        super.onGallerySingleVideoWithBase64Value(uri, base64AsString)
     }
 }
