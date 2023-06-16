@@ -4,12 +4,12 @@ This library built to give to other developers an easy way to implement the imag
 application with latest Android technologies.
 Support me and I will appreciate if you provide me your feedback(s).
 
-This library contain:
-- Image Picker for single image from gallery
-- Image Picker for multiple images from gallery
-- Image Picker for single image from camera
+The library contain:
+- Picker for single image from gallery
+- Picker for multiple images from gallery
+- Take single image from camera
 - Video Picker
-- Only for image picker support base64 value and resize
+- Only for image picker, support the base64 value and resize
 
 ### Versioning
 
