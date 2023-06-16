@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             enabledBase64ValueForMultipleImages = true, // optional, by default is false - private
             enabledBase64ValueForSingleImage = true, // optional, by default is false - private
             enabledBase64ValueForCameraImage = true, // optional, by default is false - private
-            enabledBase64ValueForSingleVideo = true, // optional, by default is false - private
             imagePickerInterface = this // call back interface
         )
         //...other image picker initialization method(s)
