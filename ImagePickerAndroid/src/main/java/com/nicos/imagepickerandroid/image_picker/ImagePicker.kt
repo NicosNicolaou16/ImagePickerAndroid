@@ -45,7 +45,6 @@ data class ImagePicker(
     private var enabledBase64ValueForSingleImage: Boolean = false,
     private var enabledBase64ValueForMultipleImages: Boolean = false,
     private var enabledBase64ValueForCameraImage: Boolean = false,
-    private var enabledBase64ValueForSingleVideo: Boolean = false,
     var imagePickerInterface: ImagePickerInterface?
 ) {
     private var pickImageFromGalleryResultLauncher: ActivityResultLauncher<PickVisualMediaRequest>? =
@@ -53,7 +52,8 @@ data class ImagePicker(
     private var pickMultipleImageFromGalleryResultLauncher: ActivityResultLauncher<PickVisualMediaRequest>? =
         null
     private var takeAPhotoWithCameraResultLauncher: ActivityResultLauncher<Intent>? = null
-
+    private var pickVideoFromGalleryResultLauncher: ActivityResultLauncher<PickVisualMediaRequest>? =
+        null
     private var imageHelperMethods = ImageHelperMethods()
     private var permissionsHelper: PermissionsHelper? = null
 
@@ -390,14 +390,14 @@ data class ImagePicker(
      * */
     fun pickSingleVideoFromGallery() {
         fragmentActivity?.let {
-            pickImageFromGalleryResultLauncher?.launch(
+            pickVideoFromGalleryResultLauncher?.launch(
                 PickVisualMediaRequest(
                     ActivityResultContracts.PickVisualMedia.VideoOnly
                 )
             )
         }
         fragment?.let {
-            pickImageFromGalleryResultLauncher?.launch(
+            pickVideoFromGalleryResultLauncher?.launch(
                 PickVisualMediaRequest(
                     ActivityResultContracts.PickVisualMedia.VideoOnly
                 )
@@ -410,7 +410,7 @@ data class ImagePicker(
      * */
     fun initPickSingleVideoFromGalleryResultLauncher() {
         fragmentActivity?.let {
-            pickImageFromGalleryResultLauncher =
+            pickVideoFromGalleryResultLauncher =
                 it.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                     handlePickSingleVideo(
                         uri = uri,
@@ -419,7 +419,7 @@ data class ImagePicker(
                 }
         }
         fragment?.let {
-            pickImageFromGalleryResultLauncher =
+            pickVideoFromGalleryResultLauncher =
                 it.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                     handlePickSingleVideo(
                         uri = uri,
@@ -439,7 +439,9 @@ data class ImagePicker(
     ) = coroutineScope.launch(Dispatchers.Main) {
         try {
             if (uri != null) {
-                handleVideo(uri = uri, contentResolver = contentResolver)
+                imagePickerInterface?.onGallerySingleVideo(
+                    uri = uri,
+                )
             } else {
                 imagePickerInterface?.onGallerySingleVideo(
                     uri = null,
@@ -452,24 +454,4 @@ data class ImagePicker(
             )
         }
     }
-
-    /**
-     * This method handle the image on UI
-     * */
-    private fun handleVideo(uri: Uri?, contentResolver: ContentResolver) =
-        coroutineScope.launch(Dispatchers.Main) {
-            if (enabledBase64ValueForSingleVideo) {
-                imageHelperMethods.convertUriToBase64(uri = uri, contentResolver = contentResolver)
-                    .collect { base64AsString ->
-                        imagePickerInterface?.onGallerySingleVideoWithBase64Value(
-                            uri = uri,
-                            base64AsString = base64AsString,
-                        )
-                    }
-            } else {
-                imagePickerInterface?.onGallerySingleVideo(
-                    uri = uri,
-                )
-            }
-        }
 }

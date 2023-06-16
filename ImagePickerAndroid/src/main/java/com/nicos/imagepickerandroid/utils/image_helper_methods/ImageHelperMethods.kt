@@ -26,21 +26,6 @@ class ImageHelperMethods {
             emit(null)
     }.flowOn(Dispatchers.Default)
 
-    internal fun convertUriToBase64(uri: Uri?, contentResolver: ContentResolver?) = flow {
-        try {
-            if (uri != null) {
-                val inputStream = contentResolver?.openInputStream(uri)
-                val bytes = inputStream?.readBytes()
-                inputStream?.close()
-                emit(Base64.encodeToString(bytes, Base64.DEFAULT))
-            }
-            emit(null)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(null)
-        }
-    }.flowOn(Dispatchers.IO)
-
     internal fun convertListOfBitmapsToListOfBase64(bitmapList: MutableList<Bitmap>?) = flow {
         if (bitmapList != null) {
             try {

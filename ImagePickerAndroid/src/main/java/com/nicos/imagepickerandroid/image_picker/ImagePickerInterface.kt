@@ -22,6 +22,4 @@ interface ImagePickerInterface {
         base64AsStringList: MutableList<String>?
     ) {
     }
-
-    fun onGallerySingleVideoWithBase64Value(uri: Uri?, base64AsString: String?) {}
 }

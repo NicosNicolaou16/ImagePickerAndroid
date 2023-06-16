@@ -134,8 +134,8 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         //...your code here
     }
 
-    override fun onGallerySingleVideoWithBase64Value(uri: Uri?, base64AsString: String?) {
-        super.onGallerySingleVideoWithBase64Value(uri, base64AsString)
+    override fun onGallerySingleVideo(uri: Uri?) {
+        super.onGallerySingleVideoWithBase64Value(uri)
         //...your code here
     }
 }
