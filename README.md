@@ -69,8 +69,8 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
                 height = 100,
                 width = 100
             ), // optional, change the scale for image, by default is null
-            enabledBase64ValueForMultipleImages = true, // optional, by default is false - private
             enabledBase64ValueForSingleImage = true, // optional, by default is false - private
+            enabledBase64ValueForMultipleImages = true, // optional, by default is false - private
             enabledBase64ValueForCameraImage = true, // optional, by default is false - private
             imagePickerInterface = this // call back interface
         )
