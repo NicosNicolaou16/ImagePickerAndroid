@@ -115,7 +115,10 @@ data class ImagePicker(
     ) = coroutineScope.launch(Dispatchers.Main) {
         try {
             if (uri != null) {
-                val bitmap = convertUriToBitmap(contentResolver = contentResolver, uri = uri)
+                val bitmap = imageHelperMethods.convertUriToBitmap(
+                    contentResolver = contentResolver,
+                    uri = uri
+                )
                 if (scaleBitmapModelForSingleImage != null) {
                     imageHelperMethods.scaleBitmap(bitmap, scaleBitmapModelForSingleImage!!)
                         .collect {
@@ -184,7 +187,7 @@ data class ImagePicker(
      * @param maxNumberOfImages max number for select images from picker, by default is 9
      * */
     fun initPickMultipleImagesFromGalleryResultLauncher(
-        @IntRange(from = 1, to = Long.MAX_VALUE) maxNumberOfImages: Int = 9,
+        @IntRange(from = 1, to = 9) maxNumberOfImages: Int = 9,
     ) {
         fragmentActivity?.let {
             pickMultipleImageFromGalleryResultLauncher = it.registerForActivityResult(
@@ -222,7 +225,7 @@ data class ImagePicker(
                 withContext(Dispatchers.Default) {
                     uris.forEach { uri ->
                         val bitmap =
-                            convertUriToBitmap(
+                            imageHelperMethods.convertUriToBitmap(
                                 contentResolver = contentResolver,
                                 uri = uri
                             )
@@ -276,22 +279,6 @@ data class ImagePicker(
                 )
             }
         }
-
-    /**
-     * This make the conversion from Uri to Bitmap
-     * */
-    private fun convertUriToBitmap(
-        contentResolver: ContentResolver,
-        uri: Uri?
-    ): Bitmap? {
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            MediaStore.Images.Media.getBitmap(contentResolver, uri)
-        } else {
-            val source: ImageDecoder.Source? =
-                uri?.let { ImageDecoder.createSource(contentResolver, it) }
-            source?.let { ImageDecoder.decodeBitmap(it) }
-        }
-    }
 
     fun takeSinglePhotoWithCamera() {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
@@ -348,7 +335,7 @@ data class ImagePicker(
     private fun handleImageFromCamera(
         intent: Intent,
     ) = coroutineScope.launch(Dispatchers.Main) {
-        val bitmap = getExtrasBitmapAccordingWithSDK(intent)
+        val bitmap = imageHelperMethods.getExtrasBitmapAccordingWithSDK(intent)
         if (scaleBitmapModelForCameraImage != null) {
             imageHelperMethods.scaleBitmap(bitmap, scaleBitmapModelForCameraImage!!)
                 .collect {
@@ -375,15 +362,6 @@ data class ImagePicker(
             )
         }
     }
-
-    /**
-     * This method return the image from Intent when take with Camera
-     * */
-    private fun getExtrasBitmapAccordingWithSDK(intent: Intent) =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) intent.extras?.getParcelable(
-            "data",
-            Bitmap::class.java
-        ) else intent.extras?.get("data") as? Bitmap
 
     /**
      * Method call in listener to open the picker
@@ -414,7 +392,6 @@ data class ImagePicker(
                 it.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                     handlePickSingleVideo(
                         uri = uri,
-                        contentResolver = it.contentResolver,
                     )
                 }
         }
@@ -423,7 +400,6 @@ data class ImagePicker(
                 it.registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
                     handlePickSingleVideo(
                         uri = uri,
-                        contentResolver = it.requireActivity().contentResolver,
                     )
                 }
         }
@@ -435,7 +411,6 @@ data class ImagePicker(
      * */
     private fun handlePickSingleVideo(
         uri: Uri?,
-        contentResolver: ContentResolver,
     ) = coroutineScope.launch(Dispatchers.Main) {
         try {
             if (uri != null) {

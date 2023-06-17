@@ -1,15 +1,44 @@
 package com.nicos.imagepickerandroid.utils.image_helper_methods
 
 import android.content.ContentResolver
+import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Base64
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.io.ByteArrayOutputStream
 
-class ImageHelperMethods {
+internal class ImageHelperMethods {
+
+    /**
+     * This make the conversion from Uri to Bitmap
+     * */
+    internal fun convertUriToBitmap(
+        contentResolver: ContentResolver,
+        uri: Uri?
+    ): Bitmap? {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+            MediaStore.Images.Media.getBitmap(contentResolver, uri)
+        } else {
+            val source: ImageDecoder.Source? =
+                uri?.let { ImageDecoder.createSource(contentResolver, it) }
+            source?.let { ImageDecoder.decodeBitmap(it) }
+        }
+    }
+
+    /**
+     * This method return the image from Intent when take with Camera
+     * */
+    internal fun getExtrasBitmapAccordingWithSDK(intent: Intent) =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) intent.extras?.getParcelable(
+            "data",
+            Bitmap::class.java
+        ) else intent.extras?.get("data") as? Bitmap
 
     internal fun convertBitmapToBase64(bitmap: Bitmap?) = flow {
         if (bitmap != null) {

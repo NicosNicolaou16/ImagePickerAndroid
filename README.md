@@ -5,11 +5,12 @@ application with latest Android technologies.
 Support me and I will appreciate if you provide me your feedback(s).
 
 The library contain:
+
 - Picker for single image from gallery
-- Picker for multiple images from gallery
+- Picker for multiple images from gallery (up to 9 images)
 - Take single image from camera
 - Video Picker
-- Only for image picker, support the base64 value and resize
+- the base64 value and resize are only for image
 
 ### Versioning
 
@@ -56,9 +57,18 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             fragmentActivity = this, //activity instance - private
             fragment = this, // fragment instance - private
             coroutineScope = lifecycleScope, // mandatory - coroutine scope from activity or fragment - private
-            scaleBitmapModelForSingleImage = ScaleBitmapModel(height = 100, width = 100), // optional, change the scale for image, by default is null
-            scaleBitmapModelForMultipleImages = ScaleBitmapModel(height = 100, width = 100), // optional, change the scale for image, by default is null
-            scaleBitmapModelForCameraImage = ScaleBitmapModel(height = 100, width = 100), // optional, change the scale for image, by default is null
+            scaleBitmapModelForSingleImage = ScaleBitmapModel(
+                height = 100,
+                width = 100
+            ), // optional, change the scale for image, by default is null
+            scaleBitmapModelForMultipleImages = ScaleBitmapModel(
+                height = 100,
+                width = 100
+            ), // optional, change the scale for image, by default is null
+            scaleBitmapModelForCameraImage = ScaleBitmapModel(
+                height = 100,
+                width = 100
+            ), // optional, change the scale for image, by default is null
             enabledBase64ValueForMultipleImages = true, // optional, by default is false - private
             enabledBase64ValueForSingleImage = true, // optional, by default is false - private
             enabledBase64ValueForCameraImage = true, // optional, by default is false - private
@@ -141,7 +151,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     }
 
     override fun onGallerySingleVideo(uri: Uri?) {
-        super.onGallerySingleVideoWithBase64Value(uri)
+        super.onGallerySingleVideo(uri)
         //...your code here
     }
 }
