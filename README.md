@@ -8,7 +8,7 @@ The library contain:
 
 - Picker for single image from gallery
 - Picker for multiple images from gallery (up to 9 images)
-- Take single image from camera
+- Take single image from camera (handled permission)
 - Video Picker
 - Support for the base64 value and scale (resize) are only for image
 
