@@ -15,7 +15,7 @@ The library contain:
 ### Versioning
 
 Gradle Version 8.0.2 <br />
-Kotlin Version 1.8.21 <br />
+Kotlin Version 1.8.22 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 33 <br />
