@@ -11,6 +11,7 @@ The library contain:
 - Take single image from camera (handled permission)
 - Video Picker
 - Support for the base64 value and scale (resize) are only for image
+- All the previous features supported on Jetpack Compose
 
 ### Versioning
 
@@ -27,6 +28,8 @@ THE NEXT BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
 ## Configuration
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
+
+### Standard Configuration
 
 ### Step 1
 
@@ -155,4 +158,12 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         //...your code here
     }
 }
+```
+
+### Compose Configuration
+
+### Step 1 - Initialise
+
+```Kotlin
+
 ```
