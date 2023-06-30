@@ -1,23 +1,19 @@
-package com.nicos.imagepickerandroid.utils.image_helper_methods
+package com.nicos.imagepickerandroid.image_picker
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.icu.text.SimpleDateFormat
 import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.FileProvider
+import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
+import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.util.Date
-import java.util.Objects
 
 private var imageHelperMethods = ImageHelperMethods()
 private var pickSingleImage: ManagedActivityResultLauncher<String, Uri?>? = null
@@ -31,7 +27,7 @@ private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Void?,
 private var pickVideo: ManagedActivityResultLauncher<String, Uri?>? = null
 
 @Composable
-fun PickSingleImage(
+fun pickSingleImage(
     scaleBitmapModel: ScaleBitmapModel?,
     listener: (Bitmap?, Uri?) -> Unit
 ) {
@@ -68,7 +64,7 @@ fun pickSingleImage() {
 }
 
 @Composable
-fun PickSingleImageWithBase64Value(
+fun pickSingleImageWithBase64Value(
     scaleBitmapModel: ScaleBitmapModel?,
     listener: (Bitmap?, Uri?, String?) -> Unit
 ) {
@@ -115,7 +111,7 @@ fun pickSingleImageWithBase64Value() {
 }
 
 @Composable
-fun PickMultipleImages(
+fun pickMultipleImages(
     scaleBitmapModel: ScaleBitmapModel?,
     listener: (MutableList<Bitmap>?, MutableList<Uri>?) -> Unit
 ) {
@@ -157,7 +153,7 @@ fun pickMultipleImages() {
 }
 
 @Composable
-fun PickMultipleImagesWithBase64Values(
+fun pickMultipleImagesWithBase64Values(
     scaleBitmapModel: ScaleBitmapModel?,
     listener: (MutableList<Bitmap>?, MutableList<Uri>?, MutableList<String>?) -> Unit
 ) {
@@ -283,7 +279,7 @@ fun takeCameraImageWithBase64Value() {
 }
 
 @Composable
-fun PickVideo(
+fun pickVideo(
     listener: (Bitmap?, Uri?) -> Unit
 ) {
     val context = LocalContext.current
