@@ -1,7 +1,6 @@
 package com.nicos.imagepickerandroid.utils.image_helper_methods
 
 import android.content.ContentResolver
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -128,15 +127,15 @@ internal class ImageHelperMethods {
             }
         }.flowOn(Dispatchers.Default)
 
-    private fun getImageUri(inContext: Context?, bitmap: Bitmap): Uri {
-        val tempFile = File.createTempFile("image", ".png")
+    internal fun getUriFromBitmap(bitmap: Bitmap): Uri? {
+        val file = File.createTempFile("image", ".jpg")
         val bytes = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
         val bitmapData = bytes.toByteArray()
-        val fileOutPut = FileOutputStream(tempFile)
+        val fileOutPut = FileOutputStream(file)
         fileOutPut.write(bitmapData)
         fileOutPut.flush()
         fileOutPut.close()
-        return Uri.fromFile(tempFile)
+        return Uri.fromFile(file)
     }
 }

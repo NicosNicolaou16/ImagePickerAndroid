@@ -1,10 +1,12 @@
 package com.nicos.imagepickerandroid.image_picker
 
-import android.content.Context
+import android.Manifest
 import android.graphics.Bitmap
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -15,16 +17,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+private var launcher: ManagedActivityResultLauncher<String, Boolean>? = null
 private var imageHelperMethods = ImageHelperMethods()
-private var pickSingleImage: ManagedActivityResultLauncher<String, Uri?>? = null
-private var pickSingleImageWithBase64Value: ManagedActivityResultLauncher<String, Uri?>? = null
-private var pickMultipleImages: ManagedActivityResultLauncher<String, List<@JvmSuppressWildcards Uri>>? =
+private var pickSingleImage: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
+private var pickSingleImageWithBase64Value: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? =
     null
-private var pickMultipleImagesWithBase64Values: ManagedActivityResultLauncher<String, List<@JvmSuppressWildcards Uri>>? =
+private var pickMultipleImages: ManagedActivityResultLauncher<PickVisualMediaRequest, List<@JvmSuppressWildcards Uri>>? =
+    null
+private var pickMultipleImagesWithBase64Values: ManagedActivityResultLauncher<PickVisualMediaRequest, List<@JvmSuppressWildcards Uri>>? =
     null
 private var takeCameraImage: ManagedActivityResultLauncher<Void?, Bitmap?>? = null
 private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Void?, Bitmap?>? = null
-private var pickVideo: ManagedActivityResultLauncher<String, Uri?>? = null
+private var pickVideo: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
 
 @Composable
 fun pickSingleImage(
@@ -34,7 +38,7 @@ fun pickSingleImage(
     val context = LocalContext.current
     val composableScope = rememberCoroutineScope()
     pickSingleImage =
-        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             var bitmap: Bitmap? = null
             if (uri != null) {
                 bitmap = imageHelperMethods.convertUriToBitmap(
@@ -60,7 +64,7 @@ fun pickSingleImage(
 }
 
 fun pickSingleImage() {
-    pickSingleImage?.launch("image/*")
+    pickSingleImage?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 }
 
 @Composable
@@ -71,7 +75,7 @@ fun pickSingleImageWithBase64Value(
     val context = LocalContext.current
     val composableScope = rememberCoroutineScope()
     pickSingleImageWithBase64Value =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia()) { uri ->
             val bitmap: Bitmap?
             if (uri != null) {
                 bitmap = imageHelperMethods.convertUriToBitmap(
@@ -107,7 +111,7 @@ fun pickSingleImageWithBase64Value(
 }
 
 fun pickSingleImageWithBase64Value() {
-    pickSingleImageWithBase64Value?.launch("image/*")
+    pickSingleImageWithBase64Value?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 }
 
 @Composable
@@ -118,7 +122,7 @@ fun pickMultipleImages(
     val context = LocalContext.current
     val composableScope = rememberCoroutineScope()
     pickMultipleImages =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetMultipleContents()) { uriList ->
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.PickMultipleVisualMedia()) { uriList ->
             composableScope.launch(Dispatchers.Default) {
                 val bitmapList = mutableListOf<Bitmap>()
                 if (uriList.isNotEmpty()) {
@@ -149,7 +153,7 @@ fun pickMultipleImages(
 }
 
 fun pickMultipleImages() {
-    pickMultipleImages?.launch("image/*")
+    pickMultipleImages?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 }
 
 @Composable
@@ -160,7 +164,7 @@ fun pickMultipleImagesWithBase64Values(
     val context = LocalContext.current
     val composableScope = rememberCoroutineScope()
     pickMultipleImagesWithBase64Values =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetMultipleContents()) { uriList ->
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.PickMultipleVisualMedia()) { uriList ->
             composableScope.launch(Dispatchers.Main) {
                 val bitmapList = mutableListOf<Bitmap>()
                 withContext(Dispatchers.Default) {
@@ -203,18 +207,20 @@ fun pickMultipleImagesWithBase64Values(
 }
 
 fun pickMultipleImagesWithBase64Value() {
-    pickMultipleImagesWithBase64Values?.launch("image/*")
+    pickMultipleImagesWithBase64Values?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 }
 
 @Composable
 fun takeCameraImage(
     scaleBitmapModel: ScaleBitmapModel?,
-    listener: (Bitmap?) -> Unit
+    listener: (Bitmap?, Uri?) -> Unit
 ) {
+    CameraPermission()
     val composableScope = rememberCoroutineScope()
     takeCameraImage =
         rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
             if (bitmap != null) {
+                val uri = imageHelperMethods.getUriFromBitmap(bitmap)
                 if (scaleBitmapModel != null) {
                     composableScope.launch(Dispatchers.Default) {
                         imageHelperMethods.scaleBitmap(
@@ -222,19 +228,32 @@ fun takeCameraImage(
                             scaleBitmapModel = scaleBitmapModel
                         ).collect { scaledBitmap ->
                             composableScope.launch(Dispatchers.Main) {
-                                listener(scaledBitmap)
+                                listener(scaledBitmap, uri)
                             }
                         }
                     }
                 } else {
-                    listener(bitmap)
+                    listener(bitmap, uri)
                 }
             }
         }
 }
 
-fun takeCameraImage(context: Context) {
-    takeCameraImage?.launch(null)
+@Composable
+fun CameraPermission() {
+    launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            takeCameraImage?.launch(null)
+        } else {
+            // Show dialog
+        }
+    }
+}
+
+fun takeCameraImage() {
+    launcher?.launch(Manifest.permission.CAMERA)
 }
 
 @Composable
@@ -280,22 +299,16 @@ fun takeCameraImageWithBase64Value() {
 
 @Composable
 fun pickVideo(
-    listener: (Bitmap?, Uri?) -> Unit
+    listener: (Uri?) -> Unit
 ) {
-    val context = LocalContext.current
     pickVideo =
-        rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-            var bitmap: Bitmap? = null
+        rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-                bitmap = imageHelperMethods.convertUriToBitmap(
-                    contentResolver = context.contentResolver,
-                    uri = uri
-                )
-                listener(bitmap, uri)
+                listener(uri)
             }
         }
 }
 
 fun pickVideo() {
-    pickVideo?.launch("video/*")
+    pickVideo?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
 }
