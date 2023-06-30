@@ -28,6 +28,7 @@ private var pickMultipleImagesWithBase64Values: ManagedActivityResultLauncher<St
     null
 private var takeCameraImage: ManagedActivityResultLauncher<Void?, Bitmap?>? = null
 private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Void?, Bitmap?>? = null
+private var pickVideo: ManagedActivityResultLauncher<String, Uri?>? = null
 
 @Composable
 fun PickSingleImage(
@@ -286,7 +287,7 @@ fun PickVideo(
     listener: (Bitmap?, Uri?) -> Unit
 ) {
     val context = LocalContext.current
-    pickSingleImage =
+    pickVideo =
         rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             var bitmap: Bitmap? = null
             if (uri != null) {
@@ -300,5 +301,5 @@ fun PickVideo(
 }
 
 fun pickVideo() {
-    pickSingleImage?.launch("video/*")
+    pickVideo?.launch("video/*")
 }
