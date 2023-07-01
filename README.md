@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 
 ### Compose Configuration
 
-### Step 1 - Initialise
+### Step 1 - Initialize
 
 ```Kotlin
 PickSingleImage(scaleBitmapModel = null, listener = { bitmap, uri ->
