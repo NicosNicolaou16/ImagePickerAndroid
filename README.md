@@ -165,5 +165,66 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 ### Step 1 - Initialise
 
 ```Kotlin
+PickSingleImage(scaleBitmapModel = null, listener = { bitmap, uri ->
+    if (bitmap != null) {
+        //handle the bitmap
+    }
+})
 
+PickSingleImageWithBase64Value(scaleBitmapModel = null, listener = { bitmap, uri, base64 ->
+    if (bitmap != null) {
+        //handle the bitmap
+    }
+})
+
+PickMultipleImages(scaleBitmapModel = null,
+    listener = { bitmapList, uriList ->
+        if (bitmapList != null) {
+            //handle the bitmapList
+        }
+    })
+
+PickMultipleImagesWithBase64Values(
+    scaleBitmapModel = null,
+    listener = { bitmapList, uriList, base64List ->
+        if (bitmapList != null) {
+            //handle the bitmapList
+        }
+    })
+
+TakeCameraImage(scaleBitmapModel = null, listener = { bitmap, uri ->
+    if (bitmap != null) {
+        //handle the bitmap
+    }
+})
+
+TakeCameraImageWithBase64Value(scaleBitmapModel = null, listener = { bitmap, uri, base64 ->
+    if (bitmap != null) {
+        //handle the bitmap
+    }
+})
+
+PickVideo(listener = { uri ->
+    if (uri != null) {
+        //handle the uri
+    }
+})
+```
+
+### Step 2 Call from Click Listeners (choose the preferred method(s))
+
+```Kotlin
+pickSingleImage()
+
+pickSingleImageWithBase64Value()
+
+pickMultipleImages()
+
+pickMultipleImagesWithBase64Value()
+
+takeCameraImage()
+
+takeCameraImageWithBase64Value()
+
+pickVideo()
 ```

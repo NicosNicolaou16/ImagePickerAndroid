@@ -3,7 +3,6 @@ package com.nicos.imagepickerandroid.image_picker
 import android.Manifest
 import android.graphics.Bitmap
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -31,7 +30,7 @@ private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Void?,
 private var pickVideo: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
 
 @Composable
-fun pickSingleImage(
+fun PickSingleImage(
     scaleBitmapModel: ScaleBitmapModel?,
     listener: (Bitmap?, Uri?) -> Unit
 ) {
@@ -68,7 +67,7 @@ fun pickSingleImage() {
 }
 
 @Composable
-fun pickSingleImageWithBase64Value(
+fun PickSingleImageWithBase64Value(
     scaleBitmapModel: ScaleBitmapModel?,
     listener: (Bitmap?, Uri?, String?) -> Unit
 ) {
@@ -115,7 +114,7 @@ fun pickSingleImageWithBase64Value() {
 }
 
 @Composable
-fun pickMultipleImages(
+fun PickMultipleImages(
     scaleBitmapModel: ScaleBitmapModel?,
     listener: (MutableList<Bitmap>?, MutableList<Uri>?) -> Unit
 ) {
@@ -157,7 +156,7 @@ fun pickMultipleImages() {
 }
 
 @Composable
-fun pickMultipleImagesWithBase64Values(
+fun PickMultipleImagesWithBase64Values(
     scaleBitmapModel: ScaleBitmapModel?,
     listener: (MutableList<Bitmap>?, MutableList<Uri>?, MutableList<String>?) -> Unit
 ) {
@@ -211,7 +210,7 @@ fun pickMultipleImagesWithBase64Value() {
 }
 
 @Composable
-fun takeCameraImage(
+fun TakeCameraImage(
     scaleBitmapModel: ScaleBitmapModel?,
     listener: (Bitmap?, Uri?) -> Unit
 ) {
@@ -257,7 +256,7 @@ fun takeCameraImage() {
 }
 
 @Composable
-fun takeCameraImageWithBase64Value(
+fun TakeCameraImageWithBase64Value(
     scaleBitmapModel: ScaleBitmapModel?,
     listener: (Bitmap?, String?) -> Unit
 ) {
@@ -298,7 +297,7 @@ fun takeCameraImageWithBase64Value() {
 }
 
 @Composable
-fun pickVideo(
+fun PickVideo(
     listener: (Uri?) -> Unit
 ) {
     pickVideo =

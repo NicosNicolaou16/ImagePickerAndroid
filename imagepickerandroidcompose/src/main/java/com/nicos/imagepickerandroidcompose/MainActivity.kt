@@ -33,11 +33,15 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.StyledPlayerView
+import com.nicos.imagepickerandroid.image_picker.PickMultipleImagesWithBase64Values
+import com.nicos.imagepickerandroid.image_picker.PickSingleImage
+import com.nicos.imagepickerandroid.image_picker.PickVideo
+import com.nicos.imagepickerandroid.image_picker.TakeCameraImage
 import com.nicos.imagepickerandroid.image_picker.pickMultipleImagesWithBase64Value
-import com.nicos.imagepickerandroid.image_picker.pickMultipleImagesWithBase64Values
 import com.nicos.imagepickerandroid.image_picker.pickSingleImage
 import com.nicos.imagepickerandroid.image_picker.pickVideo
 import com.nicos.imagepickerandroid.image_picker.takeCameraImage
+import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import com.nicos.imagepickerandroidcompose.ui.theme.ImagePickerAndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -69,20 +73,25 @@ fun ImagePicker() {
     val uriValue = remember {
         mutableStateOf(Uri.EMPTY)
     }
-    pickSingleImage(scaleBitmapModel = null, listener = { bitmap, uri ->
+    PickSingleImage(scaleBitmapModel = null, listener = { bitmap, uri ->
         if (bitmap != null) {
             bitmapValue.value = bitmap
         }
     })
-    pickMultipleImagesWithBase64Values(
-        scaleBitmapModel = null,
-        listener = { bitmaps, uris, base64 ->
-            if (bitmaps != null) {
-                bitmapListValue.value = bitmaps
-                Log.d("base64Value", base64.toString())
+    PickMultipleImagesWithBase64Values(
+        scaleBitmapModel = ScaleBitmapModel(
+            height = 100,
+            width = 100
+        ),
+        listener = { bitmapList, uriList, base64List ->
+            if (bitmapList != null) {
+                bitmapListValue.value = bitmapList
+                base64List?.forEach { base64 ->
+                    Log.d("base64Value", base64)
+                }
             }
         })
-    takeCameraImage(scaleBitmapModel = null, listener = { bitmap, uri ->
+    TakeCameraImage(scaleBitmapModel = null, listener = { bitmap, uri ->
         if (bitmap != null) {
             bitmapValue.value = bitmap
         }
@@ -94,7 +103,7 @@ fun ImagePicker() {
             play()
         })
     }
-    pickVideo(listener = { uri ->
+    PickVideo(listener = { uri ->
         if (uri != null) {
             uriValue.value = uri
             exoPlayer.value = ExoPlayer.Builder(context).build().apply {
