@@ -13,6 +13,7 @@ The library contain:
 - Video Picker
 - Support for the base64 value and scale (resize) are only for image
 - All the previous features supported on Jetpack Compose too
+- New updates coming soon and tell me you suggestions...!
 
 ### Versioning
 
