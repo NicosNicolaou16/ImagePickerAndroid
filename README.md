@@ -29,8 +29,6 @@ THE BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
-### Configuration
-
 ```Groovy
 implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:1.0.0'
 ```
