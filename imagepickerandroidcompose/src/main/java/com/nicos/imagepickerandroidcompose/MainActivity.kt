@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -149,18 +150,30 @@ fun ImagePicker() {
             }
         }
         Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { pickSingleImage() }) {
-            Text(text = "Pick Single Image", style = TextStyle(textAlign = TextAlign.Center))
+            Text(
+                text = stringResource(R.string.pick_single_image),
+                style = TextStyle(textAlign = TextAlign.Center)
+            )
         }
         Button(
             modifier = Modifier.size(150.dp, 50.dp),
             onClick = { pickMultipleImagesWithBase64Value() }) {
-            Text(text = "Pick Multiple Images", style = TextStyle(textAlign = TextAlign.Center))
+            Text(
+                text = stringResource(R.string.pick_multiple_images),
+                style = TextStyle(textAlign = TextAlign.Center)
+            )
         }
         Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { takeSingleCameraImage() }) {
-            Text(text = "Take Camera Images", style = TextStyle(textAlign = TextAlign.Center))
+            Text(
+                text = stringResource(R.string.take_camera_images),
+                style = TextStyle(textAlign = TextAlign.Center)
+            )
         }
         Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { pickSingleVideo() }) {
-            Text(text = "Pick Single Video", style = TextStyle(textAlign = TextAlign.Center))
+            Text(
+                text = stringResource(R.string.pick_single_video),
+                style = TextStyle(textAlign = TextAlign.Center)
+            )
         }
 
     }

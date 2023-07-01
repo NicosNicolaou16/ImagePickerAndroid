@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ImagePickerAndroidCompose</string>
+    <string name="pick_single_image">Pick Single Image</string>
+    <string name="pick_multiple_images">Pick Multiple Images</string>
+    <string name="take_camera_images">Take Camera Images</string>
+    <string name="pick_single_video">Pick Single Video</string>
 </resources>
