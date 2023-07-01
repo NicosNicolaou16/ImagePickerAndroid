@@ -113,11 +113,13 @@ internal class ImageHelperMethods {
             try {
                 val bitmapAfterScaleList = mutableListOf<Bitmap>()
                 bitmapList.forEach { bitmap ->
-                    Bitmap.createScaledBitmap(
-                        bitmap,
-                        scaleBitmapModel.width,
-                        scaleBitmapModel.height,
-                        true
+                    bitmapAfterScaleList.add(
+                        Bitmap.createScaledBitmap(
+                            bitmap,
+                            scaleBitmapModel.width,
+                            scaleBitmapModel.height,
+                            true
+                        )
                     )
                 }
                 emit(bitmapAfterScaleList)

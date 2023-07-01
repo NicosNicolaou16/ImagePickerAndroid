@@ -14,9 +14,8 @@ import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethod
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-private var launcher: ManagedActivityResultLauncher<String, Boolean>? = null
+private var permissionLauncher: ManagedActivityResultLauncher<String, Boolean>? = null
 private var imageHelperMethods = ImageHelperMethods()
 private var pickSingleImage: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
 private var pickSingleImageWithBase64Value: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? =
@@ -164,42 +163,40 @@ fun PickMultipleImagesWithBase64Values(
     val composableScope = rememberCoroutineScope()
     pickMultipleImagesWithBase64Values =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.PickMultipleVisualMedia()) { uriList ->
-            composableScope.launch(Dispatchers.Main) {
+            composableScope.launch(Dispatchers.Default) {
                 val bitmapList = mutableListOf<Bitmap>()
-                withContext(Dispatchers.Default) {
-                    if (uriList.isNotEmpty()) {
-                        uriList.forEach { uri ->
-                            val bitmap = imageHelperMethods.convertUriToBitmap(
-                                contentResolver = context.contentResolver,
-                                uri = uri
-                            )
-                            if (bitmap != null) bitmapList.add(bitmap)
-                        }
+                if (uriList.isNotEmpty()) {
+                    uriList.forEach { uri ->
+                        val bitmap = imageHelperMethods.convertUriToBitmap(
+                            contentResolver = context.contentResolver,
+                            uri = uri
+                        )
+                        if (bitmap != null) bitmapList.add(bitmap)
                     }
-                    if (scaleBitmapModel != null) {
-                        imageHelperMethods.scaleBitmapList(
-                            bitmapList = bitmapList,
-                            scaleBitmapModel = scaleBitmapModel
-                        ).collect { scaledBitmapList ->
-                            imageHelperMethods.convertListOfBitmapsToListOfBase64(bitmapList = scaledBitmapList)
-                                .collect { base64List ->
-                                    composableScope.launch(Dispatchers.Main) {
-                                        listener(
-                                            scaledBitmapList,
-                                            uriList.toMutableList(),
-                                            base64List
-                                        )
-                                    }
-                                }
-                        }
-                    } else {
-                        imageHelperMethods.convertListOfBitmapsToListOfBase64(bitmapList = bitmapList)
+                }
+                if (scaleBitmapModel != null) {
+                    imageHelperMethods.scaleBitmapList(
+                        bitmapList = bitmapList,
+                        scaleBitmapModel = scaleBitmapModel
+                    ).collect { scaledBitmapList ->
+                        imageHelperMethods.convertListOfBitmapsToListOfBase64(bitmapList = scaledBitmapList)
                             .collect { base64List ->
                                 composableScope.launch(Dispatchers.Main) {
-                                    listener(bitmapList, uriList.toMutableList(), base64List)
+                                    listener(
+                                        scaledBitmapList,
+                                        uriList.toMutableList(),
+                                        base64List
+                                    )
                                 }
                             }
                     }
+                } else {
+                    imageHelperMethods.convertListOfBitmapsToListOfBase64(bitmapList = bitmapList)
+                        .collect { base64List ->
+                            composableScope.launch(Dispatchers.Main) {
+                                listener(bitmapList, uriList.toMutableList(), base64List)
+                            }
+                        }
                 }
             }
         }
@@ -240,7 +237,7 @@ fun TakeCameraImage(
 
 @Composable
 fun CameraPermission() {
-    launcher = rememberLauncherForActivityResult(
+    permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
@@ -252,7 +249,7 @@ fun CameraPermission() {
 }
 
 fun takeCameraImage() {
-    launcher?.launch(Manifest.permission.CAMERA)
+    permissionLauncher?.launch(Manifest.permission.CAMERA)
 }
 
 @Composable
