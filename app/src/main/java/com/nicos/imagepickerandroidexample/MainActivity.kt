@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             imagePickerInterface = this
         )
         imagePicker?.initPickSingleImageFromGalleryResultLauncher()
-        imagePicker?.initPickMultipleImagesFromGalleryResultLauncher()
+        imagePicker?.initPickMultipleImagesFromGalleryResultLauncher(maxNumberOfImages = 3)
         imagePicker?.initTakePhotoWithCameraResultLauncher()
         imagePicker?.initPickSingleVideoFromGalleryResultLauncher()
     }

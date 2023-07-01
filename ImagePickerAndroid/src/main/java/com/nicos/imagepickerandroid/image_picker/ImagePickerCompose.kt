@@ -7,6 +7,7 @@ import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.IntRange
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
@@ -115,12 +116,17 @@ fun pickSingleImageWithBase64Value() {
 @Composable
 fun PickMultipleImages(
     scaleBitmapModel: ScaleBitmapModel?,
+    @IntRange(from = 1, to = 9) maxNumberOfImages: Int = 9,
     listener: (MutableList<Bitmap>?, MutableList<Uri>?) -> Unit
 ) {
     val context = LocalContext.current
     val composableScope = rememberCoroutineScope()
     pickMultipleImages =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.PickMultipleVisualMedia()) { uriList ->
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickMultipleVisualMedia(
+                maxItems = maxNumberOfImages
+            )
+        ) { uriList ->
             composableScope.launch(Dispatchers.Default) {
                 val bitmapList = mutableListOf<Bitmap>()
                 if (uriList.isNotEmpty()) {
@@ -157,12 +163,17 @@ fun pickMultipleImages() {
 @Composable
 fun PickMultipleImagesWithBase64Values(
     scaleBitmapModel: ScaleBitmapModel?,
+    @IntRange(from = 1, to = 9) maxNumberOfImages: Int = 9,
     listener: (MutableList<Bitmap>?, MutableList<Uri>?, MutableList<String>?) -> Unit
 ) {
     val context = LocalContext.current
     val composableScope = rememberCoroutineScope()
     pickMultipleImagesWithBase64Values =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.PickMultipleVisualMedia()) { uriList ->
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickMultipleVisualMedia(
+                maxItems = maxNumberOfImages
+            )
+        ) { uriList ->
             composableScope.launch(Dispatchers.Default) {
                 val bitmapList = mutableListOf<Bitmap>()
                 if (uriList.isNotEmpty()) {

@@ -84,6 +84,7 @@ fun ImagePicker() {
             height = 100,
             width = 100
         ),
+        maxNumberOfImages = 3,
         listener = { bitmapList, uriList, base64List ->
             if (bitmapList != null) {
                 bitmapListValue.value = bitmapList
