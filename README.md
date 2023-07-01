@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 
 ## Compose Configuration
 
-### Step 1 - Initialize
+### Step 1 - Initialize the Callbacks
 
 ```Kotlin
 PickSingleImage(
