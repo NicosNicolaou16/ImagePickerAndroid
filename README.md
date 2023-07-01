@@ -11,7 +11,7 @@ The library contain:
 - Take single image from camera (handled permission)
 - Video Picker
 - Support for the base64 value and scale (resize) are only for image
-- All the previous features supported on Jetpack Compose
+- All the previous features supported on Jetpack Compose too
 
 ### Versioning
 
@@ -23,15 +23,13 @@ Target SDK 33 <br />
 
 ## IMPORTANT NOTE
 
-THE NEXT BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
+THE BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
 
 ## Configuration
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
-### Standard Configuration
-
-### Step 1
+### Configuration
 
 ```Groovy
 implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:1.0.0'
@@ -45,7 +43,9 @@ allprojects {
 }
 ```
 
-### Step 2 - Get Instance
+### Standard Configuration
+
+### Step 1 - Get Instance
 
 ```Kotlin
 class MainActivity : AppCompatActivity(), ImagePickerInterface {
@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 }
 ```
 
-### Step 3 - Initialize the methods for Image Pickers (choose the preferred method(s))
+### Step 2 - Initialize the methods for Image Pickers (choose the preferred method(s))
 
 ```Kotlin
 imagePicker?.initPickSingleImageFromGalleryResultLauncher()
@@ -95,7 +95,7 @@ imagePicker?.initTakePhotoWithCameraResultLauncher()
 imagePicker?.initPickSingleVideoFromGalleryResultLauncher()
 ```
 
-### Step 4 Call from Click Listeners (choose the preferred method(s))
+### Step 3 Call from Click Listeners (choose the preferred method(s))
 
 ```Kotlin
 imagePicker?.pickSingleImageFromGallery()
@@ -107,7 +107,7 @@ imagePicker?.takeSinglePhotoWithCamera()
 imagePicker?.pickSingleVideoFromGallery()
 ```
 
-### Step 5 - Callbacks (Optionals)
+### Step 4 - Callbacks (Optionals)
 
 ```Kotlin
 class MainActivity : AppCompatActivity(), ImagePickerInterface {
@@ -165,49 +165,38 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 ### Step 1 - Initialize
 
 ```Kotlin
-PickSingleImage(scaleBitmapModel = null, listener = { bitmap, uri ->
-    if (bitmap != null) {
-        //handle the bitmap
-    }
+PickSingleImage(scaleBitmapModel = ScaleBitmapModel(
+    height = 100,
+    width = 100
+), listener = { bitmap, uri ->
+
 })
 
 PickSingleImageWithBase64Value(scaleBitmapModel = null, listener = { bitmap, uri, base64 ->
-    if (bitmap != null) {
-        //handle the bitmap
-    }
+//...your code here
 })
 
 PickMultipleImages(scaleBitmapModel = null,
     listener = { bitmapList, uriList ->
-        if (bitmapList != null) {
-            //handle the bitmapList
-        }
+        //...your code here
     })
 
 PickMultipleImagesWithBase64Values(
     scaleBitmapModel = null,
     listener = { bitmapList, uriList, base64List ->
-        if (bitmapList != null) {
-            //handle the bitmapList
-        }
+        //...your code here
     })
 
 TakeCameraImage(scaleBitmapModel = null, listener = { bitmap, uri ->
-    if (bitmap != null) {
-        //handle the bitmap
-    }
+//...your code here
 })
 
 TakeCameraImageWithBase64Value(scaleBitmapModel = null, listener = { bitmap, uri, base64 ->
-    if (bitmap != null) {
-        //handle the bitmap
-    }
+//...your code here
 })
 
 PickVideo(listener = { uri ->
-    if (uri != null) {
-        //handle the uri
-    }
+//...your code here
 })
 ```
 
