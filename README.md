@@ -27,7 +27,7 @@ Target SDK 33 <br />
 
 THE BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
 
-## Configuration
+## Basic Configuration
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
