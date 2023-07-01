@@ -2,7 +2,8 @@
 
 This library built to give to other developers an easy way to implement the image picker in Android
 application with latest Android technologies.
-Support me and I will appreciate if you provide me your feedback(s).
+Support me and I will appreciate if you provide me your feedback(s).<br />
+The example project doesn't contain all the examples for all methods.
 
 The library contain:
 
