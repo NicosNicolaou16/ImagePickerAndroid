@@ -41,7 +41,7 @@ allprojects {
 }
 ```
 
-### Standard Configuration
+## Standard Configuration
 
 ### Step 1 - Get Instance
 
@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 }
 ```
 
-### Compose Configuration
+## Compose Configuration
 
 ### Step 1 - Initialize
 
