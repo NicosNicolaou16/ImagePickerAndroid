@@ -35,12 +35,12 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.nicos.imagepickerandroid.image_picker.PickMultipleImagesWithBase64Values
 import com.nicos.imagepickerandroid.image_picker.PickSingleImage
-import com.nicos.imagepickerandroid.image_picker.PickVideo
-import com.nicos.imagepickerandroid.image_picker.TakeCameraImage
+import com.nicos.imagepickerandroid.image_picker.PickSingleVideo
+import com.nicos.imagepickerandroid.image_picker.TakeSingleCameraImage
 import com.nicos.imagepickerandroid.image_picker.pickMultipleImagesWithBase64Value
 import com.nicos.imagepickerandroid.image_picker.pickSingleImage
-import com.nicos.imagepickerandroid.image_picker.pickVideo
-import com.nicos.imagepickerandroid.image_picker.takeCameraImage
+import com.nicos.imagepickerandroid.image_picker.pickSingleVideo
+import com.nicos.imagepickerandroid.image_picker.takeSingleCameraImage
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import com.nicos.imagepickerandroidcompose.ui.theme.ImagePickerAndroidTheme
 
@@ -91,7 +91,7 @@ fun ImagePicker() {
                 }
             }
         })
-    TakeCameraImage(scaleBitmapModel = null, listener = { bitmap, uri ->
+    TakeSingleCameraImage(scaleBitmapModel = null, listener = { bitmap, uri ->
         if (bitmap != null) {
             bitmapValue.value = bitmap
         }
@@ -103,7 +103,7 @@ fun ImagePicker() {
             play()
         })
     }
-    PickVideo(listener = { uri ->
+    PickSingleVideo(listener = { uri ->
         if (uri != null) {
             uriValue.value = uri
             exoPlayer.value = ExoPlayer.Builder(context).build().apply {
@@ -156,10 +156,10 @@ fun ImagePicker() {
             onClick = { pickMultipleImagesWithBase64Value() }) {
             Text(text = "Pick Multiple Images", style = TextStyle(textAlign = TextAlign.Center))
         }
-        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { takeCameraImage() }) {
+        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { takeSingleCameraImage() }) {
             Text(text = "Take Camera Images", style = TextStyle(textAlign = TextAlign.Center))
         }
-        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { pickVideo() }) {
+        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { pickSingleVideo() }) {
             Text(text = "Pick Single Video", style = TextStyle(textAlign = TextAlign.Center))
         }
 

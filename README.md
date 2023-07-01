@@ -189,19 +189,19 @@ PickMultipleImagesWithBase64Values(
         //...your code here
     })
 
-TakeCameraImage(
+TakeSingleCameraImage(
     scaleBitmapModel = null,
     listener = { bitmap, uri ->
         //...your code here
     })
 
-TakeCameraImageWithBase64Value(
+TakeSingleCameraImageWithBase64Value(
     scaleBitmapModel = null,
     listener = { bitmap, uri, base64 ->
         //...your code here
     })
 
-PickVideo(listener = { uri ->
+PickSingleVideo(listener = { uri ->
     //...your code here
 })
 ```
@@ -217,9 +217,9 @@ pickMultipleImages()
 
 pickMultipleImagesWithBase64Value()
 
-takeCameraImage()
+takeSingleCameraImage()
 
 takeCameraImageWithBase64Value()
 
-pickVideo()
+pickSingleVideo()
 ```

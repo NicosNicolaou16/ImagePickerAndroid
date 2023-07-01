@@ -207,7 +207,7 @@ fun pickMultipleImagesWithBase64Value() {
 }
 
 @Composable
-fun TakeCameraImage(
+fun TakeSingleCameraImage(
     scaleBitmapModel: ScaleBitmapModel?,
     listener: (Bitmap?, Uri?) -> Unit
 ) {
@@ -248,12 +248,12 @@ fun CameraPermission() {
     }
 }
 
-fun takeCameraImage() {
+fun takeSingleCameraImage() {
     permissionLauncher?.launch(Manifest.permission.CAMERA)
 }
 
 @Composable
-fun TakeCameraImageWithBase64Value(
+fun TakeSingleCameraImageWithBase64Value(
     scaleBitmapModel: ScaleBitmapModel?,
     listener: (Bitmap?, String?) -> Unit
 ) {
@@ -289,12 +289,12 @@ fun TakeCameraImageWithBase64Value(
         }
 }
 
-fun takeCameraImageWithBase64Value() {
+fun takeSingleCameraImageWithBase64Value() {
     takeCameraImageWithBase64Value?.launch(null)
 }
 
 @Composable
-fun PickVideo(
+fun PickSingleVideo(
     listener: (Uri?) -> Unit
 ) {
     pickVideo =
@@ -305,6 +305,6 @@ fun PickVideo(
         }
 }
 
-fun pickVideo() {
+fun pickSingleVideo() {
     pickVideo?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
 }
