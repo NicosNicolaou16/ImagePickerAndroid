@@ -242,8 +242,6 @@ fun CameraPermission() {
     ) { isGranted ->
         if (isGranted) {
             takeCameraImage?.launch(null)
-        } else {
-            // Show dialog
         }
     }
 }
