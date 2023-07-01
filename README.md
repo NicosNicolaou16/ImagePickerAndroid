@@ -163,18 +163,22 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 ### Step 1 - Initialize
 
 ```Kotlin
-PickSingleImage(scaleBitmapModel = ScaleBitmapModel(
-    height = 100,
-    width = 100
-), listener = { bitmap, uri ->
+PickSingleImage(
+    scaleBitmapModel = ScaleBitmapModel(
+        height = 100,
+        width = 100
+    ), listener = { bitmap, uri ->
+        //...your code here
+    })
 
-})
+PickSingleImageWithBase64Value(
+    scaleBitmapModel = null,
+    listener = { bitmap, uri, base64 ->
+        //...your code here
+    })
 
-PickSingleImageWithBase64Value(scaleBitmapModel = null, listener = { bitmap, uri, base64 ->
-//...your code here
-})
-
-PickMultipleImages(scaleBitmapModel = null,
+PickMultipleImages(
+    scaleBitmapModel = null,
     listener = { bitmapList, uriList ->
         //...your code here
     })
@@ -185,16 +189,20 @@ PickMultipleImagesWithBase64Values(
         //...your code here
     })
 
-TakeCameraImage(scaleBitmapModel = null, listener = { bitmap, uri ->
-//...your code here
-})
+TakeCameraImage(
+    scaleBitmapModel = null,
+    listener = { bitmap, uri ->
+        //...your code here
+    })
 
-TakeCameraImageWithBase64Value(scaleBitmapModel = null, listener = { bitmap, uri, base64 ->
-//...your code here
-})
+TakeCameraImageWithBase64Value(
+    scaleBitmapModel = null,
+    listener = { bitmap, uri, base64 ->
+        //...your code here
+    })
 
 PickVideo(listener = { uri ->
-//...your code here
+    //...your code here
 })
 ```
 
