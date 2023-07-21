@@ -18,7 +18,7 @@ The library contain:
 ### Versioning
 
 Gradle Version 8.0.2 <br />
-Kotlin Version 1.8.22 <br />
+Kotlin Version 1.9.0 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 33 <br />
@@ -32,7 +32,7 @@ THE BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.0.0'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.0.1'
 ```
 
 ```Groovy
