@@ -217,7 +217,7 @@ pickSingleImageWithBase64Value()
 
 pickMultipleImages()
 
-pickMultipleImagesWithBase64Value()
+pickMultipleImagesWithBase64Values()
 
 takeSingleCameraImage()
 

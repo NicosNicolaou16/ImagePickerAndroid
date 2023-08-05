@@ -347,7 +347,7 @@ fun TakeSingleCameraImageWithBase64Value(
 /**
  * This method is calling from listener to pick single image from camera with base64 values
  * */
-fun takeSingleCameraImageWithBase64Values() {
+fun takeSingleCameraImageWithBase64Value() {
     takeCameraImageWithBase64Value?.launch(null)
 }
 
