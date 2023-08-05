@@ -29,6 +29,11 @@ private var takeCameraImage: ManagedActivityResultLauncher<Void?, Bitmap?>? = nu
 private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Void?, Bitmap?>? = null
 private var pickVideo: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
 
+/**
+ * Callback for the single image to view
+ * @param scaleBitmapModel pass ScaleBitmapModel with height and width to resize an image
+ * @param listener return the value to view
+ * */
 @Composable
 fun PickSingleImage(
     scaleBitmapModel: ScaleBitmapModel?,
@@ -62,10 +67,18 @@ fun PickSingleImage(
         }
 }
 
+/**
+ * This method is calling from listener to pick single image
+ * */
 fun pickSingleImage() {
     pickSingleImage?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 }
 
+/**
+ * Callback for single image to view with base64 value
+ * @param scaleBitmapModel pass ScaleBitmapModel with height and width to resize an image
+ * @param listener return the image to view
+ * */
 @Composable
 fun PickSingleImageWithBase64Value(
     scaleBitmapModel: ScaleBitmapModel?,
@@ -109,10 +122,18 @@ fun PickSingleImageWithBase64Value(
         }
 }
 
+/**
+ * This method is calling from listener to pick single image with base64 value
+ * */
 fun pickSingleImageWithBase64Value() {
     pickSingleImageWithBase64Value?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 }
 
+/**
+ * Callback for the multiple images to list view
+ * @param scaleBitmapModel pass ScaleBitmapModel with height and width to resize multiple images
+ * @param listener return the images to list view
+ * */
 @Composable
 fun PickMultipleImages(
     scaleBitmapModel: ScaleBitmapModel?,
@@ -156,10 +177,19 @@ fun PickMultipleImages(
         }
 }
 
+/**
+ * This method is calling from listener to pick multiple images
+ * */
 fun pickMultipleImages() {
     pickMultipleImages?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 }
 
+/**
+ * Callback for the multiple images to list view with base64 values
+ * @param scaleBitmapModel pass ScaleBitmapModel with height and width to resize multiple images
+ * @param maxNumberOfImages max number for select images from picker, by default is 9
+ * @param listener return the images to list view, list of uri and list of base64
+ * */
 @Composable
 fun PickMultipleImagesWithBase64Values(
     scaleBitmapModel: ScaleBitmapModel?,
@@ -213,10 +243,18 @@ fun PickMultipleImagesWithBase64Values(
         }
 }
 
-fun pickMultipleImagesWithBase64Value() {
+/**
+ * This method is calling from listener to pick multiple images with base64 values
+ * */
+fun pickMultipleImagesWithBase64Values() {
     pickMultipleImagesWithBase64Values?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
 }
 
+/**
+ * Callback for the single image to view from camera
+ * @param scaleBitmapModel pass ScaleBitmapModel with height and width to resize an image
+ * @param listener return the image view and uri
+ * */
 @Composable
 fun TakeSingleCameraImage(
     scaleBitmapModel: ScaleBitmapModel?,
@@ -257,10 +295,18 @@ fun CameraPermission() {
     }
 }
 
+/**
+ * This method is calling from listener to pick single image from camera
+ * */
 fun takeSingleCameraImage() {
     permissionLauncher?.launch(Manifest.permission.CAMERA)
 }
 
+/**
+ * Callback for the single image to view from camera with base64 value
+ * @param scaleBitmapModel pass ScaleBitmapModel with height and width to resize an image
+ * @param listener return the images to view and base64 value
+ * */
 @Composable
 fun TakeSingleCameraImageWithBase64Value(
     scaleBitmapModel: ScaleBitmapModel?,
@@ -298,10 +344,17 @@ fun TakeSingleCameraImageWithBase64Value(
         }
 }
 
-fun takeSingleCameraImageWithBase64Value() {
+/**
+ * This method is calling from listener to pick single image from camera with base64 values
+ * */
+fun takeSingleCameraImageWithBase64Values() {
     takeCameraImageWithBase64Value?.launch(null)
 }
 
+/**
+ * Callback for the single video to view
+ * @param listener return the video to video player
+ * */
 @Composable
 fun PickSingleVideo(
     listener: (Uri?) -> Unit
@@ -314,6 +367,9 @@ fun PickSingleVideo(
         }
 }
 
+/**
+ * This method is calling from listener to pick single video from gallery
+ * */
 fun pickSingleVideo() {
     pickVideo?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
 }

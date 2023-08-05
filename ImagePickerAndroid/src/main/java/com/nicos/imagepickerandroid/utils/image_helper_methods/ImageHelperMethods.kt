@@ -35,6 +35,7 @@ internal class ImageHelperMethods {
 
     /**
      * This method return the image from Intent when take with Camera
+     * @param intent pass intent instance
      * */
     internal fun getExtrasBitmapAccordingWithSDK(intent: Intent) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) intent.extras?.getParcelable(
@@ -57,6 +58,10 @@ internal class ImageHelperMethods {
             emit(null)
     }.flowOn(Dispatchers.Default)
 
+    /**
+     * This method converted a list of bitmaps to a list of base64 values
+     * @param bitmapList list of bitmap
+     * */
     internal fun convertListOfBitmapsToListOfBase64(bitmapList: MutableList<Bitmap>?) = flow {
         if (bitmapList != null) {
             try {

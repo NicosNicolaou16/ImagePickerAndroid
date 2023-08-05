@@ -49,10 +49,10 @@ ext {
     lifeCycleAndLiveDataCompilerAndViewModelKTXVersion = '2.6.1'
     activityVersion = '1.7.2'
     fragmentVersion = '1.6.0'
-    coroutineVersion = '1.7.2'
+    coroutineVersion = '1.7.3'
     multidexVersion = "2.0.1"
     materialDesignVersion = '1.9.0'
-    recyclerViewVersion = '1.3.0'
+    recyclerViewVersion = '1.3.1'
     composeVersion = '1.4.3'
     composeFoundationVersion = '1.4.3'
     composeMaterialVersion = '1.4.3'

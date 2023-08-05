@@ -31,14 +31,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.ui.StyledPlayerView
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.common.MediaItem
+import androidx.media3.ui.PlayerView
 import com.nicos.imagepickerandroid.image_picker.PickMultipleImagesWithBase64Values
 import com.nicos.imagepickerandroid.image_picker.PickSingleImage
 import com.nicos.imagepickerandroid.image_picker.PickSingleVideo
 import com.nicos.imagepickerandroid.image_picker.TakeSingleCameraImage
-import com.nicos.imagepickerandroid.image_picker.pickMultipleImagesWithBase64Value
+import com.nicos.imagepickerandroid.image_picker.pickMultipleImagesWithBase64Values
 import com.nicos.imagepickerandroid.image_picker.pickSingleImage
 import com.nicos.imagepickerandroid.image_picker.pickSingleVideo
 import com.nicos.imagepickerandroid.image_picker.takeSingleCameraImage
@@ -130,7 +130,7 @@ fun ImagePicker() {
             Box(modifier = Modifier.size(200.dp, 200.dp)) {
                 AndroidView(
                     factory = { context ->
-                        StyledPlayerView(context).apply {
+                        PlayerView(context).apply {
                             player = exoPlayer.value
                         }
                     },
@@ -158,7 +158,7 @@ fun ImagePicker() {
         }
         Button(
             modifier = Modifier.size(150.dp, 50.dp),
-            onClick = { pickMultipleImagesWithBase64Value() }) {
+            onClick = { pickMultipleImagesWithBase64Values() }) {
             Text(
                 text = stringResource(R.string.pick_multiple_images),
                 style = TextStyle(textAlign = TextAlign.Center)
