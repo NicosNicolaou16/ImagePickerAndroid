@@ -5,7 +5,7 @@ application with latest Android technologies.
 Support me and I will appreciate if you provide me your feedback(s).<br />
 Note: The example project doesn't contain all the examples for all methods.
 
-The library contain:
+The library contain/features:
 
 - Picker for single image from gallery
 - Picker for multiple images from gallery (up to 9 images)
