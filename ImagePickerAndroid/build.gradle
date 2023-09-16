@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace 'com.nick.imagepickerandroid'
-    compileSdk 33
-    buildToolsVersion '33.0.2'
+    compileSdk 34
+    buildToolsVersion '34.0.0'
 
     defaultConfig {
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         buildFeatures {
             compose true
         }
@@ -40,18 +40,18 @@ android {
 
 ext {
     appCompatVersion = '1.6.1'
-    coreKtxVersion = '1.10.1'
+    coreKtxVersion = '1.12.0'
     constraintLayoutVersion = '2.1.4'
-    lifeCycleAndLiveDataCompilerAndViewModelKTXVersion = '2.6.1'
+    lifeCycleAndLiveDataCompilerAndViewModelKTXVersion = '2.6.2'
     activityVersion = '1.7.2'
     fragmentVersion = '1.6.0'
     coroutineVersion = '1.7.3'
     multidexVersion = "2.0.1"
     materialDesignVersion = '1.9.0'
     recyclerViewVersion = '1.3.1'
-    composeVersion = '1.4.3'
-    composeFoundationVersion = '1.4.3'
-    composeMaterialVersion = '1.4.3'
+    composeVersion = '1.5.1'
+    composeFoundationVersion = '1.5.1'
+    composeMaterialVersion = '1.5.1'
     composeMaterial3Version = '1.1.1'
 }
 

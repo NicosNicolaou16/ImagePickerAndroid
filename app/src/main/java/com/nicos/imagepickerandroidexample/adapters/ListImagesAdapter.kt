@@ -32,7 +32,7 @@ class ListImagesAdapter(private var imageList: MutableList<Bitmap>) :
         }
     }
 
-    inner class ImagesViewHolder(var binding: ImageAdapterLayoutBinding) :
+    inner class ImagesViewHolder(private var binding: ImageAdapterLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bindData(bitmap: Bitmap?) {

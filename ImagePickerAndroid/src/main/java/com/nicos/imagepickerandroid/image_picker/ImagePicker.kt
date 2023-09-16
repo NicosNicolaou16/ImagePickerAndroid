@@ -405,7 +405,6 @@ data class ImagePicker(
 
     /**
      * @param uri get a uri with images
-     * @param contentResolver content resolver from Activity
      * */
     private fun handlePickSingleVideo(
         uri: Uri?,

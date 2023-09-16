@@ -95,7 +95,7 @@ internal class ImageHelperMethods {
                         scaleBitmapModel.width,
                         scaleBitmapModel.height,
                         true
-                    ) ?: null
+                    )
                 )
             } catch (e: Exception) {
                 e.printStackTrace()
