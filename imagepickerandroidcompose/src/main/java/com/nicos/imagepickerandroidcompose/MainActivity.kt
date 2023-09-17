@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -146,7 +147,9 @@ fun ImagePicker() {
                 Image(
                     bitmap = it.asImageBitmap(),
                     contentDescription = null,
-                    modifier = Modifier.size(200.dp, 200.dp)
+                    modifier = Modifier
+                        .size(200.dp, 200.dp)
+                        .padding(end = 15.dp)
                 )
             }
         }
