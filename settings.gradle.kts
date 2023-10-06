@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "ImagePickerAndroid"
-include ':app'
-include ':imagepickerandroidcompose'
-include ':ImagePickerAndroid'
+include(":app")
+include(":imagepickerandroidcompose")
+include(":ImagePickerAndroid")
