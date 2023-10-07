@@ -22,6 +22,7 @@ Kotlin Version 1.9.10 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 34 <br />
+Build Tool Version 34  <br />
 
 ## IMPORTANT NOTE
 
@@ -224,4 +225,36 @@ takeSingleCameraImage()
 takeCameraImageWithBase64Value()
 
 pickSingleVideo()
+```
+
+### Example for Compose Implementation
+
+```kotlin
+@Composable
+fun ImagePicker() {
+    val context = LocalContext.current
+    val bitmapValue = remember {
+        mutableStateOf(Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888))
+    }
+    PickSingleImage(scaleBitmapModel = null, listener = { bitmap, uri ->
+        if (bitmap != null) {
+            bitmapValue.value = bitmap
+        }
+    })
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(20.dp, alignment = Alignment.Top),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        //other code
+        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { pickSingleImage() }) {
+            Text(
+                text = stringResource(R.string.pick_single_image),
+                style = TextStyle(textAlign = TextAlign.Center)
+            )
+        }
+        //other code
+    }
+}
 ```
