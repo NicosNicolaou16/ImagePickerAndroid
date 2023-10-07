@@ -249,7 +249,7 @@ fun ImagePicker() {
     ) {
         //other code
         Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { 
-            //pick image from gallery 
+            //pick image from the gallery 
             pickSingleImage() 
         }) {
             Text(
