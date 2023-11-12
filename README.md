@@ -32,18 +32,32 @@ THE BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
+### Groovy
+
 ```Groovy
 implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.0.4'
-```
-
-```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.0.4")
 ```
 
 ```Groovy
 allprojects {
     repositories {
         maven { url "https://jitpack.io" }
+    }
+}
+```
+
+### Kotlin DSL
+
+```Kotlin
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.0.4")
+```
+
+```Kotlin
+dependencyResolutionManagement {
+    //...
+    repositories {
+        //...
+        maven { url = uri("https://jitpack.io") }
     }
 }
 ```
