@@ -50,7 +50,7 @@ val fragmentVersion by extra("1.6.1")
 val coroutineVersion by extra("1.7.3")
 val multidexVersion by extra("2.0.1")
 val materialDesignVersion by extra("1.10.0")
-val recyclerViewVersion by extra("1.3.1")
+val recyclerViewVersion by extra("1.3.2")
 
 dependencies {
     implementation(project (":ImagePickerAndroid"))
