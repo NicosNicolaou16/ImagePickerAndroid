@@ -40,7 +40,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.4"
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -65,6 +65,6 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("androidx.media3:media3-exoplayer:1.1.1")
-    implementation("androidx.media3:media3-ui:1.1.1")
+    implementation("androidx.media3:media3-exoplayer:1.2.0")
+    implementation("androidx.media3:media3-ui:1.2.0")
 }

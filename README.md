@@ -17,7 +17,7 @@ The library contain/features:
 
 ### Versioning
 
-Gradle Version 8.1.3 <br />
+Gradle Version 8.1.4 <br />
 Kotlin Version 1.9.20 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
