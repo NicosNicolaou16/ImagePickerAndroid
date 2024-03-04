@@ -14,7 +14,6 @@ android {
         minSdk = 24
         lint.targetSdk = 34
         testOptions.targetSdk = 34
-        //targetSdk = 34
         buildFeatures {
             compose = true
         }
@@ -97,7 +96,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.github.NicosNicolaou16"
                 artifactId = "ImagePickerAndroid"
-                version = "2.0.6"
+                version = "2.0.7"
                 from(components["release"])
             }
         }
