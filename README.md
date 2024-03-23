@@ -17,8 +17,8 @@ The library contain/features:
 
 ### Versioning
 
-Gradle Version 8.3.0 <br />
-Kotlin Version 1.9.22 <br />
+Gradle Version 8.3.1 <br />
+Kotlin Version 1.9.23 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 34 <br />
@@ -35,7 +35,7 @@ THE BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.0.7'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.0.8'
 ```
 
 ```Groovy
@@ -49,7 +49,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.0.7")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.0.8")
 ```
 
 ```Kotlin
