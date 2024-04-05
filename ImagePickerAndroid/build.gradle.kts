@@ -53,10 +53,10 @@ val multidexVersion by extra("2.0.1")
 val materialDesignVersion by extra("1.11.0")
 val recyclerViewVersion by extra("1.3.2")
 val composeCompilerVersion by extra("1.5.11")
-val composeVersion by extra("1.6.4")
+val composeVersion by extra("1.6.5")
 val composeLiveDataVersion by extra("1.6.4")
-val composeFoundationVersion by extra("1.6.4")
-val composeMaterialVersion by extra("1.6.4")
+val composeFoundationVersion by extra("1.6.5")
+val composeMaterialVersion by extra("1.6.5")
 val composeMaterial3Version by extra("1.2.1")
 
 dependencies {
