@@ -62,6 +62,32 @@ dependencyResolutionManagement {
 }
 ```
 
+### libs.versions.toml
+
+```toml
+[versions]
+# other versions here...
+imagePickerAndroid = "2.0.9"
+
+[libraries]
+# other libraries here...
+image-picker-android = { group = "com.github.NicosNicolaou16", name = "ImagePickerAndroid", version.ref = "imagePickerAndroid" }
+```
+
+```Kotlin
+implementation(libs.image.picker.android)
+```
+
+```Kotlin
+dependencyResolutionManagement {
+    //...
+    repositories {
+        //...
+        maven { url = uri("https://jitpack.io") }
+    }
+}
+```
+
 ## Standard Configuration
 
 ### Step 1 - Get Instance
@@ -266,9 +292,9 @@ fun ImagePicker() {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         //other code
-        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { 
+        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = {
             //pick image from the gallery 
-            pickSingleImage() 
+            pickSingleImage()
         }) {
             Text(
                 text = stringResource(R.string.pick_single_image),
