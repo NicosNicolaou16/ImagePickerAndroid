@@ -54,7 +54,7 @@ val materialDesignVersion by extra("1.11.0")
 val recyclerViewVersion by extra("1.3.2")
 val composeCompilerVersion by extra("1.5.11")
 val composeVersion by extra("1.6.5")
-val composeLiveDataVersion by extra("1.6.4")
+val composeLiveDataVersion by extra("1.6.5")
 val composeFoundationVersion by extra("1.6.5")
 val composeMaterialVersion by extra("1.6.5")
 val composeMaterial3Version by extra("1.2.1")
@@ -64,16 +64,17 @@ dependencies {
     implementation("androidx.appcompat:appcompat:$appCompatVersion")
     implementation("com.google.android.material:material:$materialDesignVersion")
     implementation("androidx.constraintlayout:constraintlayout:$constraintLayoutVersion")
-    //RecyclerView
-    implementation("androidx.recyclerview:recyclerview:$recyclerViewVersion")
-    //Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion")
     //noinspection LifecycleAnnotationProcessorWithJava8
     kapt("androidx.lifecycle:lifecycle-compiler:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion")
+    //RecyclerView
+    implementation("androidx.recyclerview:recyclerview:$recyclerViewVersion")
+    //Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
+    //Unit Test
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
