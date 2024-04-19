@@ -43,20 +43,20 @@ android {
 }
 
 val appCompatVersion by extra("1.6.1")
-val coreKtxVersion by extra("1.12.0")
+val coreKtxVersion by extra("1.13.0")
 val constraintLayoutVersion by extra("2.1.4")
 val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.7.0")
-val activityVersion by extra("1.8.2")
+val activityVersion by extra("1.9.0")
 val fragmentVersion by extra("1.6.1")
 val coroutineVersion by extra("1.8.0")
 val multidexVersion by extra("2.0.1")
 val materialDesignVersion by extra("1.11.0")
 val recyclerViewVersion by extra("1.3.2")
-val composeCompilerVersion by extra("1.5.11")
-val composeVersion by extra("1.6.5")
-val composeLiveDataVersion by extra("1.6.5")
-val composeFoundationVersion by extra("1.6.5")
-val composeMaterialVersion by extra("1.6.5")
+val composeCompilerVersion by extra("1.5.12")
+val composeVersion by extra("1.6.6")
+val composeLiveDataVersion by extra("1.6.6")
+val composeFoundationVersion by extra("1.6.6")
+val composeMaterialVersion by extra("1.6.6")
 val composeMaterial3Version by extra("1.2.1")
 
 dependencies {
