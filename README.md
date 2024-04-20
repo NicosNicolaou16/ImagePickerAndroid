@@ -17,7 +17,7 @@ The library contain/features:
 
 ### Versioning
 
-Gradle Version 8.3.1 <br />
+Gradle Version 8.3.2 <br />
 Kotlin Version 1.9.23 <br />
 Compose Compiler Version 1.5.11 <br />
 JDK Version 17 <br />
