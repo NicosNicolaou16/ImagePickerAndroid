@@ -19,6 +19,7 @@ The library contain/features:
 
 Gradle Version 8.3.1 <br />
 Kotlin Version 1.9.23 <br />
+Compose Compiler Version 1.5.11 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 34 <br />
