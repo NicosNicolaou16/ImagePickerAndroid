@@ -19,7 +19,7 @@ The library contain/features:
 
 Gradle Version 8.3.2 <br />
 Kotlin Version 1.9.23 <br />
-Compose Compiler Version 1.5.11 <br />
+Compose Compiler Version 1.5.13 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 34 <br />
@@ -36,7 +36,7 @@ THE BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.0.10'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.0.11'
 ```
 
 ```Groovy
@@ -50,7 +50,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.0.10")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.0.11")
 ```
 
 ```Kotlin
@@ -68,7 +68,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.0.10"
+imagePickerAndroid = "2.0.11"
 
 [libraries]
 # other libraries here...
