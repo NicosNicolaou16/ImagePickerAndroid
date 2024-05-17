@@ -35,7 +35,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.13"
+        kotlinCompilerExtensionVersion = "1.5.14"
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
@@ -45,14 +45,14 @@ android {
 val appCompatVersion by extra("1.6.1")
 val coreKtxVersion by extra("1.13.1")
 val constraintLayoutVersion by extra("2.1.4")
-val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.7.0")
+val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.8.0")
 val activityVersion by extra("1.9.0")
 val fragmentVersion by extra("1.6.1")
 val coroutineVersion by extra("1.8.1")
 val multidexVersion by extra("2.0.1")
 val materialDesignVersion by extra("1.12.0")
 val recyclerViewVersion by extra("1.3.2")
-val composeCompilerVersion by extra("1.5.13")
+val composeCompilerVersion by extra("1.5.14")
 val composeVersion by extra("1.6.7")
 val composeLiveDataVersion by extra("1.6.7")
 val composeFoundationVersion by extra("1.6.7")

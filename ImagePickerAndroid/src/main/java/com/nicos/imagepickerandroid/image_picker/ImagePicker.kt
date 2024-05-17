@@ -306,7 +306,7 @@ data class ImagePicker(
                 ActivityResultContracts.StartActivityForResult()
             ) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    result?.data?.apply {
+                    result.data?.apply {
                         handleImageFromCamera(
                             this,
                         )
@@ -320,7 +320,7 @@ data class ImagePicker(
                 ActivityResultContracts.StartActivityForResult()
             ) { result ->
                 if (result.resultCode == Activity.RESULT_OK) {
-                    result?.data?.apply {
+                    result.data?.apply {
                         handleImageFromCamera(
                             this,
                         )
