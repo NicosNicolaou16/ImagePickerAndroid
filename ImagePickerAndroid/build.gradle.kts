@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("maven-publish")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
 }
 
 android {
@@ -34,8 +35,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
+    composeCompiler {
+        enableStrongSkippingMode = true
+        reportsDestination = layout.buildDirectory.dir("compose_compiler")
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
@@ -52,7 +54,7 @@ val coroutineVersion by extra("1.8.1")
 val multidexVersion by extra("2.0.1")
 val materialDesignVersion by extra("1.12.0")
 val recyclerViewVersion by extra("1.3.2")
-val composeCompilerVersion by extra("1.5.14")
+//val composeCompilerVersion by extra("1.5.14")
 val composeVersion by extra("1.6.7")
 val composeLiveDataVersion by extra("1.6.7")
 val composeFoundationVersion by extra("1.6.7")
@@ -79,7 +81,6 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     //Compose
-    implementation("androidx.compose.compiler:compiler:$composeCompilerVersion")
     implementation("androidx.compose.foundation:foundation:$composeFoundationVersion")
     implementation("androidx.compose.material:material:$composeMaterialVersion")
     implementation("androidx.compose.material3:material3:$composeMaterial3Version")
