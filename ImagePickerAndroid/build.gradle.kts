@@ -44,21 +44,20 @@ android {
     }
 }
 
-val appCompatVersion by extra("1.6.1")
+val appCompatVersion by extra("1.7.0")
 val coreKtxVersion by extra("1.13.1")
 val constraintLayoutVersion by extra("2.1.4")
-val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.8.0")
+val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.8.2")
 val activityVersion by extra("1.9.0")
 val fragmentVersion by extra("1.6.1")
 val coroutineVersion by extra("1.8.1")
 val multidexVersion by extra("2.0.1")
 val materialDesignVersion by extra("1.12.0")
 val recyclerViewVersion by extra("1.3.2")
-//val composeCompilerVersion by extra("1.5.14")
-val composeVersion by extra("1.6.7")
-val composeLiveDataVersion by extra("1.6.7")
-val composeFoundationVersion by extra("1.6.7")
-val composeMaterialVersion by extra("1.6.7")
+val composeVersion by extra("1.6.8")
+val composeLiveDataVersion by extra("1.6.8")
+val composeFoundationVersion by extra("1.6.8")
+val composeMaterialVersion by extra("1.6.8")
 val composeMaterial3Version by extra("1.2.1")
 
 dependencies {
@@ -99,7 +98,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.github.NicosNicolaou16"
                 artifactId = "ImagePickerAndroid"
-                version = "2.0.13"
+                version = "2.0.14"
                 from(components["release"])
             }
         }
