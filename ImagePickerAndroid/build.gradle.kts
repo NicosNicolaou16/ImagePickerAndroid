@@ -47,7 +47,7 @@ android {
 val appCompatVersion by extra("1.7.0")
 val coreKtxVersion by extra("1.13.1")
 val constraintLayoutVersion by extra("2.1.4")
-val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.8.2")
+val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.8.3")
 val activityVersion by extra("1.9.0")
 val fragmentVersion by extra("1.6.1")
 val coroutineVersion by extra("1.8.1")
@@ -77,8 +77,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
     //Unit Test
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     //Compose
     implementation("androidx.compose.foundation:foundation:$composeFoundationVersion")
     implementation("androidx.compose.material:material:$composeMaterialVersion")
