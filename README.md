@@ -17,8 +17,8 @@ The library contain/features:
 
 ### Versioning
 
-Gradle Version 8.5.2 <br />
-Kotlin Version 2.0.10 <br />
+Gradle Version 8.6.0 <br />
+Kotlin Version 2.0.20 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 34 <br />
