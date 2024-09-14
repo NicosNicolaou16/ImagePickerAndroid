@@ -37,7 +37,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="200dp"
         android:layout_marginTop="16dp"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -49,7 +49,7 @@
         android:id="@+id/pickImage"
         android:layout_width="190dp"
         android:layout_height="70dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="10dp"
         android:text="@string/pick_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
