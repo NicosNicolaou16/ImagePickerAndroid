@@ -3,18 +3,18 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("maven-publish")
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21"
 }
 
 android {
     namespace = "com.nick.imagepickerandroid"
-    compileSdk = 34
-    buildToolsVersion = "34.0.0"
+    compileSdk = 35
+    buildToolsVersion = "35.0.0"
 
     defaultConfig {
         minSdk = 24
-        lint.targetSdk = 34
-        testOptions.targetSdk = 34
+        lint.targetSdk = 35
+        testOptions.targetSdk = 35
         buildFeatures {
             compose = true
         }
@@ -47,16 +47,16 @@ val appCompatVersion by extra("1.7.0")
 val coreKtxVersion by extra("1.13.1")
 val constraintLayoutVersion by extra("2.1.4")
 val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.8.6")
-val activityVersion by extra("1.9.2")
+val activityVersion by extra("1.9.3")
 val fragmentVersion by extra("1.6.1")
 val coroutineVersion by extra("1.9.0")
 val multidexVersion by extra("2.0.1")
 val materialDesignVersion by extra("1.12.0")
 val recyclerViewVersion by extra("1.3.2")
-val composeVersion by extra("1.7.2")
-val composeLiveDataVersion by extra("1.7.2")
-val composeFoundationVersion by extra("1.7.2")
-val composeMaterialVersion by extra("1.7.2")
+val composeVersion by extra("1.7.4")
+val composeLiveDataVersion by extra("1.7.4")
+val composeFoundationVersion by extra("1.7.4")
+val composeMaterialVersion by extra("1.7.4")
 val composeMaterial3Version by extra("1.3.0")
 
 dependencies {
@@ -97,7 +97,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.github.NicosNicolaou16"
                 artifactId = "ImagePickerAndroid"
-                version = "2.1.1"
+                version = "2.2.0"
                 from(components["release"])
             }
         }
