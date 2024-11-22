@@ -44,20 +44,20 @@ android {
 }
 
 val appCompatVersion by extra("1.7.0")
-val coreKtxVersion by extra("1.13.1")
-val constraintLayoutVersion by extra("2.1.4")
-val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.8.6")
+val coreKtxVersion by extra("1.15.0")
+val constraintLayoutVersion by extra("2.2.0")
+val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.8.7")
 val activityVersion by extra("1.9.3")
 val fragmentVersion by extra("1.6.1")
 val coroutineVersion by extra("1.9.0")
 val multidexVersion by extra("2.0.1")
 val materialDesignVersion by extra("1.12.0")
 val recyclerViewVersion by extra("1.3.2")
-val composeVersion by extra("1.7.4")
-val composeLiveDataVersion by extra("1.7.4")
-val composeFoundationVersion by extra("1.7.4")
-val composeMaterialVersion by extra("1.7.4")
-val composeMaterial3Version by extra("1.3.0")
+val composeVersion by extra("1.7.5")
+val composeLiveDataVersion by extra("1.7.5")
+val composeFoundationVersion by extra("1.7.5")
+val composeMaterialVersion by extra("1.7.5")
+val composeMaterial3Version by extra("1.3.1")
 
 dependencies {
     implementation("androidx.core:core-ktx:$coreKtxVersion")
