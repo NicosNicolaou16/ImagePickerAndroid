@@ -42,9 +42,9 @@ android {
 }
 
 val appCompatVersion by extra("1.7.0")
-val coreKtxVersion by extra("1.13.1")
-val constraintLayoutVersion by extra("2.1.4")
-val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.8.6")
+val coreKtxVersion by extra("1.15.0")
+val constraintLayoutVersion by extra("2.2.0")
+val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.8.7")
 val activityVersion by extra("1.8.0")
 val fragmentVersion by extra("1.6.1")
 val coroutineVersion by extra("1.9.0")
