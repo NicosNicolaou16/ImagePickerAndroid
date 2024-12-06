@@ -7,10 +7,12 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
+import android.provider.Settings
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IntRange
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
@@ -284,14 +286,38 @@ data class ImagePicker(
                 if (permissionsHelper?.isPermissionGranted(it) == true)
                     takeAPhotoWithCameraResultLauncher?.launch(this)
                 else {
-                    permissionsHelper?.activityResultLauncherPermissionActivity?.launch(Manifest.permission.CAMERA)
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(
+                            it,
+                            Manifest.permission.CAMERA
+                        )
+                    ) {
+                        it.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                            data = Uri.fromParts("package", it.packageName, null)
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        })
+                    } else {
+                        permissionsHelper?.activityResultLauncherPermissionActivity?.launch(Manifest.permission.CAMERA)
+
+                    }
                 }
             }
             fragment?.let {
                 if (permissionsHelper?.isPermissionGranted(it) == true)
                     takeAPhotoWithCameraResultLauncher?.launch(this)
                 else {
-                    permissionsHelper?.activityResultLauncherPermissionFragment?.launch(Manifest.permission.CAMERA)
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(
+                            it.requireActivity(),
+                            Manifest.permission.CAMERA
+                        )
+                    ) {
+                        it.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                            data = Uri.fromParts("package", it.context?.packageName, null)
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        })
+                    } else {
+                        permissionsHelper?.activityResultLauncherPermissionFragment?.launch(Manifest.permission.CAMERA)
+
+                    }
                 }
             }
         }
