@@ -1,16 +1,28 @@
 package com.nicos.imagepickerandroid.image_picker
 
 import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
+import android.provider.Settings
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IntRange
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import kotlinx.coroutines.Dispatchers
@@ -289,17 +301,26 @@ fun CameraPermission() {
     permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        if (isGranted) {
-            takeCameraImage?.launch(null)
-        }
+        if (isGranted) takeCameraImage?.launch(null)
     }
 }
 
 /**
  * This method is calling from listener to pick single image from camera
  * */
-fun takeSingleCameraImage() {
-    permissionLauncher?.launch(Manifest.permission.CAMERA)
+fun takeSingleCameraImage(context: Context) {
+    if (shouldShowRequestPermissionRationale(
+            context as Activity,
+            Manifest.permission.CAMERA
+        )
+    ) {
+        context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.fromParts("package", context.packageName, null)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        })
+    } else {
+        permissionLauncher?.launch(Manifest.permission.CAMERA)
+    }
 }
 
 /**
@@ -347,8 +368,19 @@ fun TakeSingleCameraImageWithBase64Value(
 /**
  * This method is calling from listener to pick single image from camera with base64 values
  * */
-fun takeSingleCameraImageWithBase64Value() {
-    takeCameraImageWithBase64Value?.launch(null)
+fun takeSingleCameraImageWithBase64Value(context: Context) {
+    if (shouldShowRequestPermissionRationale(
+            context as Activity,
+            Manifest.permission.CAMERA
+        )
+    ) {
+        context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.fromParts("package", context.packageName, null)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        })
+    } else {
+        takeCameraImageWithBase64Value?.launch(null)
+    }
 }
 
 /**
