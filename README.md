@@ -8,13 +8,13 @@ Note: The example project does not include examples for all methods.
 
 The library contains/features:
 
-- Picker for a single image from the gallery
-- Picker for multiple images from the gallery (up to 9 images)
-- Camera picker for a single image (with permission handling)
-- Video picker
-- Retrieve the base64 value
-- Image scaling (resize) – available only for images
-- All of the above features are also supported in Jetpack Compose
+- Picker for a single image from the gallery.
+- Picker for multiple images from the gallery (up to 9 images).
+- Camera picker for a single image (with permission handling).
+- Video picker.
+- Retrieve the base64 value.
+- Image scaling (resize) – available only for images.
+- All of the above features are also supported in Jetpack Compose.
 - New updates coming soon! Feel free to share your suggestions.
 
 ### Versioning
