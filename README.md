@@ -90,24 +90,10 @@ dependencyResolutionManagement {
 
 ## Braking changes for latest version
 
-```kotlin
-/**
- * Before
- */
-`takeSingleCameraImage()`
-/**
- * Now
- */
-`takeSingleCameraImage(context = context)`
+```text
+`takeSingleCameraImage()` changed to `takeSingleCameraImage(context = context)`
 
-/**
- * Before
- */
-`takeSingleCameraImageWithBase64Value()`
-/**
- * Now
- */
-`takeSingleCameraImageWithBase64Value(context = context)`
+`takeSingleCameraImageWithBase64Value()` changed to `takeSingleCameraImageWithBase64Value(context = context)`
 ```
 
 ## Standard Configuration
