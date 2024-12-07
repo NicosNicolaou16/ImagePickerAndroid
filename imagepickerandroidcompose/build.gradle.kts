@@ -51,7 +51,7 @@ android {
 dependencies {
     implementation(project(":ImagePickerAndroid"))
     implementation("androidx.core:core-ktx:1.15.0")
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.0.21"))
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.1.0"))
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("androidx.activity:activity-compose:1.9.3")
     implementation(platform("androidx.compose:compose-bom:2024.11.00"))
@@ -66,6 +66,6 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.7.5")
-    implementation("androidx.media3:media3-exoplayer:1.4.1")
-    implementation("androidx.media3:media3-ui:1.4.1")
+    implementation("androidx.media3:media3-exoplayer:1.5.0")
+    implementation("androidx.media3:media3-ui:1.5.0")
 }

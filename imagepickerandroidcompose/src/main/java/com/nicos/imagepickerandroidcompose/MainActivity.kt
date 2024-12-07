@@ -171,7 +171,7 @@ fun ImagePicker() {
                 style = TextStyle(textAlign = TextAlign.Center)
             )
         }
-        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { takeSingleCameraImage() }) {
+        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { takeSingleCameraImage(context = context) }) {
             Text(
                 text = stringResource(R.string.take_camera_images),
                 style = TextStyle(textAlign = TextAlign.Center)

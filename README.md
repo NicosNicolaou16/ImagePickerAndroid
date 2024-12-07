@@ -1,23 +1,33 @@
 # Image Picker Android
 
-This library built to give to other developers an easy way to implement the image picker in Android
-application with latest Android technologies. Its supports Activity, Fragment with XML and Jetpack Compose.<br />
-Support me and I will appreciate if you provide me your feedback(s).<br />
-Note: The example project doesn't contain all the examples for all methods.
+This library is built to provide other developers with an easy way to implement an image picker in
+Android applications using the latest Android technologies. It supports Activities, Fragments with
+XML, and Jetpack Compose.
+Support me, and I would appreciate any feedback you provide. <br />
+Note: The example project does not include examples for all methods.
 
-The library contain/features:
+The library contains/features:
 
-- Picker for single image from gallery
-- Picker for multiple images from gallery (up to 9 images)
-- Take single image from camera (handled permission)
-- Video Picker
-- Support for the base64 value and scale (resize) are only for image
-- All the previous features supported on Jetpack Compose too
-- New updates coming soon and tell me your suggestions...
+- Picker for a single image from the gallery.
+- Picker for multiple images from the gallery (up to 9 images).
+- Camera picker for a single image (with permission handling - manage the scenario where camera
+  permission is permanently denied by directing the user to the app settings to modify the
+  permission).
+- Video picker.
+- Retrieve the base64 value.
+- Image scaling (resize) – available only for images.
+- All of the above features are also supported in Jetpack Compose.
+- New updates coming soon! Feel free to share your suggestions.
+
+Reasons to use this library
+
+- It supports both Activity and Fragment with XML, as well as Jetpack Compose, ensuring compatibility with various Android development approaches.
+- The library provides a user-friendly way to integrate image picking functionalities, saving time and effort.
+- It offers advanced features like base64 encoding support and image scaling, enhancing your app's image handling capabilities.
 
 ### Versioning
 
-Gradle Version 8.7.2 <br />
+Gradle Version 8.7.3 <br />
 Kotlin Version 2.1.0 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
@@ -26,16 +36,22 @@ Build Tool Version 35 <br />
 
 ## IMPORTANT NOTE
 
-THE BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
+THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 
-## Basic Configuration
+> [!IMPORTANT]  
+> Breaking changes for the version 2.3.0 <br /> <br />
+> `takeSingleCameraImage()` changed to `takeSingleCameraImage(context = context)` <br /> <br />
+> `takeSingleCameraImageWithBase64Value()` changed to
+`takeSingleCameraImageWithBase64Value(context = context)`
+
+## Basic Configuration (Gradle Dependencies)
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.2.1'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.3.0'
 ```
 
 ```Groovy
@@ -49,7 +65,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.2.1")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.3.0")
 ```
 
 ```Kotlin
@@ -67,7 +83,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.2.1"
+imagePickerAndroid = "2.3.0"
 
 [libraries]
 # other libraries here...
@@ -88,7 +104,7 @@ dependencyResolutionManagement {
 }
 ```
 
-## Standard Configuration
+## Standard Configuration (XML)
 
 ### Step 1 - Get Instance
 
@@ -264,9 +280,9 @@ pickMultipleImages()
 
 pickMultipleImagesWithBase64Values()
 
-takeSingleCameraImage()
+takeSingleCameraImage(context = context)
 
-takeCameraImageWithBase64Value()
+takeSingleCameraImageWithBase64Value(context = context)
 
 pickSingleVideo()
 ```
