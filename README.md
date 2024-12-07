@@ -30,7 +30,7 @@ Build Tool Version 35 <br />
 THE BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES <br /> <br />
 
 > [!IMPORTANT]  
-> Breaking changes for the version: 2.3.0 <br /> <br />
+> Breaking changes for the version 2.3.0 <br /> <br />
 > `takeSingleCameraImage()` changed to `takeSingleCameraImage(context = context)` <br /> <br />
 > `takeSingleCameraImageWithBase64Value()` changed to
 `takeSingleCameraImageWithBase64Value(context = context)`
