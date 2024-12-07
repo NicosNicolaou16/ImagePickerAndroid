@@ -10,7 +10,9 @@ The library contains/features:
 
 - Picker for a single image from the gallery.
 - Picker for multiple images from the gallery (up to 9 images).
-- Camera picker for a single image (with permission handling - manage the scenario where camera permission is permanently denied by directing the user to the app settings to modify the permission).
+- Camera picker for a single image (with permission handling - manage the scenario where camera
+  permission is permanently denied by directing the user to the app settings to modify the
+  permission).
 - Video picker.
 - Retrieve the base64 value.
 - Image scaling (resize) – available only for images.
