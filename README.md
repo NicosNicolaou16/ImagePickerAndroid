@@ -19,6 +19,12 @@ The library contains/features:
 - All of the above features are also supported in Jetpack Compose.
 - New updates coming soon! Feel free to share your suggestions.
 
+Reasons to use this library
+
+- It supports both Activity and Fragment with XML, as well as Jetpack Compose, ensuring compatibility with various Android development approaches.
+- The library provides a user-friendly way to integrate image picking functionalities, saving time and effort.
+- It offers advanced features like base64 encoding support and image scaling, enhancing your app's image handling capabilities.
+
 ### Versioning
 
 Gradle Version 8.7.3 <br />
