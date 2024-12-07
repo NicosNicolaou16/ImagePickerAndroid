@@ -93,7 +93,8 @@ dependencyResolutionManagement {
 
 `takeSingleCameraImage()` changed to `takeSingleCameraImage(context = context)`
 
-`takeSingleCameraImageWithBase64Value()` changed to `takeSingleCameraImageWithBase64Value(context = context)`
+`takeSingleCameraImageWithBase64Value()` changed to
+`takeSingleCameraImageWithBase64Value(context = context)`
 
 ## Standard Configuration
 
