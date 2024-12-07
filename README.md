@@ -88,6 +88,28 @@ dependencyResolutionManagement {
 }
 ```
 
+## Braking changes for latest version
+
+```kotlin
+/**
+ * Before
+ */
+`takeSingleCameraImage()`
+/**
+ * Now
+ */
+`takeSingleCameraImage(context = context)`
+
+/**
+ * Before
+ */
+`takeSingleCameraImageWithBase64Value()`
+/**
+ * Now
+ */
+`takeSingleCameraImageWithBase64Value(context = context)`
+```
+
 ## Standard Configuration
 
 ### Step 1 - Get Instance
