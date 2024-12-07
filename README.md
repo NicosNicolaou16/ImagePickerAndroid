@@ -36,7 +36,7 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 > `takeSingleCameraImageWithBase64Value()` changed to
 `takeSingleCameraImageWithBase64Value(context = context)`
 
-## Basic Configuration
+## Basic Configuration (Gradle Dependencies)
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
@@ -96,7 +96,7 @@ dependencyResolutionManagement {
 }
 ```
 
-## Standard Configuration
+## Standard Configuration (XML)
 
 ### Step 1 - Get Instance
 
