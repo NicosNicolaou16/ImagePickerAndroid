@@ -6,15 +6,16 @@ Compose.<br />
 Support me and I will appreciate if you provide me your feedback(s).<br />
 Note: The example project doesn't contain all the examples for all methods.
 
-The library contain/features:
+The library contains/features:
 
-- Picker for single image from gallery
-- Picker for multiple images from gallery (up to 9 images)
-- Take single image from camera (handled permission)
-- Video Picker
-- Support for the base64 value and scale (resize) are only for image
-- All the previous features supported on Jetpack Compose too
-- New updates coming soon and tell me your suggestions...
+- Picker for a single image from the gallery
+- Picker for multiple images from the gallery (up to 9 images)
+- Camera picker for a single image (with permission handling)
+- Video picker
+- Retrieve the base64 value
+- Image scaling (resize) – available only for images
+- All of the above features are also supported in Jetpack Compose
+- New updates coming soon! Feel free to share your suggestions.
 
 ### Versioning
 
@@ -27,7 +28,7 @@ Build Tool Version 35 <br />
 
 ## IMPORTANT NOTE
 
-THE BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES <br /> <br />
+THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 
 > [!IMPORTANT]  
 > Breaking changes for the version 2.3.0 <br /> <br />
