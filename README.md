@@ -89,7 +89,7 @@ dependencyResolutionManagement {
 }
 ```
 
-## Braking changes for latest version
+## Breaking changes for latest version (Version: 2.3.0)
 
 `takeSingleCameraImage()` changed to `takeSingleCameraImage(context = context)`
 
