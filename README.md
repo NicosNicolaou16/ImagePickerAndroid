@@ -29,6 +29,13 @@ Build Tool Version 35 <br />
 
 THE BETA RELEASES MAYBE CONTAIN MAJOR/MINOR CHANGES
 
+## Breaking changes for the version: 2.3.0
+
+`takeSingleCameraImage()` changed to `takeSingleCameraImage(context = context)`
+
+`takeSingleCameraImageWithBase64Value()` changed to
+`takeSingleCameraImageWithBase64Value(context = context)`
+
 ## Basic Configuration
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
@@ -88,13 +95,6 @@ dependencyResolutionManagement {
     }
 }
 ```
-
-## Breaking changes for the version: 2.3.0
-
-`takeSingleCameraImage()` changed to `takeSingleCameraImage(context = context)`
-
-`takeSingleCameraImageWithBase64Value()` changed to
-`takeSingleCameraImageWithBase64Value(context = context)`
 
 ## Standard Configuration
 
@@ -272,9 +272,9 @@ pickMultipleImages()
 
 pickMultipleImagesWithBase64Values()
 
-takeSingleCameraImage()
+takeSingleCameraImage(context = context)
 
-takeCameraImageWithBase64Value()
+takeSingleCameraImageWithBase64Value(context = context)
 
 pickSingleVideo()
 ```
