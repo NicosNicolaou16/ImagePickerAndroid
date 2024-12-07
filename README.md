@@ -1,10 +1,10 @@
 # Image Picker Android
 
-This library built to give to other developers an easy way to implement the image picker in Android
-application with latest Android technologies. Its supports Activity, Fragment with XML and Jetpack
-Compose.<br />
-Support me and I will appreciate if you provide me your feedback(s).<br />
-Note: The example project doesn't contain all the examples for all methods.
+This library is built to provide other developers with an easy way to implement an image picker in
+Android applications using the latest Android technologies. It supports Activities, Fragments with
+XML, and Jetpack Compose.
+Support me, and I would appreciate any feedback you provide. <br />
+Note: The example project does not include examples for all methods.
 
 The library contains/features:
 
