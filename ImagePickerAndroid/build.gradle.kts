@@ -1,9 +1,9 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.android.kotlin.kapt)
     id("maven-publish")
-    id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
 }
 
 android {
@@ -43,52 +43,37 @@ android {
     }
 }
 
-val appCompatVersion by extra("1.7.0")
-val coreKtxVersion by extra("1.15.0")
-val constraintLayoutVersion by extra("2.2.0")
-val lifeCycleAndLiveDataCompilerAndViewModelKTXVersion by extra("2.8.7")
-val activityVersion by extra("1.9.3")
-val fragmentVersion by extra("1.6.1")
-val coroutineVersion by extra("1.10.1")
-val multidexVersion by extra("2.0.1")
-val materialDesignVersion by extra("1.12.0")
-val recyclerViewVersion by extra("1.3.2")
-val composeVersion by extra("1.7.6")
-val composeLiveDataVersion by extra("1.7.6")
-val composeFoundationVersion by extra("1.7.6")
-val composeMaterialVersion by extra("1.7.6")
-val composeMaterial3Version by extra("1.3.1")
-
 dependencies {
-    implementation("androidx.core:core-ktx:$coreKtxVersion")
-    implementation("androidx.appcompat:appcompat:$appCompatVersion")
-    implementation("com.google.android.material:material:$materialDesignVersion")
-    implementation("androidx.constraintlayout:constraintlayout:$constraintLayoutVersion")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion")
+    // Architecture
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     //noinspection LifecycleAnnotationProcessorWithJava8
-    kapt("androidx.lifecycle:lifecycle-compiler:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion")
-    //RecyclerView
-    implementation("androidx.recyclerview:recyclerview:$recyclerViewVersion")
-    //Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion")
+    kapt(libs.androidx.lifecycle.compiler)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    // RecyclerView
+    implementation(libs.androidx.recyclerview)
+    // Coroutines
+    implementation(libs.coroutine.core)
+    implementation(libs.coroutine.android)
+    // Compose
+    implementation(libs.androidx.foundation)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.runtime)
+    implementation(libs.androidx.runtime.livedata)
+    implementation(libs.androidx.ui)
+    debugImplementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.activity.compose)
     //Unit Test
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
-    //Compose
-    implementation("androidx.compose.foundation:foundation:$composeFoundationVersion")
-    implementation("androidx.compose.material:material:$composeMaterialVersion")
-    implementation("androidx.compose.material3:material3:$composeMaterial3Version")
-    implementation("androidx.compose.runtime:runtime:$composeVersion")
-    implementation("androidx.compose.runtime:runtime-livedata:$composeLiveDataVersion")
-    implementation("androidx.compose.ui:ui:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
-    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifeCycleAndLiveDataCompilerAndViewModelKTXVersion")
-    implementation("androidx.activity:activity-compose:$activityVersion")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }
 
 afterEvaluate {
