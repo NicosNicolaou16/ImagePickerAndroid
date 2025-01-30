@@ -28,7 +28,7 @@ Reasons to use this library
 ### Versioning
 
 Gradle Version 8.8.0 <br />
-Kotlin Version 2.1.0 <br />
+Kotlin Version 2.1.10 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 35 <br />
