@@ -27,7 +27,7 @@ Reasons to use this library
 
 ### Versioning
 
-Gradle Version 8.8.0 <br />
+Gradle Version 8.8.1 <br />
 Kotlin Version 2.1.10 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
