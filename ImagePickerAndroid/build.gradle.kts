@@ -9,7 +9,7 @@ plugins {
 android {
     namespace = "com.nick.imagepickerandroid"
     compileSdk = 35
-    buildToolsVersion = "35.0.0"
+    buildToolsVersion = "35.0.1"
 
     defaultConfig {
         minSdk = 24
