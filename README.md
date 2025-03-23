@@ -32,7 +32,7 @@ Kotlin Version 2.1.10 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 35 <br />
-Build Tool Version 35 <br />
+Build Tool Version 35.0.1 <br />
 
 ## IMPORTANT NOTE
 
