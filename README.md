@@ -27,19 +27,19 @@ Reasons to use this library
 
 ### Versioning
 
-Gradle Version 8.7.3 <br />
-Kotlin Version 2.1.0 <br />
+Gradle Version 8.9.1 <br />
+Kotlin Version 2.1.20 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 35 <br />
-Build Tool Version 35 <br />
+Build Tool Version 35.0.1 <br />
 
 ## IMPORTANT NOTE
 
 THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 
 > [!IMPORTANT]  
-> Breaking changes for the version 2.3.0 <br /> <br />
+> Breaking changes from the version 2.3.0 and higher <br /> <br />
 > `takeSingleCameraImage()` changed to `takeSingleCameraImage(context = context)` <br /> <br />
 > `takeSingleCameraImageWithBase64Value()` changed to
 `takeSingleCameraImageWithBase64Value(context = context)`
@@ -48,10 +48,13 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
+> [!IMPORTANT]  
+> Check my article with the implementation :point_right: [ImagePickerAndroid - My Android Image Picker Library 🧑‍💻 - Medium](https://medium.com/@nicosnicolaou/imagepickerandroid-my-android-image-picker-library-d1ac86c60e3a) :point_left: <br />
+
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.3.0'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.3.1'
 ```
 
 ```Groovy
@@ -65,7 +68,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.3.0")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.3.1")
 ```
 
 ```Kotlin
@@ -83,7 +86,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.3.0"
+imagePickerAndroid = "2.3.1"
 
 [libraries]
 # other libraries here...
