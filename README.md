@@ -12,7 +12,8 @@ The library contains/features:
 - Picker for multiple images from the gallery (up to 9 images).
 - Camera picker for a single image (with permission handling - manage the scenario where camera
   permission is permanently denied by directing the user to the app settings to modify the
-  permission).
+  permission or can use the onPermanentCameraPermissionDenied() callback to implement your own
+  custom logic).
 - Video picker.
 - Retrieve the base64 value.
 - Image scaling (resize) – available only for images.
@@ -21,9 +22,12 @@ The library contains/features:
 
 Reasons to use this library
 
-- It supports both Activity and Fragment with XML, as well as Jetpack Compose, ensuring compatibility with various Android development approaches.
-- The library provides a user-friendly way to integrate image picking functionalities, saving time and effort.
-- It offers advanced features like base64 encoding support and image scaling, enhancing your app's image handling capabilities.
+- It supports both Activity and Fragment with XML, as well as Jetpack Compose, ensuring
+  compatibility with various Android development approaches.
+- The library provides a user-friendly way to integrate image picking functionalities, saving time
+  and effort.
+- It offers advanced features like base64 encoding support and image scaling, enhancing your app's
+  image handling capabilities.
 
 ### Versioning
 
@@ -49,7 +53,9 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
 > [!IMPORTANT]  
-> Check my article with the implementation :point_right: [ImagePickerAndroid - My Android Image Picker Library 🧑‍💻 - Medium](https://medium.com/@nicosnicolaou/imagepickerandroid-my-android-image-picker-library-d1ac86c60e3a) :point_left: <br />
+> Check my article with the implementation :
+> point_right: [ImagePickerAndroid - My Android Image Picker Library 🧑‍💻 - Medium](https://medium.com/@nicosnicolaou/imagepickerandroid-my-android-image-picker-library-d1ac86c60e3a) :
+> point_left: <br />
 
 ### Groovy
 
@@ -223,10 +229,10 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         //...your code here
     }
 
-  // Need to call and set the shouldRedirectedToSettingsIfPermissionDenied = false from builder to use this callback
-  override fun onPermanentCameraPermissionDenied() {
-    super.onPermanentCameraPermissionDenied()
-  }
+    // Need to call and set the shouldRedirectedToSettingsIfPermissionDenied = false from builder to use this callback
+    override fun onPermanentCameraPermissionDenied() {
+        super.onPermanentCameraPermissionDenied()
+    }
 }
 ```
 
@@ -289,9 +295,16 @@ pickMultipleImages()
 
 pickMultipleImagesWithBase64Values()
 
-takeSingleCameraImage(context = context)
+/**
+ * onPermanentCameraPermissionDeniedCallBack is optional
+ * */
+takeSingleCameraImage(context = context, onPermanentCameraPermissionDeniedCallBack {
+    // show custom dialog
+})
 
-takeSingleCameraImageWithBase64Value(context = context)
+takeSingleCameraImageWithBase64Value(context = onPermanentCameraPermissionDeniedCallBack {
+    // show custom dialog
+})
 
 pickSingleVideo()
 ```
