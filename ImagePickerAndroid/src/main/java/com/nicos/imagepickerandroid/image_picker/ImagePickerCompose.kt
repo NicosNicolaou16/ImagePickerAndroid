@@ -308,16 +308,20 @@ fun CameraPermission() {
 /**
  * This method is calling from listener to pick single image from camera
  * */
-fun takeSingleCameraImage(context: Context) {
+fun takeSingleCameraImage(context: Context, onPermanentCameraPermissionDeniedCallBack: (() -> Unit)? = null) {
     if (shouldShowRequestPermissionRationale(
             context as Activity,
             Manifest.permission.CAMERA
         )
     ) {
-        context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-            data = Uri.fromParts("package", context.packageName, null)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        })
+        if (onPermanentCameraPermissionDeniedCallBack == null) {
+            context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.fromParts("package", context.packageName, null)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            })
+        } else {
+            onPermanentCameraPermissionDeniedCallBack()
+        }
     } else {
         permissionLauncher?.launch(Manifest.permission.CAMERA)
     }
@@ -368,16 +372,20 @@ fun TakeSingleCameraImageWithBase64Value(
 /**
  * This method is calling from listener to pick single image from camera with base64 values
  * */
-fun takeSingleCameraImageWithBase64Value(context: Context) {
+fun takeSingleCameraImageWithBase64Value(context: Context, onPermanentCameraPermissionDeniedCallBack: (() -> Unit)? = null) {
     if (shouldShowRequestPermissionRationale(
             context as Activity,
             Manifest.permission.CAMERA
         )
     ) {
-        context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-            data = Uri.fromParts("package", context.packageName, null)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        })
+        if (onPermanentCameraPermissionDeniedCallBack == null) {
+            context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.fromParts("package", context.packageName, null)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            })
+        } else {
+            onPermanentCameraPermissionDeniedCallBack()
+        }
     } else {
         takeCameraImageWithBase64Value?.launch(null)
     }
