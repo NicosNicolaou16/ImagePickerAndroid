@@ -24,16 +24,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * @param fragmentActivity instance for current Activity (Optional), but need one of the two, FragmentActivity/Fragment
- * @param fragment instance for current Fragment (Optional), but need one of the two, FragmentActivity/Fragment
+ * @param fragmentActivity instance for current Activity (Optional), but need one of the two, FragmentActivity/Fragment, by default is null
+ * @param fragment instance for current Fragment (Optional), but need one of the two, FragmentActivity/Fragment, by default is null
  * @param coroutineScope coroutine scope from Activity or Fragment
- * @param scaleBitmapModelForSingleImage pass ScaleBitmapModel with height and width to resize an image
- * @param scaleBitmapModelForMultipleImages pass ScaleBitmapModel with height and width to resize multiple images
- * @param scaleBitmapModelForCameraImage pass ScaleBitmapModel with height and width to resize the camera image
- * @param enabledBase64ValueForSingleImage convert the image to base64 for a single image
- * @param enabledBase64ValueForMultipleImages convert the image to base64 for multiples images
- * @param enabledBase64ValueForCameraImage convert the image to base64 for a camera image
- * @param imagePickerInterface call back, return the data to the activity/fragment
+ * @param scaleBitmapModelForSingleImage pass ScaleBitmapModel with height and width to resize an image, by default is null
+ * @param scaleBitmapModelForMultipleImages pass ScaleBitmapModel with height and width to resize multiple images, by default is null
+ * @param scaleBitmapModelForCameraImage pass ScaleBitmapModel with height and width to resize the camera image, by default is null
+ * @param enabledBase64ValueForSingleImage convert the image to base64 for a single image, by default is false
+ * @param enabledBase64ValueForMultipleImages convert the image to base64 for multiples images, by default is false
+ * @param enabledBase64ValueForCameraImage convert the image to base64 for a camera image, by default is false
+ * @param shouldRedirectedToSettingsIfPermissionDenied redirect to settings if permission denied, by default is true
+ * @param imagePickerInterface call back, return the data to the activity/fragment, by default is null
  * */
 data class ImagePicker(
     private var fragmentActivity: FragmentActivity? = null,
@@ -45,6 +46,7 @@ data class ImagePicker(
     private var enabledBase64ValueForSingleImage: Boolean = false,
     private var enabledBase64ValueForMultipleImages: Boolean = false,
     private var enabledBase64ValueForCameraImage: Boolean = false,
+    private var shouldRedirectedToSettingsIfPermissionDenied: Boolean = true,
     var imagePickerInterface: ImagePickerInterface?
 ) {
     private var pickImageFromGalleryResultLauncher: ActivityResultLauncher<PickVisualMediaRequest>? =
@@ -291,10 +293,14 @@ data class ImagePicker(
                             Manifest.permission.CAMERA
                         )
                     ) {
-                        it.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                            data = Uri.fromParts("package", it.packageName, null)
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        })
+                        if (shouldRedirectedToSettingsIfPermissionDenied == true) {
+                            it.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                data = Uri.fromParts("package", it.packageName, null)
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            })
+                        } else {
+                            imagePickerInterface?.onPermanentCameraPermissionDenied()
+                        }
                     } else {
                         permissionsHelper?.activityResultLauncherPermissionActivity?.launch(Manifest.permission.CAMERA)
 
@@ -310,10 +316,14 @@ data class ImagePicker(
                             Manifest.permission.CAMERA
                         )
                     ) {
-                        it.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                            data = Uri.fromParts("package", it.context?.packageName, null)
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        })
+                        if (shouldRedirectedToSettingsIfPermissionDenied == true) {
+                            it.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                data = Uri.fromParts("package", it.context?.packageName, null)
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            })
+                        } else {
+                            imagePickerInterface?.onPermanentCameraPermissionDenied()
+                        }
                     } else {
                         permissionsHelper?.activityResultLauncherPermissionFragment?.launch(Manifest.permission.CAMERA)
 

@@ -22,4 +22,6 @@ interface ImagePickerInterface {
         base64AsStringList: MutableList<String>?
     ) {
     }
+
+    fun onPermanentCameraPermissionDenied() {}
 }
