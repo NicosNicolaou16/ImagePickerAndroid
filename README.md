@@ -299,11 +299,11 @@ pickMultipleImagesWithBase64Values()
  * onPermanentCameraPermissionDeniedCallBack is optional
  * */
 takeSingleCameraImage(context = context, onPermanentCameraPermissionDeniedCallBack {
-    // show custom dialog
+    // show custom dialog - showDialog.value = true
 })
 
 takeSingleCameraImageWithBase64Value(context = onPermanentCameraPermissionDeniedCallBack {
-    // show custom dialog
+    // show custom dialog - showDialog.value = true
 })
 
 pickSingleVideo()
