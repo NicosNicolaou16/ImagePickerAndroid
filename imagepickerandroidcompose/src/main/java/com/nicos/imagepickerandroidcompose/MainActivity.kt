@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -27,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -57,7 +59,9 @@ class MainActivity : ComponentActivity() {
             ImagePickerAndroidTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize().statusBarsPadding(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .statusBarsPadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     ImagePicker()
@@ -121,6 +125,8 @@ fun ImagePicker() {
         }
     })
 
+    val scope = rememberCoroutineScope()
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(20.dp, alignment = Alignment.Top),
@@ -171,7 +177,12 @@ fun ImagePicker() {
                 style = TextStyle(textAlign = TextAlign.Center)
             )
         }
-        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { takeSingleCameraImage(context = context) }) {
+        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = {
+            takeSingleCameraImage(context = context, onPermanentCameraPermissionDeniedCallBack = {
+                Log.d("onPermanentCameraPermissionDeniedCallBack", "callBack")
+                // showDialog.value = true
+            })
+        }) {
             Text(
                 text = stringResource(R.string.take_camera_images),
                 style = TextStyle(textAlign = TextAlign.Center)

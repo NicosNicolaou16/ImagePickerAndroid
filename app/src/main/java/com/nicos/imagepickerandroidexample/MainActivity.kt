@@ -41,7 +41,8 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             scaleBitmapModelForMultipleImages = ScaleBitmapModel(height = 100, width = 100),
             enabledBase64ValueForSingleImage = true,
             enabledBase64ValueForMultipleImages = true,
-            imagePickerInterface = this
+            imagePickerInterface = this,
+            shouldRedirectedToSettingsIfPermissionDenied = false
         )
         imagePicker?.initPickSingleImageFromGalleryResultLauncher()
         imagePicker?.initPickMultipleImagesFromGalleryResultLauncher(maxNumberOfImages = 3)
@@ -98,5 +99,10 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         if (uri != null) binding.video.setVideoURI(uri)
         binding.video.start()
         super.onGallerySingleVideo(uri)
+    }
+
+    override fun onPermanentCameraPermissionDenied() {
+        Log.d("onPermanentCameraPermissionDenied", "callback")
+        super.onPermanentCameraPermissionDenied()
     }
 }
