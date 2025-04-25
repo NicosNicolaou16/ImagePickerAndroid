@@ -139,7 +139,8 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             enabledBase64ValueForSingleImage = true, // optional, by default is false - private
             enabledBase64ValueForMultipleImages = true, // optional, by default is false - private
             enabledBase64ValueForCameraImage = true, // optional, by default is false - private
-            imagePickerInterface = this // call back interface
+            imagePickerInterface = this, // call back interface
+            shouldRedirectedToSettingsIfPermissionDenied = false // optional, by default is true - private, if it set false, need to call the callback onPermanentCameraPermissionDenied()
         )
         //...other image picker initialization method(s)
     }
@@ -221,6 +222,11 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         super.onGallerySingleVideo(uri)
         //...your code here
     }
+
+  // Need to call and set the shouldRedirectedToSettingsIfPermissionDenied = false from builder to use this callback
+  override fun onPermanentCameraPermissionDenied() {
+    super.onPermanentCameraPermissionDenied()
+  }
 }
 ```
 
