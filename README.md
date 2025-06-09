@@ -31,8 +31,8 @@ Reasons to use this library
 
 ### Versioning
 
-Gradle Version 8.9.2 <br />
-Kotlin Version 2.1.20 <br />
+Gradle Version 8.10.1 <br />
+Kotlin Version 2.1.21 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 35 <br />
