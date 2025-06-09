@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.flowOn
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import androidx.core.graphics.scale
 
 internal class ImageHelperMethods {
 
@@ -90,12 +91,7 @@ internal class ImageHelperMethods {
         if (bitmap != null) {
             try {
                 emit(
-                    Bitmap.createScaledBitmap(
-                        bitmap,
-                        scaleBitmapModel.width,
-                        scaleBitmapModel.height,
-                        true
-                    )
+                    bitmap.scale(scaleBitmapModel.width, scaleBitmapModel.height)
                 )
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -119,12 +115,7 @@ internal class ImageHelperMethods {
                 val bitmapAfterScaleList = mutableListOf<Bitmap>()
                 bitmapList.forEach { bitmap ->
                     bitmapAfterScaleList.add(
-                        Bitmap.createScaledBitmap(
-                            bitmap,
-                            scaleBitmapModel.width,
-                            scaleBitmapModel.height,
-                            true
-                        )
+                        bitmap.scale(scaleBitmapModel.width, scaleBitmapModel.height)
                     )
                 }
                 emit(bitmapAfterScaleList)

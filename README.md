@@ -31,8 +31,8 @@ Reasons to use this library
 
 ### Versioning
 
-Gradle Version 8.9.2 <br />
-Kotlin Version 2.1.20 <br />
+Gradle Version 8.10.1 <br />
+Kotlin Version 2.1.21 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 35 <br />
@@ -53,14 +53,14 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
 > [!IMPORTANT]  
-> Check my article with the implementation :
-> point_right: [ImagePickerAndroid - My Android Image Picker Library 🧑‍💻 - Medium](https://medium.com/@nicosnicolaou/imagepickerandroid-my-android-image-picker-library-d1ac86c60e3a) :
-> point_left: <br />
+> Check my article with the implementation <br />
+> :point_right: [ImagePickerAndroid - My Android Image Picker Library 🧑‍💻 - Medium](https://medium.com/@nicosnicolaou/imagepickerandroid-my-android-image-picker-library-d1ac86c60e3a)
+> :point_left: <br />
 
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.3.2'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.3.3'
 ```
 
 ```Groovy
@@ -74,7 +74,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.3.2")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.3.3")
 ```
 
 ```Kotlin
@@ -92,7 +92,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.3.2"
+imagePickerAndroid = "2.3.3"
 
 [libraries]
 # other libraries here...

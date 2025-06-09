@@ -50,7 +50,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    //noinspection LifecycleAnnotationProcessorWithJava8
     kapt(libs.androidx.lifecycle.compiler)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -82,7 +81,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.github.NicosNicolaou16"
                 artifactId = "ImagePickerAndroid"
-                version = "2.3.2"
+                version = "2.3.3"
                 from(components["release"])
             }
         }
