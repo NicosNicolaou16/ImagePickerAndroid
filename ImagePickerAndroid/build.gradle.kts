@@ -50,7 +50,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    //noinspection LifecycleAnnotationProcessorWithJava8
     kapt(libs.androidx.lifecycle.compiler)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
