@@ -60,7 +60,7 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.3.2'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.3.3'
 ```
 
 ```Groovy
@@ -74,7 +74,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.3.2")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.3.3")
 ```
 
 ```Kotlin
@@ -92,7 +92,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.3.2"
+imagePickerAndroid = "2.3.3"
 
 [libraries]
 # other libraries here...
