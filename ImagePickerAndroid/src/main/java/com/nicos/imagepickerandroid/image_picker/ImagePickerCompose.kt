@@ -13,13 +13,18 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.IntRange
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import androidx.core.content.FileProvider
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 
 private var permissionLauncher: ManagedActivityResultLauncher<String, Boolean>? = null
 private var imageHelperMethods = ImageHelperMethods()
@@ -30,9 +35,12 @@ private var pickMultipleImages: ManagedActivityResultLauncher<PickVisualMediaReq
     null
 private var pickMultipleImagesWithBase64Values: ManagedActivityResultLauncher<PickVisualMediaRequest, List<@JvmSuppressWildcards Uri>>? =
     null
-private var takeCameraImage: ManagedActivityResultLauncher<Void?, Bitmap?>? = null
+private var takeCameraImagePreview: ManagedActivityResultLauncher<Void?, Bitmap?>? = null
+private var takeCameraImage: ManagedActivityResultLauncher<Uri, Boolean>? = null
 private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Void?, Bitmap?>? = null
 private var pickVideo: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
+
+private var photoUri by mutableStateOf<Uri?>(null)
 
 /**
  * Callback for the single image to view
@@ -263,45 +271,100 @@ fun pickMultipleImagesWithBase64Values() {
 @Composable
 fun TakeSingleCameraImage(
     scaleBitmapModel: ScaleBitmapModel?,
+    shouldTakePicture: Boolean = false,
     listener: (Bitmap?, Uri?) -> Unit
 ) {
-    CameraPermission()
+    val context = LocalContext.current
+    CameraPermission(shouldTakePicture = shouldTakePicture)
     val composableScope = rememberCoroutineScope()
-    takeCameraImage =
-        rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
-            if (bitmap != null) {
-                val uri = imageHelperMethods.getUriFromBitmap(bitmap)
-                if (scaleBitmapModel != null) {
-                    composableScope.launch(Dispatchers.Default) {
-                        imageHelperMethods.scaleBitmap(
-                            bitmap = bitmap,
-                            scaleBitmapModel = scaleBitmapModel
-                        ).collect { scaledBitmap ->
-                            composableScope.launch(Dispatchers.Main) {
-                                listener(scaledBitmap, uri)
+    if (shouldTakePicture) {
+        takeCameraImage =
+            rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+                if (success) {
+                    if (photoUri != null) {
+                        val bitmap =
+                            imageHelperMethods.convertUriToBitmap(context.contentResolver, photoUri)
+                        if (scaleBitmapModel != null) {
+                            composableScope.launch(Dispatchers.Default) {
+                                imageHelperMethods.scaleBitmap(
+                                    bitmap = bitmap,
+                                    scaleBitmapModel = scaleBitmapModel
+                                ).collect { scaledBitmap ->
+                                    composableScope.launch(Dispatchers.Main) {
+                                        listener(scaledBitmap, photoUri)
+                                    }
+                                }
                             }
+                        } else {
+                            listener(bitmap, photoUri)
                         }
                     }
-                } else {
-                    listener(bitmap, uri)
                 }
             }
-        }
+    } else {
+        takeCameraImagePreview =
+            rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+                if (bitmap != null) {
+                    val uri = imageHelperMethods.getUriFromBitmap(bitmap)
+                    if (scaleBitmapModel != null) {
+                        composableScope.launch(Dispatchers.Default) {
+                            imageHelperMethods.scaleBitmap(
+                                bitmap = bitmap,
+                                scaleBitmapModel = scaleBitmapModel
+                            ).collect { scaledBitmap ->
+                                composableScope.launch(Dispatchers.Main) {
+                                    listener(scaledBitmap, uri)
+                                }
+                            }
+                        }
+                    } else {
+                        listener(bitmap, uri)
+                    }
+                }
+            }
+    }
 }
 
 @Composable
-fun CameraPermission() {
+private fun CameraPermission(shouldTakePicture: Boolean = false) {
+    val context = LocalContext.current
+    takeCameraImage =
+        rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+        }
+
     permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        if (isGranted) takeCameraImage?.launch(null)
+        if (isGranted) {
+            if (shouldTakePicture) {
+                val photoFile = imageHelperMethods.createImageFile(context)
+                val uri = photoFile.getUriWithFileProvider(context)
+                photoUri = uri
+                takeCameraImage?.launch(uri)
+            } else {
+                takeCameraImagePreview?.launch(null)
+            }
+        }
     }
 }
+
+fun File.getUriWithFileProvider(context: Context): Uri {
+    require(!this.exists()) { "File must exist to get a URI with FileProvider" }
+    return FileProvider.getUriForFile(
+        context,
+        "${context.packageName}.fileprovider",
+        this // 'this' refers to the File instance the extension is called on
+    )
+}
+
 
 /**
  * This method is calling from listener to pick single image from camera
  * */
-fun takeSingleCameraImage(context: Context, onPermanentCameraPermissionDeniedCallBack: (() -> Unit)? = null) {
+fun takeSingleCameraImage(
+    context: Context,
+    onPermanentCameraPermissionDeniedCallBack: (() -> Unit)? = null
+) {
     if (shouldShowRequestPermissionRationale(
             context as Activity,
             Manifest.permission.CAMERA
@@ -365,7 +428,10 @@ fun TakeSingleCameraImageWithBase64Value(
 /**
  * This method is calling from listener to pick single image from camera with base64 values
  * */
-fun takeSingleCameraImageWithBase64Value(context: Context, onPermanentCameraPermissionDeniedCallBack: (() -> Unit)? = null) {
+fun takeSingleCameraImageWithBase64Value(
+    context: Context,
+    onPermanentCameraPermissionDeniedCallBack: (() -> Unit)? = null
+) {
     if (shouldShowRequestPermissionRationale(
             context as Activity,
             Manifest.permission.CAMERA
