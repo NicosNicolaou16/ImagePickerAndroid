@@ -25,7 +25,9 @@ import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-private var permissionLauncher: ManagedActivityResultLauncher<String, Boolean>? = null
+private var permissionLauncherCameraImage: ManagedActivityResultLauncher<String, Boolean>? = null
+private var permissionCameraImageBase64Launcher: ManagedActivityResultLauncher<String, Boolean>? =
+    null
 private var imageHelperMethods = ImageHelperMethods()
 private var pickSingleImage: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
 private var pickSingleImageWithBase64Value: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? =
@@ -36,10 +38,13 @@ private var pickMultipleImagesWithBase64Values: ManagedActivityResultLauncher<Pi
     null
 private var takeCameraImagePreview: ManagedActivityResultLauncher<Void?, Bitmap?>? = null
 private var takeCameraImage: ManagedActivityResultLauncher<Uri, Boolean>? = null
-private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Void?, Bitmap?>? = null
+private var takeCameraImagePreviewWithBase64Value: ManagedActivityResultLauncher<Void?, Bitmap?>? =
+    null
+private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Uri, Boolean>? = null
 private var pickVideo: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
 
 private var photoUri by mutableStateOf<Uri?>(null)
+private var photoUriWithBase64 by mutableStateOf<Uri?>(null)
 
 /**
  * Callback for the single image to view
@@ -336,7 +341,7 @@ private fun CameraPermission(shouldTakePicture: Boolean) {
             }
     }
 
-    permissionLauncher = rememberLauncherForActivityResult(
+    permissionLauncherCameraImage = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
@@ -374,7 +379,35 @@ fun takeSingleCameraImage(
             onPermanentCameraPermissionDeniedCallBack()
         }
     } else {
-        permissionLauncher?.launch(Manifest.permission.CAMERA)
+        permissionLauncherCameraImage?.launch(Manifest.permission.CAMERA)
+    }
+}
+
+@Composable
+private fun CameraPermissionForBase64(shouldTakePicture: Boolean) {
+    val context = LocalContext.current
+    if (shouldTakePicture) {
+        takeCameraImageWithBase64Value =
+            rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+                if (!success) {
+                    photoUri = null
+                }
+            }
+    }
+
+    permissionCameraImageBase64Launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            if (shouldTakePicture) {
+                val photoFile = imageHelperMethods.createImageFile(context)
+                val uri = photoFile.getUriWithFileProvider(context)
+                photoUriWithBase64 = uri
+                takeCameraImageWithBase64Value?.launch(uri)
+            } else {
+                takeCameraImagePreviewWithBase64Value?.launch(null)
+            }
+        }
     }
 }
 
@@ -386,38 +419,79 @@ fun takeSingleCameraImage(
 @Composable
 fun TakeSingleCameraImageWithBase64Value(
     scaleBitmapModel: ScaleBitmapModel?,
+    shouldTakePicture: Boolean = true,
     listener: (Bitmap?, String?) -> Unit
 ) {
     val composableScope = rememberCoroutineScope()
-    takeCameraImageWithBase64Value =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { bitmap ->
-            if (bitmap != null) {
-                if (scaleBitmapModel != null) {
-                    composableScope.launch(Dispatchers.Default) {
-                        imageHelperMethods.scaleBitmap(
-                            bitmap = bitmap,
-                            scaleBitmapModel = scaleBitmapModel
-                        ).collect { scaledBitmap ->
+    val context = LocalContext.current
+    CameraPermissionForBase64(shouldTakePicture = shouldTakePicture)
+    if (shouldTakePicture) {
+        takeCameraImageWithBase64Value =
+            rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
+                if (success) {
+                    if (photoUriWithBase64 != null) {
+                        val bitmap = imageHelperMethods.convertUriToBitmap(
+                            contentResolver = context.contentResolver,
+                            uri = photoUriWithBase64
+                        )
+                        if (scaleBitmapModel != null) {
+                            composableScope.launch(Dispatchers.Default) {
+                                imageHelperMethods.scaleBitmap(
+                                    bitmap = bitmap,
+                                    scaleBitmapModel = scaleBitmapModel
+                                ).collect { scaledBitmap ->
+                                    imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
+                                        .collect { base64 ->
+                                            composableScope.launch(Dispatchers.Main) {
+                                                listener(scaledBitmap, base64)
+                                            }
+                                        }
+                                }
+                            }
+                        } else {
+                            composableScope.launch(Dispatchers.Default) {
+                                imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
+                                    .collect { base64 ->
+                                        composableScope.launch(Dispatchers.Main) {
+                                            listener(bitmap, base64)
+                                        }
+                                    }
+                            }
+                        }
+                    }
+                }
+            }
+    } else {
+        takeCameraImagePreviewWithBase64Value =
+            rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { bitmap ->
+                if (bitmap != null) {
+                    if (scaleBitmapModel != null) {
+                        composableScope.launch(Dispatchers.Default) {
+                            imageHelperMethods.scaleBitmap(
+                                bitmap = bitmap,
+                                scaleBitmapModel = scaleBitmapModel
+                            ).collect { scaledBitmap ->
+                                imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
+                                    .collect { base64 ->
+                                        composableScope.launch(Dispatchers.Main) {
+                                            listener(scaledBitmap, base64)
+                                        }
+                                    }
+                            }
+                        }
+                    } else {
+                        composableScope.launch(Dispatchers.Default) {
                             imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
                                 .collect { base64 ->
                                     composableScope.launch(Dispatchers.Main) {
-                                        listener(scaledBitmap, base64)
+                                        listener(bitmap, base64)
                                     }
                                 }
                         }
                     }
-                } else {
-                    composableScope.launch(Dispatchers.Default) {
-                        imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
-                            .collect { base64 ->
-                                composableScope.launch(Dispatchers.Main) {
-                                    listener(bitmap, base64)
-                                }
-                            }
-                    }
                 }
             }
-        }
+    }
 }
 
 /**
@@ -441,7 +515,7 @@ fun takeSingleCameraImageWithBase64Value(
             onPermanentCameraPermissionDeniedCallBack()
         }
     } else {
-        takeCameraImageWithBase64Value?.launch(null)
+        permissionCameraImageBase64Launcher?.launch(Manifest.permission.CAMERA)
     }
 }
 
