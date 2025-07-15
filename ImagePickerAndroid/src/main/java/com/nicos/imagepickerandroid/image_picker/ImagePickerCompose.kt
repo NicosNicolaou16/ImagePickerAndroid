@@ -19,12 +19,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
-import androidx.core.content.FileProvider
+import com.nicos.imagepickerandroid.utils.extensions.getUriWithFileProvider
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.File
 
 private var permissionLauncher: ManagedActivityResultLauncher<String, Boolean>? = null
 private var imageHelperMethods = ImageHelperMethods()
@@ -326,11 +325,16 @@ fun TakeSingleCameraImage(
 }
 
 @Composable
-private fun CameraPermission(shouldTakePicture: Boolean = false) {
+private fun CameraPermission(shouldTakePicture: Boolean) {
     val context = LocalContext.current
-    takeCameraImage =
-        rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
-        }
+    if (shouldTakePicture) {
+        takeCameraImage =
+            rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+                if (!success) {
+                    photoUri = null
+                }
+            }
+    }
 
     permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -346,15 +350,6 @@ private fun CameraPermission(shouldTakePicture: Boolean = false) {
             }
         }
     }
-}
-
-fun File.getUriWithFileProvider(context: Context): Uri {
-    require(!this.exists()) { "File must exist to get a URI with FileProvider" }
-    return FileProvider.getUriForFile(
-        context,
-        "${context.packageName}.fileprovider",
-        this // 'this' refers to the File instance the extension is called on
-    )
 }
 
 
