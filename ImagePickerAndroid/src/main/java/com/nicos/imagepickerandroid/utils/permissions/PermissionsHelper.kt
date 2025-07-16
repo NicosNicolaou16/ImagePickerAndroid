@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.nicos.imagepickerandroid.image_picker.ImagePicker
 
-class PermissionsHelper(
+internal class PermissionsHelper(
     private var imagePicker: ImagePicker
 ) {
 

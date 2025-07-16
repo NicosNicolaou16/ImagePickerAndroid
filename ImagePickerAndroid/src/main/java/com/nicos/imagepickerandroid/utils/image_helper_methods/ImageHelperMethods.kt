@@ -1,6 +1,7 @@
 package com.nicos.imagepickerandroid.utils.image_helper_methods
 
 import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
@@ -8,15 +9,22 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Base64
+import androidx.core.graphics.scale
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
-import androidx.core.graphics.scale
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 internal class ImageHelperMethods {
+
+    companion object {
+        private const val PATTERN_DATE_FORMAT: String = "yyyy-MM-dd HH:mm:ss"
+    }
 
     /**
      * This make the conversion from Uri to Bitmap
@@ -135,5 +143,13 @@ internal class ImageHelperMethods {
         fileOutPut.flush()
         fileOutPut.close()
         return Uri.fromFile(file)
+    }
+
+    internal fun createImageFile(context: Context): File {
+        val timestamp = SimpleDateFormat(PATTERN_DATE_FORMAT, Locale.getDefault()).format(
+            Date()
+        )
+        val fileName = "${timestamp}.jpg"
+        return File(context.cacheDir, fileName)
     }
 }

@@ -48,19 +48,50 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 > `takeSingleCameraImageWithBase64Value()` changed to
 `takeSingleCameraImageWithBase64Value(context = context)`
 
+> [!IMPORTANT]  
+> Breaking changes from the version 2.4.0 and higher <br /> <br />
+> Added a new optional parameter `takeImageType: TakeImageType = TakeImageType.TAKE_IMAGE` (By
+> default is `TakeImageType.TAKE_IMAGE`) <br /> <br />
+> Those parameters are used to select whether you want `ActivityResultContracts.TakePicture()` or
+> `ActivityResultContracts.TakePicturePreview()`. <br /> <br />
+> The two options (enum) are `TakeImageType.TAKE_IMAGE` or
+`TakeImageType.TAKE_IMAGE_PREVIEW` <br /> <br />
+
+```Kotlin
+// The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
+// by default is `TakeImageType.TAKE_IMAGE`
+TakeSingleCameraImage(
+    scaleBitmapModel = null,
+    takeImageType = TakeImageType.TAKE_IMAGE,
+    listener = { bitmap, uri ->
+        //...your code here
+    })
+
+// The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
+// by default is `TakeImageType.TAKE_IMAGE`
+TakeSingleCameraImageWithBase64Value(
+    scaleBitmapModel = null,
+    takeImageType = TakeImageType.TAKE_IMAGE,
+    listener = { bitmap, uri, base64 ->
+        //...your code here
+    })
+```
+
 ## Basic Configuration (Gradle Dependencies)
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
 > [!IMPORTANT]  
 > Check my article with the implementation <br />
-> :point_right: [ImagePickerAndroid - My Android Image Picker Library 🧑‍💻 - Medium](https://medium.com/@nicosnicolaou/imagepickerandroid-my-android-image-picker-library-d1ac86c60e3a)
+> :
+>
+point_right: [ImagePickerAndroid - My Android Image Picker Library 🧑‍💻 - Medium](https://medium.com/@nicosnicolaou/imagepickerandroid-my-android-image-picker-library-d1ac86c60e3a)
 > :point_left: <br />
 
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.3.3'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.4.0'
 ```
 
 ```Groovy
@@ -74,7 +105,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.3.3")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.4.0")
 ```
 
 ```Kotlin
@@ -92,7 +123,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.3.3"
+imagePickerAndroid = "2.4.0"
 
 [libraries]
 # other libraries here...
@@ -267,14 +298,20 @@ PickMultipleImagesWithBase64Values(
         //...your code here
     })
 
+// The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
+// by default is `TakeImageType.TAKE_IMAGE`
 TakeSingleCameraImage(
     scaleBitmapModel = null,
+    takeImageType = TakeImageType.TAKE_IMAGE,
     listener = { bitmap, uri ->
         //...your code here
     })
 
+// The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
+// by default is `TakeImageType.TAKE_IMAGE`
 TakeSingleCameraImageWithBase64Value(
     scaleBitmapModel = null,
+    takeImageType = TakeImageType.TAKE_IMAGE,
     listener = { bitmap, uri, base64 ->
         //...your code here
     })
