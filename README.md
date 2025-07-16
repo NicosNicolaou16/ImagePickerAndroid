@@ -64,7 +64,7 @@ TakeSingleCameraImage(
     scaleBitmapModel = null,
     takeImageType = TakeImageType.TAKE_IMAGE,
     listener = { bitmap, uri ->
-//...your code here
+        //...your code here
     })
 
 // The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
@@ -73,7 +73,7 @@ TakeSingleCameraImageWithBase64Value(
     scaleBitmapModel = null,
     takeImageType = TakeImageType.TAKE_IMAGE,
     listener = { bitmap, uri, base64 ->
-//...your code here
+        //...your code here
     })
 ```
 
