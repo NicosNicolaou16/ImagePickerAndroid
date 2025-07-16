@@ -48,6 +48,12 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 > `takeSingleCameraImageWithBase64Value()` changed to
 `takeSingleCameraImageWithBase64Value(context = context)`
 
+> [!IMPORTANT]  
+> Breaking changes from the version 2.4.0 and higher <br /> <br />
+>  Added a new optional parameter takeImageType: TakeImageType = TakeImageType.TAKE_IMAGE <br /> <br />
+> `takeSingleCameraImage(context = context)` <br /> <br />
+> `takeSingleCameraImageWithBase64Value(context = context)`
+
 ## Basic Configuration (Gradle Dependencies)
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
