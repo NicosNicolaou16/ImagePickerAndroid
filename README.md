@@ -279,6 +279,7 @@ PickMultipleImagesWithBase64Values(
         //...your code here
     })
 
+// The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`
 TakeSingleCameraImage(
     scaleBitmapModel = null,
     takeImageType = TakeImageType.TAKE_IMAGE,
@@ -286,6 +287,7 @@ TakeSingleCameraImage(
         //...your code here
     })
 
+// The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`
 TakeSingleCameraImageWithBase64Value(
     scaleBitmapModel = null,
     takeImageType = TakeImageType.TAKE_IMAGE,
