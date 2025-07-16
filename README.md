@@ -50,8 +50,12 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 
 > [!IMPORTANT]  
 > Breaking changes from the version 2.4.0 and higher <br /> <br />
->  Added a new optional parameter `takeImageType: TakeImageType = TakeImageType.TAKE_IMAGE` (By default is `TakeImageType.TAKE_IMAGE`) <br /> <br />
->  Two options are `TakeImageType.TAKE_IMAGE` and `TakeImageType.TAKE_IMAGE_PREVIEW` <br /> <br />
+> Added a new optional parameter `takeImageType: TakeImageType = TakeImageType.TAKE_IMAGE` (By
+> default is `TakeImageType.TAKE_IMAGE`) <br /> <br />
+> Those parameters are using to select if you want `ActivityResultContracts.TakePicture()` or
+`ActivityResultContracts.TakePicturePreview()` <br /> <br />
+> The two options (enum) are `TakeImageType.TAKE_IMAGE` or
+`TakeImageType.TAKE_IMAGE_PREVIEW` <br /> <br />
 > `takeSingleCameraImage(context = context)` <br /> <br />
 > `takeSingleCameraImageWithBase64Value(context = context)`
 
@@ -61,7 +65,8 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 
 > [!IMPORTANT]  
 > Check my article with the implementation <br />
-> :point_right: [ImagePickerAndroid - My Android Image Picker Library 🧑‍💻 - Medium](https://medium.com/@nicosnicolaou/imagepickerandroid-my-android-image-picker-library-d1ac86c60e3a)
+> :
+> point_right: [ImagePickerAndroid - My Android Image Picker Library 🧑‍💻 - Medium](https://medium.com/@nicosnicolaou/imagepickerandroid-my-android-image-picker-library-d1ac86c60e3a)
 > :point_left: <br />
 
 ### Groovy
