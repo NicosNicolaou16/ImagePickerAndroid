@@ -45,6 +45,7 @@ import com.nicos.imagepickerandroid.image_picker.pickMultipleImagesWithBase64Val
 import com.nicos.imagepickerandroid.image_picker.pickSingleImage
 import com.nicos.imagepickerandroid.image_picker.pickSingleVideo
 import com.nicos.imagepickerandroid.image_picker.takeSingleCameraImage
+import com.nicos.imagepickerandroid.utils.enums.TakeImageType
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import com.nicos.imagepickerandroidcompose.ui.theme.ImagePickerAndroidTheme
 
@@ -98,11 +99,14 @@ fun ImagePicker() {
                 }
             }
         })
-    TakeSingleCameraImage(scaleBitmapModel = null, listener = { bitmap, base64 ->
-        if (bitmap != null) {
-            bitmapValue.value = bitmap
-        }
-    })
+    TakeSingleCameraImage(
+        scaleBitmapModel = null,
+        takeImageType = TakeImageType.TAKE_IMAGE_PREVIEW,
+        listener = { bitmap, base64 ->
+            if (bitmap != null) {
+                bitmapValue.value = bitmap
+            }
+        })
     val exoPlayer = remember {
         mutableStateOf(ExoPlayer.Builder(context).build().apply {
             setMediaItem(MediaItem.fromUri(uriValue.value))

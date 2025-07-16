@@ -281,12 +281,14 @@ PickMultipleImagesWithBase64Values(
 
 TakeSingleCameraImage(
     scaleBitmapModel = null,
+    takeImageType = TakeImageType.TAKE_IMAGE,
     listener = { bitmap, uri ->
         //...your code here
     })
 
 TakeSingleCameraImageWithBase64Value(
     scaleBitmapModel = null,
+    takeImageType = TakeImageType.TAKE_IMAGE,
     listener = { bitmap, uri, base64 ->
         //...your code here
     })
