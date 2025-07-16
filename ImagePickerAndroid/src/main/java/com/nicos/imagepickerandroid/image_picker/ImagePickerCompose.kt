@@ -434,12 +434,12 @@ fun TakeSingleCameraImageWithBase64Value(
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
                 if (success) {
                     if (photoUriWithBase64 != null) {
-                        val bitmap = imageHelperMethods.convertUriToBitmap(
-                            contentResolver = context.contentResolver,
-                            uri = photoUriWithBase64
-                        )
                         if (scaleBitmapModel != null) {
                             composableScope.launch(Dispatchers.Default) {
+                                val bitmap = imageHelperMethods.convertUriToBitmap(
+                                    contentResolver = context.contentResolver,
+                                    uri = photoUriWithBase64
+                                )
                                 imageHelperMethods.scaleBitmap(
                                     bitmap = bitmap,
                                     scaleBitmapModel = scaleBitmapModel
@@ -454,6 +454,10 @@ fun TakeSingleCameraImageWithBase64Value(
                             }
                         } else {
                             composableScope.launch(Dispatchers.Default) {
+                                val bitmap = imageHelperMethods.convertUriToBitmap(
+                                    contentResolver = context.contentResolver,
+                                    uri = photoUriWithBase64
+                                )
                                 imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
                                     .collect { base64 ->
                                         composableScope.launch(Dispatchers.Main) {
