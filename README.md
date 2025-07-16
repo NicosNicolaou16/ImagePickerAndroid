@@ -50,8 +50,8 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 
 > [!IMPORTANT]  
 > Breaking changes from the version 2.4.0 and higher <br /> <br />
->  Added a new optional parameter `takeImageType: TakeImageType = TakeImageType.TAKE_IMAGE` (By default is TakeImageType.TAKE_IMAGE) <br /> <br />
->  Two options are TakeImageType.TAKE_IMAGE and TakeImageType.TAKE_IMAGE_PREVIEW <br /> <br />
+>  Added a new optional parameter `takeImageType: TakeImageType = TakeImageType.TAKE_IMAGE` (By default is `TakeImageType.TAKE_IMAGE`) <br /> <br />
+>  Two options are `TakeImageType.TAKE_IMAGE` and `TakeImageType.TAKE_IMAGE_PREVIEW` <br /> <br />
 > `takeSingleCameraImage(context = context)` <br /> <br />
 > `takeSingleCameraImageWithBase64Value(context = context)`
 
