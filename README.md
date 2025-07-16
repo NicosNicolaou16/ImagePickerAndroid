@@ -56,8 +56,25 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 `ActivityResultContracts.TakePicturePreview()` <br /> <br />
 > The two options (enum) are `TakeImageType.TAKE_IMAGE` or
 `TakeImageType.TAKE_IMAGE_PREVIEW` <br /> <br />
-> `takeSingleCameraImage(context = context)` <br /> <br />
-> `takeSingleCameraImageWithBase64Value(context = context)`
+```Kotlin
+// The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
+// by default is `TakeImageType.TAKE_IMAGE`
+TakeSingleCameraImage(
+scaleBitmapModel = null,
+takeImageType = TakeImageType.TAKE_IMAGE,
+listener = { bitmap, uri ->
+//...your code here
+})
+
+// The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
+// by default is `TakeImageType.TAKE_IMAGE`
+TakeSingleCameraImageWithBase64Value(
+scaleBitmapModel = null,
+takeImageType = TakeImageType.TAKE_IMAGE,
+listener = { bitmap, uri, base64 ->
+//...your code here
+})
+```
 
 ## Basic Configuration (Gradle Dependencies)
 
