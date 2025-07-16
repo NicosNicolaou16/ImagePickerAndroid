@@ -6,21 +6,17 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -38,8 +34,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import com.nicos.imagepickerandroid.image_picker.PickMultipleImagesWithBase64Values
 import com.nicos.imagepickerandroid.image_picker.PickSingleImage
@@ -102,7 +98,7 @@ fun ImagePicker() {
                 }
             }
         })
-    TakeSingleCameraImage(scaleBitmapModel = null, listener = { bitmap, uri ->
+    TakeSingleCameraImage(scaleBitmapModel = null, listener = { bitmap, base64 ->
         if (bitmap != null) {
             bitmapValue.value = bitmap
         }
@@ -124,8 +120,6 @@ fun ImagePicker() {
             }
         }
     })
-
-    val scope = rememberCoroutineScope()
 
     Column(
         modifier = Modifier.fillMaxSize(),
