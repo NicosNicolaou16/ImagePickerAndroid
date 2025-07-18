@@ -9,12 +9,10 @@
 
     <application>
         <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.nicos.imagepickerandroidcompose.library.file.provider"
+            android:name="com.nicos.imagepickerandroid.utils.my_library_file_provider.MyLibraryFileProvider"
+            android:authorities="com.nick.imagepickerandroid.library.file.provider"
             android:exported="false"
-            android:grantUriPermissions="true"
-            tools:node="remove"
-            tools:replace="android:authorities">
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path" />
