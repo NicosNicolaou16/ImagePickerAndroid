@@ -83,10 +83,7 @@ TakeSingleCameraImageWithBase64Value(
 
 > [!IMPORTANT]  
 > Check my article with the implementation <br />
-> :
->
-point_right: [ImagePickerAndroid - My Android Image Picker Library 🧑‍💻 - Medium](https://medium.com/@nicosnicolaou/imagepickerandroid-my-android-image-picker-library-d1ac86c60e3a)
-> :point_left: <br />
+> :point_right: [ImagePickerAndroid - My Android Image Picker Library 🧑‍💻 - Medium](https://medium.com/@nicosnicolaou/imagepickerandroid-my-android-image-picker-library-d1ac86c60e3a) :point_left: <br />
 
 ### Groovy
 
