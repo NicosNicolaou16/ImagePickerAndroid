@@ -91,7 +91,7 @@ point_right: [ImagePickerAndroid - My Android Image Picker Library 🧑‍💻 -
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.4.0'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.4.4'
 ```
 
 ```Groovy
@@ -105,7 +105,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.4.0")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.4.4")
 ```
 
 ```Kotlin
@@ -123,7 +123,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.4.0"
+imagePickerAndroid = "2.4.4"
 
 [libraries]
 # other libraries here...
