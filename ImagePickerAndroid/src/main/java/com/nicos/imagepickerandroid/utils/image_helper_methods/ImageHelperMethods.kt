@@ -52,6 +52,10 @@ internal class ImageHelperMethods {
             Bitmap::class.java
         ) else intent.extras?.get("data") as? Bitmap
 
+    /**
+     * This method converted a bitmap to a base64 value
+     * @param bitmap gives a bitmap
+     * */
     internal fun convertBitmapToBase64(bitmap: Bitmap?) = flow {
         if (bitmap != null) {
             try {
