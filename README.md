@@ -31,12 +31,12 @@ Reasons to use this library
 
 ### Versioning
 
-Gradle Version 8.12.0 <br />
-Kotlin Version 2.2.0 <br />
+Gradle Version 8.13.0 <br />
+Kotlin Version 2.2.20 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
-Target SDK 35 <br />
-Build Tool Version 35.0.1 <br />
+Target SDK 36 <br />
+Build Tool Version 36.0.0 <br />
 
 ## IMPORTANT NOTE
 
@@ -88,7 +88,7 @@ TakeSingleCameraImageWithBase64Value(
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.4.4'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.4.5'
 ```
 
 ```Groovy
@@ -102,7 +102,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.4.4")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.4.5")
 ```
 
 ```Kotlin
@@ -120,7 +120,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.4.4"
+imagePickerAndroid = "2.4.5"
 
 [libraries]
 # other libraries here...

@@ -10,13 +10,13 @@ plugins {
 
 android {
     namespace = "com.nick.imagepickerandroid"
-    compileSdk = 35
-    buildToolsVersion = "35.0.1"
+    compileSdk = 36
+    buildToolsVersion = "36.0.0"
 
     defaultConfig {
         minSdk = 24
-        lint.targetSdk = 35
-        testOptions.targetSdk = 35
+        lint.targetSdk = 36
+        testOptions.targetSdk = 36
         buildFeatures {
             compose = true
         }
@@ -43,6 +43,7 @@ android {
     kotlin {
         compilerOptions {
             jvmTarget = JvmTarget.fromTarget("17")
+            freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
         }
     }
 }
@@ -85,7 +86,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.github.NicosNicolaou16"
                 artifactId = "ImagePickerAndroid"
-                version = "2.4.4"
+                version = "2.4.5"
                 from(components["release"])
             }
         }
