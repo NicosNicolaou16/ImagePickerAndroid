@@ -180,9 +180,19 @@ fun PickSingleImageWithBase64Value(
 
 /**
  * This method is calling from listener to pick single image with base64 value
+ * @param context pass context
+ * @param onImagePickerNotAvailable callback for image picker not available
  * */
-fun pickSingleImageWithBase64Value() {
-    pickSingleImageWithBase64Value?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+fun pickSingleImageWithBase64Value(
+    context: Context,
+    onImagePickerNotAvailable: (() -> Unit)? = null
+) {
+    if (isPickerAvailable(context = context)) {
+        pickSingleImageWithBase64Value?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    } else {
+        imagePickerNotAvailableLogs()
+        onImagePickerNotAvailable?.invoke()
+    }
 }
 
 /**
