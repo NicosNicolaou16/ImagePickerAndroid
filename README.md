@@ -321,13 +321,21 @@ PickSingleVideo(listener = { uri ->
 ### Step 2 Call from Click Listeners (choose the preferred method(s))
 
 ```Kotlin
-pickSingleImage()
+pickSingleImage(context = context, onImagePickerNotAvailable = {
+      // show custom dialog - showDialog.value = true
+})
 
-pickSingleImageWithBase64Value()
+pickSingleImageWithBase64Value(context = context, onImagePickerNotAvailable = {
+    // show custom dialog - showDialog.value = true 
+})    
 
-pickMultipleImages()
+pickMultipleImages(context = context, onImagePickerNotAvailable = {
+    // show custom dialog - showDialog.value = true
+})
 
-pickMultipleImagesWithBase64Values()
+pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable = {
+    // show custom dialog - showDialog.value = true
+})
 
 /**
  * onPermanentCameraPermissionDeniedCallBack is optional
@@ -336,7 +344,7 @@ takeSingleCameraImage(context = context, onPermanentCameraPermissionDeniedCallBa
     // show custom dialog - showDialog.value = true
 })
 
-takeSingleCameraImageWithBase64Value(context = onPermanentCameraPermissionDeniedCallBack {
+takeSingleCameraImageWithBase64Value(context = context, onPermanentCameraPermissionDeniedCallBack {
     // show custom dialog - showDialog.value = true
 })
 
