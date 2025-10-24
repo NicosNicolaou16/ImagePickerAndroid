@@ -321,9 +321,19 @@ fun PickMultipleImagesWithBase64Values(
 
 /**
  * This method is calling from listener to pick multiple images with base64 values
+ * @param context pass context
+ * @param onImagePickerNotAvailable callback for image picker not available
  * */
-fun pickMultipleImagesWithBase64Values() {
-    pickMultipleImagesWithBase64Values?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+fun pickMultipleImagesWithBase64Values(
+    context: Context,
+    onImagePickerNotAvailable: (() -> Unit)? = null
+) {
+    if (isPickerAvailable(context = context)) {
+        pickMultipleImagesWithBase64Values?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    } else {
+        imagePickerNotAvailableLogs()
+        onImagePickerNotAvailable?.invoke()
+    }
 }
 
 /**
