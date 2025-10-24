@@ -295,6 +295,10 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     override fun onPermanentCameraPermissionDenied() {
         super.onPermanentCameraPermissionDenied()
     }
+
+    override fun onImagePickerNotAvailable() {
+      super.onImagePickerNotAvailable()
+    }
 }
 ```
 
