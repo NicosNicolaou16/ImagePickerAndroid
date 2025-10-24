@@ -24,4 +24,5 @@ interface ImagePickerInterface {
     }
 
     fun onPermanentCameraPermissionDenied() {}
+    fun onImagePickerNotAvailable() {}
 }

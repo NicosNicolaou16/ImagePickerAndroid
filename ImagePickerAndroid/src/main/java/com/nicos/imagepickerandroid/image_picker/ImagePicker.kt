@@ -15,6 +15,7 @@ import androidx.annotation.IntRange
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.nicos.imagepickerandroid.utils.constants.Constants
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import com.nicos.imagepickerandroid.utils.permissions.PermissionsHelper
@@ -65,21 +66,32 @@ data class ImagePicker(
 
     /**
      * Method call in listener to open image picker
+     * @param imagePickerInterface call back, return the data to the activity/fragment, by default is null
      * */
-    fun pickSingleImageFromGallery() {
+    fun pickSingleImageFromGallery(imagePickerInterface: ImagePickerInterface? = null) {
         fragmentActivity?.let {
-            pickImageFromGalleryResultLauncher?.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly
+            if (imageHelperMethods.imagePickerAvailable(context = it)) {
+                pickImageFromGalleryResultLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
                 )
-            )
+            } else {
+                Constants.imagePickerNotAvailableLogs()
+                imagePickerInterface?.onImagePickerNotAvailable()
+            }
         }
         fragment?.let {
-            pickImageFromGalleryResultLauncher?.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly
+            if (imageHelperMethods.imagePickerAvailable(context = it.requireContext())) {
+                pickImageFromGalleryResultLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
                 )
-            )
+            } else {
+                Constants.imagePickerNotAvailableLogs()
+                imagePickerInterface?.onImagePickerNotAvailable()
+            }
         }
     }
 
@@ -167,21 +179,32 @@ data class ImagePicker(
 
     /**
      * Method call in listener to open image picker
+     * @param imagePickerInterface call back, return the data to the activity/fragment, by default is null
      * */
-    fun pickMultipleImagesFromGallery() {
+    fun pickMultipleImagesFromGallery(imagePickerInterface: ImagePickerInterface? = null) {
         fragmentActivity?.let {
-            pickMultipleImageFromGalleryResultLauncher?.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly
+            if (imageHelperMethods.imagePickerAvailable(context = it)) {
+                pickMultipleImageFromGalleryResultLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
                 )
-            )
+            } else {
+                Constants.imagePickerNotAvailableLogs()
+                imagePickerInterface?.onImagePickerNotAvailable()
+            }
         }
         fragment?.let {
-            pickMultipleImageFromGalleryResultLauncher?.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly
+            if (imageHelperMethods.imagePickerAvailable(context = it.requireContext())) {
+                pickMultipleImageFromGalleryResultLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
                 )
-            )
+            } else {
+                Constants.imagePickerNotAvailableLogs()
+                imagePickerInterface?.onImagePickerNotAvailable()
+            }
         }
     }
 
