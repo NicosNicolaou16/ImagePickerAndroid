@@ -42,6 +42,8 @@ Build Tool Version 36.0.0 <br />
 
 THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 
+## Migration
+
 > [!IMPORTANT]  
 > Breaking changes from the version 2.3.0 and higher <br /> <br />
 > `takeSingleCameraImage()` changed to `takeSingleCameraImage(context = context)` <br /> <br />
