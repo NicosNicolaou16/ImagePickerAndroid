@@ -32,7 +32,7 @@ Reasons to use this library
 ### Versioning
 
 Gradle Version 8.13.0 <br />
-Kotlin Version 2.2.20 <br />
+Kotlin Version 2.2.21 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
 Target SDK 36 <br />
@@ -41,6 +41,8 @@ Build Tool Version 36.0.0 <br />
 ## IMPORTANT NOTE
 
 THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
+
+## Migration
 
 > [!IMPORTANT]  
 > Breaking changes from the version 2.3.0 and higher <br /> <br />
@@ -76,6 +78,40 @@ TakeSingleCameraImageWithBase64Value(
         //...your code here
     })
 ```
+> [!IMPORTANT]  
+> Breaking changes from the version 2.5.0 and higher <br /> <br />
+>
+> Activity/Fragment/XML support <br />
+> 
+> Implemented a check to ensure the image picker is available; no migration required. <br />
+> Added a new optional callback `fun onImagePickerNotAvailable() { super.onImagePickerNotAvailable() }` <br />
+> 
+> Compose Support <br />
+>
+> Added two new parameters to the Image Picker methods called in listener, one parameter is required, the second is optional. <br />
+> - context (required) <br />
+> - onImagePickerNotAvailable (optional) <br />
+> 
+> Note for both types (Activity/Fragment/XML/Compose support): When the image is not available there is a Log.w(...), show only when the BuildConfig.DEBUG is true. <br />
+```logcatfilter
+ImagePickerAndroid      com.nicos.imagepickerandroidcompose  W  Image Picker is not available
+```
+
+```Kotlin
+pickSingleImage(context = context, onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+pickSingleImageWithBase64Value(context = context, onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+pickMultipleImages(context = context, onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+```
+
 
 ## Basic Configuration (Gradle Dependencies)
 
@@ -88,7 +124,7 @@ TakeSingleCameraImageWithBase64Value(
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.4.5'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.5.0'
 ```
 
 ```Groovy
@@ -102,7 +138,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.4.5")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.5.0")
 ```
 
 ```Kotlin
@@ -120,7 +156,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.4.5"
+imagePickerAndroid = "2.5.0"
 
 [libraries]
 # other libraries here...
@@ -260,6 +296,12 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     // Need to call and set the shouldRedirectedToSettingsIfPermissionDenied = false from builder to use this callback
     override fun onPermanentCameraPermissionDenied() {
         super.onPermanentCameraPermissionDenied()
+        //...your code here
+    }
+
+    override fun onImagePickerNotAvailable() {
+      super.onImagePickerNotAvailable()
+      //...your code here
     }
 }
 ```
@@ -321,13 +363,21 @@ PickSingleVideo(listener = { uri ->
 ### Step 2 Call from Click Listeners (choose the preferred method(s))
 
 ```Kotlin
-pickSingleImage()
+pickSingleImage(context = context, onImagePickerNotAvailable = {
+      // show custom dialog - showDialog.value = true
+})
 
-pickSingleImageWithBase64Value()
+pickSingleImageWithBase64Value(context = context, onImagePickerNotAvailable = {
+    // show custom dialog - showDialog.value = true 
+})    
 
-pickMultipleImages()
+pickMultipleImages(context = context, onImagePickerNotAvailable = {
+    // show custom dialog - showDialog.value = true
+})
 
-pickMultipleImagesWithBase64Values()
+pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable = {
+    // show custom dialog - showDialog.value = true
+})
 
 /**
  * onPermanentCameraPermissionDeniedCallBack is optional
@@ -336,7 +386,7 @@ takeSingleCameraImage(context = context, onPermanentCameraPermissionDeniedCallBa
     // show custom dialog - showDialog.value = true
 })
 
-takeSingleCameraImageWithBase64Value(context = onPermanentCameraPermissionDeniedCallBack {
+takeSingleCameraImageWithBase64Value(context = context, onPermanentCameraPermissionDeniedCallBack {
     // show custom dialog - showDialog.value = true
 })
 
@@ -366,7 +416,7 @@ fun ImagePicker() {
         //other code
         Button(modifier = Modifier.size(150.dp, 50.dp), onClick = {
             //pick image from the gallery 
-            pickSingleImage()
+            pickSingleImage(context = context, onImagePickerNotAvailable = {})
         }) {
             Text(
                 text = stringResource(R.string.pick_single_image),

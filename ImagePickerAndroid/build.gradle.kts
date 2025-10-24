@@ -19,6 +19,7 @@ android {
         testOptions.targetSdk = 36
         buildFeatures {
             compose = true
+            buildConfig = true
         }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -86,7 +87,7 @@ afterEvaluate {
             register<MavenPublication>("release") {
                 groupId = "com.github.NicosNicolaou16"
                 artifactId = "ImagePickerAndroid"
-                version = "2.4.5"
+                version = "2.5.0"
                 from(components["release"])
             }
         }

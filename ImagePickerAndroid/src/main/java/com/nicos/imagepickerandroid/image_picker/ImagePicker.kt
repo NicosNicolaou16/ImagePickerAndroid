@@ -15,6 +15,7 @@ import androidx.annotation.IntRange
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.nicos.imagepickerandroid.utils.constants.Constants.imagePickerNotAvailableLogs
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import com.nicos.imagepickerandroid.utils.permissions.PermissionsHelper
@@ -68,18 +69,28 @@ data class ImagePicker(
      * */
     fun pickSingleImageFromGallery() {
         fragmentActivity?.let {
-            pickImageFromGalleryResultLauncher?.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly
+            if (imageHelperMethods.isImagePickerAvailable(context = it)) {
+                pickImageFromGalleryResultLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
                 )
-            )
+            } else {
+                imagePickerNotAvailableLogs()
+                imagePickerInterface?.onImagePickerNotAvailable()
+            }
         }
         fragment?.let {
-            pickImageFromGalleryResultLauncher?.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly
+            if (imageHelperMethods.isImagePickerAvailable(context = it.requireContext())) {
+                pickImageFromGalleryResultLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
                 )
-            )
+            } else {
+                imagePickerNotAvailableLogs()
+                imagePickerInterface?.onImagePickerNotAvailable()
+            }
         }
     }
 
@@ -170,18 +181,28 @@ data class ImagePicker(
      * */
     fun pickMultipleImagesFromGallery() {
         fragmentActivity?.let {
-            pickMultipleImageFromGalleryResultLauncher?.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly
+            if (imageHelperMethods.isImagePickerAvailable(context = it)) {
+                pickMultipleImageFromGalleryResultLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
                 )
-            )
+            } else {
+                imagePickerNotAvailableLogs()
+                imagePickerInterface?.onImagePickerNotAvailable()
+            }
         }
         fragment?.let {
-            pickMultipleImageFromGalleryResultLauncher?.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.ImageOnly
+            if (imageHelperMethods.isImagePickerAvailable(context = it.requireContext())) {
+                pickMultipleImageFromGalleryResultLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                    )
                 )
-            )
+            } else {
+                imagePickerNotAvailableLogs()
+                imagePickerInterface?.onImagePickerNotAvailable()
+            }
         }
     }
 
