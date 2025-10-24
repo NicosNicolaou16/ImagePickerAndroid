@@ -63,16 +63,16 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 > context (Required) and onImagePickerNotAvailable (Optional) <br /> <br />
 > pickSingleImage(context = context, onImagePickerNotAvailable = {
 > // show custom dialog - showDialog.value = true
-> })
+> }) <br /> <br />
 > pickSingleImageWithBase64Value(context = context, onImagePickerNotAvailable = {
 > // show custom dialog - showDialog.value = true
-> })
+> }) <br /> <br />
 > pickMultipleImages(context = context, onImagePickerNotAvailable = {
 > // show custom dialog - showDialog.value = true
-> })
+> }) <br /> <br />
 > pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable = {
 > // show custom dialog - showDialog.value = true
->})
+>}) <br /> <br />
 
 ```Kotlin
 // The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
