@@ -19,6 +19,7 @@ android {
         testOptions.targetSdk = 36
         buildFeatures {
             compose = true
+            buildConfig = true
         }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

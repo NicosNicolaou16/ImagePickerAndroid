@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -19,6 +20,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import com.nick.imagepickerandroid.BuildConfig
+import com.nicos.imagepickerandroid.utils.constants.Constants.TAG
+import com.nicos.imagepickerandroid.utils.constants.Constants.imagePickerNotAvailableLogs
 import com.nicos.imagepickerandroid.utils.enums.TakeImageType
 import com.nicos.imagepickerandroid.utils.extensions.getUriWithFileProvider
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
@@ -112,8 +116,12 @@ fun PickSingleImage(
 /**
  * This method is calling from listener to pick single image
  * */
-fun pickSingleImage() {
-    pickSingleImage?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+fun pickSingleImage(context: Context) {
+    if(isPickerAvailable(context = context)) {
+        pickSingleImage?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    } else {
+        imagePickerNotAvailableLogs()
+    }
 }
 
 /**
@@ -222,8 +230,12 @@ fun PickMultipleImages(
 /**
  * This method is calling from listener to pick multiple images
  * */
-fun pickMultipleImages() {
-    pickMultipleImages?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+fun pickMultipleImages(context: Context) {
+    if (isPickerAvailable(context)) {
+        pickMultipleImages?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly))
+    } else {
+        imagePickerNotAvailableLogs()
+    }
 }
 
 /**
@@ -582,3 +594,7 @@ fun PickSingleVideo(
 fun pickSingleVideo() {
     pickVideo?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
 }
+
+
+private fun isPickerAvailable(context: Context): Boolean =
+    ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(context)
