@@ -245,12 +245,18 @@ fun PickMultipleImages(
 
 /**
  * This method is calling from listener to pick multiple images
+ * @param context pass context
+ * @param onImagePickerNotAvailable callback for image picker not available
  * */
-fun pickMultipleImages(context: Context) {
-    if (isPickerAvailable(context)) {
+fun pickMultipleImages(
+    context: Context,
+    onImagePickerNotAvailable: (() -> Unit)? = null
+) {
+    if (isPickerAvailable(context = context)) {
         pickMultipleImages?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly))
     } else {
         imagePickerNotAvailableLogs()
+        onImagePickerNotAvailable?.invoke()
     }
 }
 
