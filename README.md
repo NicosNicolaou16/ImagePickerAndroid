@@ -294,10 +294,12 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     // Need to call and set the shouldRedirectedToSettingsIfPermissionDenied = false from builder to use this callback
     override fun onPermanentCameraPermissionDenied() {
         super.onPermanentCameraPermissionDenied()
+        //...your code here
     }
 
     override fun onImagePickerNotAvailable() {
       super.onImagePickerNotAvailable()
+      //...your code here
     }
 }
 ```
