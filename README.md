@@ -79,10 +79,10 @@ TakeSingleCameraImageWithBase64Value(
 > [!IMPORTANT]  
 > Breaking changes from the version 2.5.0 and higher <br /> <br />
 >
-> Activity/Fragment/XML support <br /> <br />
-> Implemented a check to ensure the image picker is available; no migration required. <br /> <br />
+> Activity/Fragment/XML support <br />
+> Implemented a check to ensure the image picker is available; no migration required. <br />
 > 
-> Compose Support <br /> <br />
+> Compose Support <br />
 >
 > Added two new parameters to the Image Picker methods called in listener, one parameter is required, the second is optional. <br />
 > - context (required) <br />
