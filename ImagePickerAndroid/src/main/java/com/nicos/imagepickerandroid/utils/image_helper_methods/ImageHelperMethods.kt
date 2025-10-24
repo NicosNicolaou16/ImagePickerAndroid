@@ -158,6 +158,6 @@ internal class ImageHelperMethods {
         return File(context.cacheDir, fileName)
     }
 
-    internal fun imagePickerAvailable(context: Context): Boolean =
+    internal fun isImagePickerAvailable(context: Context): Boolean =
         ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(context)
 }

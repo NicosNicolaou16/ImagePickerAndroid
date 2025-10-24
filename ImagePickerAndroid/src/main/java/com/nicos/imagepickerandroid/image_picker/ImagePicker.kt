@@ -15,7 +15,6 @@ import androidx.annotation.IntRange
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.nicos.imagepickerandroid.utils.constants.Constants
 import com.nicos.imagepickerandroid.utils.constants.Constants.imagePickerNotAvailableLogs
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
@@ -70,7 +69,7 @@ data class ImagePicker(
      * */
     fun pickSingleImageFromGallery() {
         fragmentActivity?.let {
-            if (imageHelperMethods.imagePickerAvailable(context = it)) {
+            if (imageHelperMethods.isImagePickerAvailable(context = it)) {
                 pickImageFromGalleryResultLauncher?.launch(
                     PickVisualMediaRequest(
                         ActivityResultContracts.PickVisualMedia.ImageOnly
@@ -82,7 +81,7 @@ data class ImagePicker(
             }
         }
         fragment?.let {
-            if (imageHelperMethods.imagePickerAvailable(context = it.requireContext())) {
+            if (imageHelperMethods.isImagePickerAvailable(context = it.requireContext())) {
                 pickImageFromGalleryResultLauncher?.launch(
                     PickVisualMediaRequest(
                         ActivityResultContracts.PickVisualMedia.ImageOnly
@@ -182,7 +181,7 @@ data class ImagePicker(
      * */
     fun pickMultipleImagesFromGallery() {
         fragmentActivity?.let {
-            if (imageHelperMethods.imagePickerAvailable(context = it)) {
+            if (imageHelperMethods.isImagePickerAvailable(context = it)) {
                 pickMultipleImageFromGalleryResultLauncher?.launch(
                     PickVisualMediaRequest(
                         ActivityResultContracts.PickVisualMedia.ImageOnly
@@ -194,7 +193,7 @@ data class ImagePicker(
             }
         }
         fragment?.let {
-            if (imageHelperMethods.imagePickerAvailable(context = it.requireContext())) {
+            if (imageHelperMethods.isImagePickerAvailable(context = it.requireContext())) {
                 pickMultipleImageFromGalleryResultLauncher?.launch(
                     PickVisualMediaRequest(
                         ActivityResultContracts.PickVisualMedia.ImageOnly
