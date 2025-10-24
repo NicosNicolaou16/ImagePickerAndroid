@@ -105,4 +105,9 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         Log.d("onPermanentCameraPermissionDenied", "callback")
         super.onPermanentCameraPermissionDenied()
     }
+
+    override fun onImagePickerNotAvailable() {
+        Log.d("onImagePickerNotAvailable", "callback")
+        super.onImagePickerNotAvailable()
+    }
 }

@@ -82,6 +82,7 @@ TakeSingleCameraImageWithBase64Value(
 > Activity/Fragment/XML support <br />
 > 
 > Implemented a check to ensure the image picker is available; no migration required. <br />
+> Added a new optional callback onImagePickerNotAvailable() { super.onImagePickerNotAvailable() } <br />
 > 
 > Compose Support <br />
 >
