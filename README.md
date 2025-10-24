@@ -78,8 +78,9 @@ TakeSingleCameraImageWithBase64Value(
 ```
 > [!IMPORTANT]  
 > Breaking changes from the version 2.5.0 and higher <br /> <br />
-> Added new parameters to the Image Picker methods, one parameter is required, the second is optional: <br /> <br />
-> context (Required) and onImagePickerNotAvailable (Optional) <br /> <br />
+> Added two new parameters to the Image Picker methods called in listener, one parameter is required, the second is optional. <br /> <br />
+> - context (required) <br /> <br />
+> - onImagePickerNotAvailable (optional) <br /> <br />
 
 ```Kotlin
 pickSingleImage(context = context, onImagePickerNotAvailable = {
