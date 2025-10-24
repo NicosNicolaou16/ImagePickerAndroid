@@ -62,16 +62,16 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 > Added new parameters to the Image Picker methods, one parameter is required, the second is optional: <br /> <br />
 > context (Required) and onImagePickerNotAvailable (Optional) <br /> <br />
 > pickSingleImage(context = context, onImagePickerNotAvailable = {
-> // show custom dialog - showDialog.value = true
+>  <br /> <br /> // show custom dialog - showDialog.value = true
 > }) <br /> <br />
 > pickSingleImageWithBase64Value(context = context, onImagePickerNotAvailable = {
-> // show custom dialog - showDialog.value = true
+>  <br /> <br /> // show custom dialog - showDialog.value = true
 > }) <br /> <br />
 > pickMultipleImages(context = context, onImagePickerNotAvailable = {
-> // show custom dialog - showDialog.value = true
+>  <br /> <br /> // show custom dialog - showDialog.value = true
 > }) <br /> <br />
 > pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable = {
-> // show custom dialog - showDialog.value = true
+>  <br /> <br /> // show custom dialog - showDialog.value = true
 >}) <br /> <br />
 
 ```Kotlin
