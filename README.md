@@ -57,6 +57,23 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 > The two options (enum) are `TakeImageType.TAKE_IMAGE` or
 `TakeImageType.TAKE_IMAGE_PREVIEW` <br /> <br />
 
+> [!IMPORTANT]  
+> Breaking changes from the version 2.5.0 and higher <br /> <br />
+> Added new parameters to the Image Picker methods, one parameter is required, the second is optional: <br /> <br />
+> context (Required) and onImagePickerNotAvailable (Optional) <br /> <br />
+> pickSingleImage(context = context, onImagePickerNotAvailable = {
+> // show custom dialog - showDialog.value = true
+> })
+> pickSingleImageWithBase64Value(context = context, onImagePickerNotAvailable = {
+> // show custom dialog - showDialog.value = true
+> })
+> pickMultipleImages(context = context, onImagePickerNotAvailable = {
+> // show custom dialog - showDialog.value = true
+> })
+> pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable = {
+> // show custom dialog - showDialog.value = true
+>})
+
 ```Kotlin
 // The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
 // by default is `TakeImageType.TAKE_IMAGE`
@@ -374,7 +391,7 @@ fun ImagePicker() {
         //other code
         Button(modifier = Modifier.size(150.dp, 50.dp), onClick = {
             //pick image from the gallery 
-            pickSingleImage()
+            pickSingleImage(context = context, onImagePickerNotAvailable = {})
         }) {
             Text(
                 text = stringResource(R.string.pick_single_image),
