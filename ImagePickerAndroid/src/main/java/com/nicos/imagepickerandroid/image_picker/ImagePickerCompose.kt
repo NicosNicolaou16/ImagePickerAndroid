@@ -116,11 +116,12 @@ fun PickSingleImage(
 /**
  * This method is calling from listener to pick single image
  * */
-fun pickSingleImage(context: Context) {
+fun pickSingleImage(context: Context, onImagePickerNotAvailable: (() -> Unit)? = null) {
     if(isPickerAvailable(context = context)) {
         pickSingleImage?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
     } else {
         imagePickerNotAvailableLogs()
+        onImagePickerNotAvailable?.invoke()
     }
 }
 
