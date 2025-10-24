@@ -329,7 +329,7 @@ fun pickMultipleImagesWithBase64Values(
     onImagePickerNotAvailable: (() -> Unit)? = null
 ) {
     if (isPickerAvailable(context = context)) {
-        pickMultipleImagesWithBase64Values?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        pickMultipleImagesWithBase64Values?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly))
     } else {
         imagePickerNotAvailableLogs()
         onImagePickerNotAvailable?.invoke()
@@ -353,11 +353,14 @@ fun TakeSingleCameraImage(
     val composableScope = rememberCoroutineScope()
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
         takeCameraImage =
-            rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
                 if (success) {
                     if (photoUri != null) {
                         val bitmap =
-                            imageHelperMethods.convertUriToBitmap(context.contentResolver, photoUri)
+                            imageHelperMethods.convertUriToBitmap(
+                                contentResolver = context.contentResolver,
+                                photoUri
+                            )
                         if (scaleBitmapModel != null) {
                             composableScope.launch(Dispatchers.Default) {
                                 imageHelperMethods.scaleBitmap(
@@ -377,7 +380,7 @@ fun TakeSingleCameraImage(
             }
     } else {
         takeCameraImagePreview =
-            rememberLauncherForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
+            rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { bitmap ->
                 if (bitmap != null) {
                     val uri = imageHelperMethods.getUriFromBitmap(bitmap)
                     if (scaleBitmapModel != null) {
@@ -407,7 +410,7 @@ private fun CameraPermission(takeImageType: TakeImageType) {
     val context = LocalContext.current
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
         takeCameraImage =
-            rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
                 if (!success) {
                     photoUri = null
                 }
@@ -422,9 +425,9 @@ private fun CameraPermission(takeImageType: TakeImageType) {
                 val photoFile = imageHelperMethods.createImageFile(context)
                 val uri = photoFile.getUriWithFileProvider(context)
                 photoUri = uri
-                takeCameraImage?.launch(uri)
+                takeCameraImage?.launch(input = uri)
             } else {
-                takeCameraImagePreview?.launch(null)
+                takeCameraImagePreview?.launch(input = null)
             }
         }
     }
@@ -479,7 +482,7 @@ fun TakeSingleCameraImageWithBase64Value(
                 if (success) {
                     if (photoUriWithBase64 != null) {
                         if (scaleBitmapModel != null) {
-                            composableScope.launch(Dispatchers.Default) {
+                            composableScope.launch(context = Dispatchers.Default) {
                                 val bitmap = imageHelperMethods.convertUriToBitmap(
                                     contentResolver = context.contentResolver,
                                     uri = photoUriWithBase64
@@ -525,7 +528,7 @@ fun TakeSingleCameraImageWithBase64Value(
                             ).collect { scaledBitmap ->
                                 imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
                                     .collect { base64 ->
-                                        composableScope.launch(Dispatchers.Main) {
+                                        composableScope.launch(context = Dispatchers.Main) {
                                             listener(scaledBitmap, base64)
                                         }
                                     }
@@ -554,7 +557,7 @@ private fun CameraPermissionForBase64(takeImageType: TakeImageType) {
     val context = LocalContext.current
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
         takeCameraImageWithBase64Value =
-            rememberLauncherForActivityResult(ActivityResultContracts.TakePicture()) { success ->
+            rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
                 if (!success) {
                     photoUri = null
                 }
@@ -562,16 +565,16 @@ private fun CameraPermissionForBase64(takeImageType: TakeImageType) {
     }
 
     permissionCameraImageWithBase64Launcher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
+        contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         if (isGranted) {
             if (takeImageType == TakeImageType.TAKE_IMAGE) {
                 val photoFile = imageHelperMethods.createImageFile(context)
                 val uri = photoFile.getUriWithFileProvider(context)
                 photoUriWithBase64 = uri
-                takeCameraImageWithBase64Value?.launch(uri)
+                takeCameraImageWithBase64Value?.launch(input = uri)
             } else {
-                takeCameraImagePreviewWithBase64Value?.launch(null)
+                takeCameraImagePreviewWithBase64Value?.launch(input = null)
             }
         }
     }
@@ -613,7 +616,7 @@ fun PickSingleVideo(
     listener: (Uri?) -> Unit
 ) {
     pickVideo =
-        rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
                 listener(uri)
             }
@@ -624,7 +627,7 @@ fun PickSingleVideo(
  * This method is calling from listener to pick single video from gallery
  * */
 fun pickSingleVideo() {
-    pickVideo?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.VideoOnly))
+    pickVideo?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.VideoOnly))
 }
 
 
