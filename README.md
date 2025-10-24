@@ -57,23 +57,6 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 > The two options (enum) are `TakeImageType.TAKE_IMAGE` or
 `TakeImageType.TAKE_IMAGE_PREVIEW` <br /> <br />
 
-> [!IMPORTANT]  
-> Breaking changes from the version 2.5.0 and higher <br /> <br />
-> Added new parameters to the Image Picker methods, one parameter is required, the second is optional: <br /> <br />
-> context (Required) and onImagePickerNotAvailable (Optional) <br /> <br />
-> pickSingleImage(context = context, onImagePickerNotAvailable = {
->  <br /> // show custom dialog - showDialog.value = true <br />
-> }) <br /> <br />
-> pickSingleImageWithBase64Value(context = context, onImagePickerNotAvailable = {
->  <br /> // show custom dialog - showDialog.value = true <br />
-> }) <br /> <br />
-> pickMultipleImages(context = context, onImagePickerNotAvailable = {
->  <br /> // show custom dialog - showDialog.value = true <br />
-> }) <br /> <br />
-> pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable = {
->  <br /> // show custom dialog - showDialog.value = true <br />
->}) <br /> <br />
-
 ```Kotlin
 // The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
 // by default is `TakeImageType.TAKE_IMAGE`
@@ -93,6 +76,26 @@ TakeSingleCameraImageWithBase64Value(
         //...your code here
     })
 ```
+> [!IMPORTANT]  
+> Breaking changes from the version 2.5.0 and higher <br /> <br />
+> Added new parameters to the Image Picker methods, one parameter is required, the second is optional: <br /> <br />
+> context (Required) and onImagePickerNotAvailable (Optional) <br /> <br />
+
+```Kotlin
+ pickSingleImage(context = context, onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+pickSingleImageWithBase64Value(context = context, onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+pickMultipleImages(context = context, onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+```
+
 
 ## Basic Configuration (Gradle Dependencies)
 
