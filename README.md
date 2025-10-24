@@ -80,6 +80,7 @@ TakeSingleCameraImageWithBase64Value(
 > Breaking changes from the version 2.5.0 and higher <br /> <br />
 >
 > Activity/Fragment/XML support <br />
+> 
 > Implemented a check to ensure the image picker is available; no migration required. <br />
 > 
 > Compose Support <br />
