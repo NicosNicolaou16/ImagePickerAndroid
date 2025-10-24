@@ -90,7 +90,7 @@ TakeSingleCameraImageWithBase64Value(
 > - context (required) <br />
 > - onImagePickerNotAvailable (optional) <br />
 > 
-> Note for both types (Activity/Fragment/XML/Compose support): When the image is not available there is a Log.d(...), show only when the BuildConfig.DEBUG is true. <br />
+> Note for both types (Activity/Fragment/XML/Compose support): When the image is not available there is a Log.w(...), show only when the BuildConfig.DEBUG is true. <br />
 ```logcatfilter
 ImagePickerAndroid      com.nicos.imagepickerandroidcompose  W  Image Picker is not available
 ```
