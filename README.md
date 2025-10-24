@@ -82,7 +82,7 @@ TakeSingleCameraImageWithBase64Value(
 > context (Required) and onImagePickerNotAvailable (Optional) <br /> <br />
 
 ```Kotlin
- pickSingleImage(context = context, onImagePickerNotAvailable = {
+pickSingleImage(context = context, onImagePickerNotAvailable = {
   // show custom dialog - showDialog.value = true
 })
 pickSingleImageWithBase64Value(context = context, onImagePickerNotAvailable = {
