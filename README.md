@@ -78,11 +78,17 @@ TakeSingleCameraImageWithBase64Value(
 ```
 > [!IMPORTANT]  
 > Breaking changes from the version 2.5.0 and higher <br /> <br />
+>
+> Activity/Fragment/XML support <br /> <br />
+> Implemented a check to ensure the image picker is available; no migration required. <br /> <br />
+> 
+> Compose Support <br /> <br />
+>
 > Added two new parameters to the Image Picker methods called in listener, one parameter is required, the second is optional. <br />
 > - context (required) <br />
 > - onImagePickerNotAvailable (optional) <br />
 > 
-> Note: When the image is not available there is a Log.d(...), show only when the BuildConfig.DEBUG is true. <br />
+> Note for both types (Activity/Fragment/XML/Compose support): When the image is not available there is a Log.d(...), show only when the BuildConfig.DEBUG is true. <br />
 ```logcatfilter
 ImagePickerAndroid      com.nicos.imagepickerandroidcompose  W  Image Picker is not available
 ```

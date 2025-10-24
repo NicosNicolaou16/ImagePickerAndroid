@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.nicos.imagepickerandroid.utils.constants.Constants
+import com.nicos.imagepickerandroid.utils.constants.Constants.imagePickerNotAvailableLogs
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import com.nicos.imagepickerandroid.utils.permissions.PermissionsHelper
@@ -66,9 +67,8 @@ data class ImagePicker(
 
     /**
      * Method call in listener to open image picker
-     * @param imagePickerInterface call back, return the data to the activity/fragment, by default is null
      * */
-    fun pickSingleImageFromGallery(imagePickerInterface: ImagePickerInterface? = null) {
+    fun pickSingleImageFromGallery() {
         fragmentActivity?.let {
             if (imageHelperMethods.imagePickerAvailable(context = it)) {
                 pickImageFromGalleryResultLauncher?.launch(
@@ -77,7 +77,7 @@ data class ImagePicker(
                     )
                 )
             } else {
-                Constants.imagePickerNotAvailableLogs()
+                imagePickerNotAvailableLogs()
                 imagePickerInterface?.onImagePickerNotAvailable()
             }
         }
@@ -89,7 +89,7 @@ data class ImagePicker(
                     )
                 )
             } else {
-                Constants.imagePickerNotAvailableLogs()
+                imagePickerNotAvailableLogs()
                 imagePickerInterface?.onImagePickerNotAvailable()
             }
         }
@@ -179,9 +179,8 @@ data class ImagePicker(
 
     /**
      * Method call in listener to open image picker
-     * @param imagePickerInterface call back, return the data to the activity/fragment, by default is null
      * */
-    fun pickMultipleImagesFromGallery(imagePickerInterface: ImagePickerInterface? = null) {
+    fun pickMultipleImagesFromGallery() {
         fragmentActivity?.let {
             if (imageHelperMethods.imagePickerAvailable(context = it)) {
                 pickMultipleImageFromGalleryResultLauncher?.launch(
@@ -190,7 +189,7 @@ data class ImagePicker(
                     )
                 )
             } else {
-                Constants.imagePickerNotAvailableLogs()
+                imagePickerNotAvailableLogs()
                 imagePickerInterface?.onImagePickerNotAvailable()
             }
         }
@@ -202,7 +201,7 @@ data class ImagePicker(
                     )
                 )
             } else {
-                Constants.imagePickerNotAvailableLogs()
+                imagePickerNotAvailableLogs()
                 imagePickerInterface?.onImagePickerNotAvailable()
             }
         }
