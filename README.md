@@ -81,6 +81,11 @@ TakeSingleCameraImageWithBase64Value(
 > Added two new parameters to the Image Picker methods called in listener, one parameter is required, the second is optional. <br />
 > - context (required) <br />
 > - onImagePickerNotAvailable (optional) <br />
+> 
+> Note: When the image is not available there is a Log.d(...), show only when the BuildConfig.DEBUG is true. <br />
+```logcatfilter
+ImagePickerAndroid      com.nicos.imagepickerandroidcompose  W  Image Picker is not available
+```
 
 ```Kotlin
 pickSingleImage(context = context, onImagePickerNotAvailable = {
