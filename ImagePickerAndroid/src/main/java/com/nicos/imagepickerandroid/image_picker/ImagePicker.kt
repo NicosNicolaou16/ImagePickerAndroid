@@ -2,6 +2,7 @@ package com.nicos.imagepickerandroid.image_picker
 
 import android.Manifest
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.ContentResolver
 import android.content.Intent
 import android.graphics.Bitmap
@@ -70,11 +71,18 @@ data class ImagePicker(
     fun pickSingleImageFromGallery() {
         fragmentActivity?.let {
             if (imageHelperMethods.isImagePickerAvailable(context = it)) {
-                pickImageFromGalleryResultLauncher?.launch(
-                    PickVisualMediaRequest(
-                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                try {
+                    pickImageFromGalleryResultLauncher?.launch(
+                        PickVisualMediaRequest(
+                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
                     )
-                )
+                } catch (e: ActivityNotFoundException) {
+                    // Catch the exception in case the picker is not available at runtime
+                    e.printStackTrace()
+                    imagePickerNotAvailableLogs()
+                    imagePickerInterface?.onImagePickerNotAvailable()
+                }
             } else {
                 imagePickerNotAvailableLogs()
                 imagePickerInterface?.onImagePickerNotAvailable()
@@ -82,11 +90,18 @@ data class ImagePicker(
         }
         fragment?.let {
             if (imageHelperMethods.isImagePickerAvailable(context = it.requireContext())) {
-                pickImageFromGalleryResultLauncher?.launch(
-                    PickVisualMediaRequest(
-                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                try {
+                    pickImageFromGalleryResultLauncher?.launch(
+                        PickVisualMediaRequest(
+                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
                     )
-                )
+                } catch (e: ActivityNotFoundException) {
+                    // Catch the exception in case the picker is not available at runtime
+                    e.printStackTrace()
+                    imagePickerNotAvailableLogs()
+                    imagePickerInterface?.onImagePickerNotAvailable()
+                }
             } else {
                 imagePickerNotAvailableLogs()
                 imagePickerInterface?.onImagePickerNotAvailable()
@@ -182,11 +197,18 @@ data class ImagePicker(
     fun pickMultipleImagesFromGallery() {
         fragmentActivity?.let {
             if (imageHelperMethods.isImagePickerAvailable(context = it)) {
-                pickMultipleImageFromGalleryResultLauncher?.launch(
-                    PickVisualMediaRequest(
-                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                try {
+                    pickMultipleImageFromGalleryResultLauncher?.launch(
+                        PickVisualMediaRequest(
+                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
                     )
-                )
+                } catch (e: ActivityNotFoundException) {
+                    // Catch the exception in case the picker is not available at runtime
+                    e.printStackTrace()
+                    imagePickerNotAvailableLogs()
+                    imagePickerInterface?.onImagePickerNotAvailable()
+                }
             } else {
                 imagePickerNotAvailableLogs()
                 imagePickerInterface?.onImagePickerNotAvailable()
@@ -194,11 +216,18 @@ data class ImagePicker(
         }
         fragment?.let {
             if (imageHelperMethods.isImagePickerAvailable(context = it.requireContext())) {
-                pickMultipleImageFromGalleryResultLauncher?.launch(
-                    PickVisualMediaRequest(
-                        ActivityResultContracts.PickVisualMedia.ImageOnly
+                try {
+                    pickMultipleImageFromGalleryResultLauncher?.launch(
+                        PickVisualMediaRequest(
+                            ActivityResultContracts.PickVisualMedia.ImageOnly
+                        )
                     )
-                )
+                } catch (e: ActivityNotFoundException) {
+                    // Catch the exception in case the picker is not available at runtime
+                    e.printStackTrace()
+                    imagePickerNotAvailableLogs()
+                    imagePickerInterface?.onImagePickerNotAvailable()
+                }
             } else {
                 imagePickerNotAvailableLogs()
                 imagePickerInterface?.onImagePickerNotAvailable()
