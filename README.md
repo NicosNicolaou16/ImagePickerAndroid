@@ -31,7 +31,7 @@ Reasons to use this library
 
 ### Versioning
 
-Gradle Version 8.13.0 <br />
+Gradle Version 8.13.1 <br />
 Kotlin Version 2.2.21 <br />
 JDK Version 17 <br />
 Minimum SDK 24 <br />
@@ -124,7 +124,7 @@ pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable 
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.5.1'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.5.2'
 ```
 
 ```Groovy
@@ -138,7 +138,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.5.1")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.5.2")
 ```
 
 ```Kotlin
@@ -156,7 +156,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.5.1"
+imagePickerAndroid = "2.5.2"
 
 [libraries]
 # other libraries here...
