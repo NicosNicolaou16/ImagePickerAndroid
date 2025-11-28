@@ -1,7 +1,7 @@
 [versions]
 agp = "8.13.1"
 kotlin = "2.2.21"
-activityVersion = "1.11.0"
+activityVersion = "1.12.0"
 appCompatVersion = "1.7.1"
 composeBomVersion = "2025.11.01"
 composeLiveDataVersion = "1.9.5"
