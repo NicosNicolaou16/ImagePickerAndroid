@@ -31,12 +31,12 @@ Reasons to use this library
 
 ### Versioning
 
-Gradle Version 9.0.0 <br />
-Kotlin Version 2.3.10 <br />
-JDK Version 17 <br />
-Minimum SDK 24 <br />
-Target SDK 36 <br />
-Build Tool Version 36.0.0 <br />
+*   **JDK Version**: `17`
+*   **Target SDK**: `36`
+*   **Minimum SDK**: `29`
+*   **Kotlin Version**: `2.3.10`
+*   **Gradle Version**: `9.0.0`
+*   **Build Tool Version**: `36.0.0`
 
 ---
 
