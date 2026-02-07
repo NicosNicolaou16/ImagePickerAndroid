@@ -38,9 +38,13 @@ Minimum SDK 24 <br />
 Target SDK 36 <br />
 Build Tool Version 36.0.0 <br />
 
+---
+
 ## IMPORTANT NOTE
 
 THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
+
+---
 
 ## Migration
 
@@ -112,6 +116,7 @@ pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable 
 })
 ```
 
+---
 
 ## Basic Configuration (Gradle Dependencies)
 
@@ -176,6 +181,8 @@ dependencyResolutionManagement {
     }
 }
 ```
+
+---
 
 ## Standard Configuration (XML)
 
