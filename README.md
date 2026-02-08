@@ -42,9 +42,9 @@ features:
 
 ## 🖼️ Preview
 
-| Views (XML)            | Jetpack Compose               |
-|------------------------|-------------------------------|
-| ![](examples/view.gif) | ![](examples/jetpack_compose.gif) |
+| Views (XML)                               | Jetpack Compose                                      |
+|-------------------------------------------|------------------------------------------------------|
+| <img src="examples/view.gif" width="200"> | <img src="examples/jetpack_compose.gif" width="200"> |
 
 ---
 
