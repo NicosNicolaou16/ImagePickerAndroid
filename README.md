@@ -9,29 +9,6 @@ and Jetpack Compose. <br />
 
 Note: The example project does not include examples for all methods. <br />
 
-The library contains/features:
-
-- Picker for a single image from the gallery.
-- Picker for multiple images from the gallery (up to 9 images).
-- Camera picker for a single image (with permission handling - manage the scenario where camera
-  permission is permanently denied by directing the user to the app settings to modify the
-  permission or can use the onPermanentCameraPermissionDenied() callback to implement your own
-  custom logic).
-- Video picker.
-- Retrieve the base64 value.
-- Image scaling (resize) – available only for images.
-- All of the above features are also supported in Jetpack Compose.
-- New updates coming soon! Feel free to share your suggestions.
-
-Reasons to use this library
-
-- It supports both Activity and Fragment with XML, as well as Jetpack Compose, ensuring
-  compatibility with various Android development approaches.
-- The library provides a user-friendly way to integrate image picking functionalities, saving time
-  and effort.
-- It offers advanced features like base64 encoding support and image scaling, enhancing your app's
-  image handling capabilities.
-
 ## 🌟 Features
 
 This library is designed to simplify media selection in your Android app with a robust set of
@@ -40,7 +17,8 @@ features:
 * **🖼️ Single Image Picker**: Select a single image from the gallery.
 * **🎨 Multiple Image Picker**: Choose multiple images (up to 9).
 * **📸 Camera Capture**: Capture a new photo, with streamlined permission handling that can direct
-  users to app settings.
+  users to app settings or can use the onPermanentCameraPermissionDenied() callback to implement
+  your own custom logic).
 * **📹 Video Picker**: Select a single video from the gallery.
 * **🔄 Base64 Conversion**: Automatically convert selected images to a Base64 string.
 * **✂️ Image Scaling**: Easily resize images to your desired dimensions.
