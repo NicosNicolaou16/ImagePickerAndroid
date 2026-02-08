@@ -1,48 +1,82 @@
 # Image Picker Android
 
-This library is built to provide other developers with an easy way to implement an image picker in
-Android applications using the latest Android technologies. It supports Activities, Fragments with
-XML, and Jetpack Compose.
-Support me, and I would appreciate any feedback you provide. <br />
-Note: The example project does not include examples for all methods.
+[![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
-The library contains/features:
+[![Linktree](https://img.shields.io/badge/linktree-1de9b6?style=for-the-badge&logo=linktree&logoColor=white)](https://linktr.ee/nicos_nicolaou)
+[![Static Badge](https://img.shields.io/badge/Site-blue?style=for-the-badge&label=Web)](https://nicosnicolaou16.github.io/)
+[![X](https://img.shields.io/badge/X-%23000000.svg?style=for-the-badge&logo=X&logoColor=white)](https://twitter.com/nicolaou_nicos)
+[![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/nicos-nicolaou-a16720aa)
+[![Medium](https://img.shields.io/badge/Medium-12100E?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@nicosnicolaou)
+[![Mastodon](https://img.shields.io/badge/-MASTODON-%232B90D9?style=for-the-badge&logo=mastodon&logoColor=white)](https://androiddev.social/@nicolaou_nicos)
+[![Bluesky](https://img.shields.io/badge/Bluesky-0285FF?style=for-the-badge&logo=Bluesky&logoColor=white)](https://bsky.app/profile/nicolaounicos.bsky.social)
+[![Dev.to blog](https://img.shields.io/badge/dev.to-0A0A0A?style=for-the-badge&logo=dev.to&logoColor=white)](https://dev.to/nicosnicolaou16)
+[![YouTube](https://img.shields.io/badge/YouTube-%23FF0000.svg?style=for-the-badge&logo=YouTube&logoColor=white)](https://www.youtube.com/@nicosnicolaou16)
+[![Static Badge](https://img.shields.io/badge/Developer_Profile-blue?style=for-the-badge&label=Google)](https://g.dev/nicolaou_nicos)
 
-- Picker for a single image from the gallery.
-- Picker for multiple images from the gallery (up to 9 images).
-- Camera picker for a single image (with permission handling - manage the scenario where camera
-  permission is permanently denied by directing the user to the app settings to modify the
-  permission or can use the onPermanentCameraPermissionDenied() callback to implement your own
-  custom logic).
-- Video picker.
-- Retrieve the base64 value.
-- Image scaling (resize) – available only for images.
-- All of the above features are also supported in Jetpack Compose.
-- New updates coming soon! Feel free to share your suggestions.
+A modern and easy-to-use Android library for picking images and videos from the gallery or capturing
+them with the camera. It offers a unified API for traditional Views (Activities/Fragments with XML)
+and Jetpack Compose. <br />
 
-Reasons to use this library
+Note: The example project does not include examples for all methods. <br />
 
-- It supports both Activity and Fragment with XML, as well as Jetpack Compose, ensuring
-  compatibility with various Android development approaches.
-- The library provides a user-friendly way to integrate image picking functionalities, saving time
-  and effort.
-- It offers advanced features like base64 encoding support and image scaling, enhancing your app's
-  image handling capabilities.
+## 🌟 Features
 
-### Versioning
+This library is designed to simplify media selection in your Android app with a robust set of
+features:
 
-Gradle Version 8.13.2 <br />
-Kotlin Version 2.3.0 <br />
-JDK Version 17 <br />
-Minimum SDK 24 <br />
-Target SDK 36 <br />
-Build Tool Version 36.0.0 <br />
+* **🖼️ Single Image Picker**: Select a single image from the gallery.
+* **🎨 Multiple Image Picker**: Choose multiple images (up to 9).
+* **📸 Camera Capture**: Capture a new photo, with streamlined permission handling that can direct
+  users to app settings or can use the onPermanentCameraPermissionDenied() callback to implement
+  your own custom logic).
+* **📹 Video Picker**: Select a single video from the gallery.
+* **🔄 Base64 Conversion**: Automatically convert selected images to a Base64 string.
+* **✂️ Image Scaling**: Easily resize images to your desired dimensions.
+* **🚀 Jetpack Compose Support**: First-class support for Jetpack Compose, with dedicated
+  composables.
 
-## IMPORTANT NOTE
+---
+
+## 🤔 Why Use This Library?
+
+* **Unified API**: Supports both traditional Views (Activities/Fragments) and modern Jetpack Compose
+  UIs.
+* **Time-Saving**: Provides a simple, out-of-the-box solution to a common Android task, saving you
+  significant development time.
+* **Boilerplate Reduction**: Handles `ActivityResultLauncher`, permissions, and file processing,
+  letting you focus on your app's logic.
+* **Advanced Functionality**: Includes powerful features like Base64 encoding and image scaling
+  without needing extra dependencies.
+
+---
+
+### 🖼️ Preview (Demo)
+
+| Views (XML)                                                                                                 | Jetpack Compose                                                                                                                   |
+|-------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| <img src="examples/view.gif" width="200">                                                                   | <img src="examples/jetpack_compose.gif" width="200">                                                                              |
+| <p align="center">*[Demo project](https://github.com/NicosNicolaou16/ImagePickerAndroid/tree/main/app)*</p> | <p align="center">*[Demo project](https://github.com/NicosNicolaou16/ImagePickerAndroid/tree/main/imagepickerandroidcompose)*</p> |
+
+---
+
+### 🛠️ Versioning
+
+*   **JDK Version**: `17`
+*   **Target SDK**: `36`
+*   **Minimum SDK**: `29`
+*   **Kotlin Version**: `2.3.10`
+*   **Gradle Version**: `9.0.0`
+*   **Build Tool Version**: `36.0.0`
+
+---
+
+## !! IMPORTANT NOTE
 
 THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 
-## Migration
+---
+
+## 🚚 Migration Guide
 
 > [!IMPORTANT]  
 > Breaking changes from the version 2.3.0 and higher <br /> <br />
@@ -112,10 +146,9 @@ pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable 
 })
 ```
 
+---
 
-## Basic Configuration (Gradle Dependencies)
-
-[![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
+## ⚙️ Basic Configuration (Gradle Dependencies)
 
 > [!IMPORTANT]  
 > Check my article with the implementation <br />
@@ -124,7 +157,7 @@ pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable 
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.5.3'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.5.4'
 ```
 
 ```Groovy
@@ -138,7 +171,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.5.3")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.5.4")
 ```
 
 ```Kotlin
@@ -156,7 +189,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.5.3"
+imagePickerAndroid = "2.5.4"
 
 [libraries]
 # other libraries here...
@@ -177,7 +210,9 @@ dependencyResolutionManagement {
 }
 ```
 
-## Standard Configuration (XML)
+---
+
+## 🚀 Standard Configuration (XML)
 
 ### Step 1 - Get Instance
 
@@ -306,7 +341,9 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 }
 ```
 
-## Compose Configuration
+---
+
+## 🚀 Compose Configuration
 
 ### Step 1 - Initialize the Callbacks (Optionals)
 
@@ -427,3 +464,17 @@ fun ImagePicker() {
     }
 }
 ```
+
+---
+
+## ⭐ Stargazers
+
+If you enjoy this project, please give it a star!
+Check out all the stargazers
+here: [Stargazers on GitHub](https://github.com/NicosNicolaou16/ImagePickerAndroid/stargazers)
+
+---
+
+## 🙏 Support & Contributions
+
+This library is actively maintained. Feedback, bug reports, and feature requests are welcome! Please feel free to **open an issue** or submit a **pull request**.

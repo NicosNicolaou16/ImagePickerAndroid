@@ -2,9 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.android.kotlin.kapt)
     id("maven-publish")
 }
 
@@ -43,8 +41,14 @@ android {
     }
     kotlin {
         compilerOptions {
+            languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_3
             jvmTarget = JvmTarget.fromTarget("17")
             freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
+        }
+    }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
         }
     }
 }
@@ -56,7 +60,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    kapt(libs.androidx.lifecycle.compiler)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     // RecyclerView
@@ -81,13 +84,13 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 }
 
-afterEvaluate {
-    publishing {
-        publications {
-            register<MavenPublication>("release") {
-                groupId = "com.github.NicosNicolaou16"
-                artifactId = "ImagePickerAndroid"
-                version = "2.5.3"
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.github.NicosNicolaou16"
+            artifactId = "ImagePickerAndroid"
+            version = "2.5.4"
+            afterEvaluate {
                 from(components["release"])
             }
         }
