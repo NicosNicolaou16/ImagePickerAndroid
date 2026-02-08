@@ -29,7 +29,37 @@ Reasons to use this library
 - It offers advanced features like base64 encoding support and image scaling, enhancing your app's
   image handling capabilities.
 
-### Versioning
+## 🌟 Features
+
+This library is designed to simplify media selection in your Android app with a robust set of
+features:
+
+* **🖼️ Single Image Picker**: Select a single image from the gallery.
+* **🎨 Multiple Image Picker**: Choose multiple images (up to 9).
+* **📸 Camera Capture**: Capture a new photo, with streamlined permission handling that can direct
+  users to app settings.
+* **📹 Video Picker**: Select a single video from the gallery.
+* **🔄 Base64 Conversion**: Automatically convert selected images to a Base64 string.
+* **✂️ Image Scaling**: Easily resize images to your desired dimensions.
+* **🚀 Jetpack Compose Support**: First-class support for Jetpack Compose, with dedicated
+  composables.
+
+---
+
+## 🤔 Why Use This Library?
+
+* **Unified API**: Supports both traditional Views (Activities/Fragments) and modern Jetpack Compose
+  UIs.
+* **Time-Saving**: Provides a simple, out-of-the-box solution to a common Android task, saving you
+  significant development time.
+* **Boilerplate Reduction**: Handles `ActivityResultLauncher`, permissions, and file processing,
+  letting you focus on your app's logic.
+* **Advanced Functionality**: Includes powerful features like Base64 encoding and image scaling
+  without needing extra dependencies.
+
+---
+
+### 🛠️ Versioning
 
 *   **JDK Version**: `17`
 *   **Target SDK**: `36`
@@ -118,7 +148,7 @@ pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable 
 
 ---
 
-## Basic Configuration (Gradle Dependencies)
+## ⚙️ Basic Configuration (Gradle Dependencies)
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
@@ -184,7 +214,7 @@ dependencyResolutionManagement {
 
 ---
 
-## Standard Configuration (XML)
+## 🚀 Standard Configuration (XML)
 
 ### Step 1 - Get Instance
 
@@ -315,7 +345,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 
 ---
 
-## Compose Configuration
+## 🚀 Compose Configuration
 
 ### Step 1 - Initialize the Callbacks (Optionals)
 
