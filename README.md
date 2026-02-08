@@ -70,13 +70,13 @@ features:
 
 ---
 
-## IMPORTANT NOTE
+## !! IMPORTANT NOTE
 
 THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
 
 ---
 
-## Migration
+## 🚚 Migration Guide
 
 > [!IMPORTANT]  
 > Breaking changes from the version 2.3.0 and higher <br /> <br />
