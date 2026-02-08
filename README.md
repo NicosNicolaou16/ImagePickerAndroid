@@ -40,6 +40,14 @@ features:
 
 ---
 
+## 🖼️ Preview
+
+| Views (XML)            | Jetpack Compose               |
+|------------------------|-------------------------------|
+| ![](examples/view.gif) | ![](docs/jetpack_compose.gif) |
+
+---
+
 ### 🛠️ Versioning
 
 *   **JDK Version**: `17`
