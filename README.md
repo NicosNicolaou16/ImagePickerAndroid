@@ -44,7 +44,7 @@ features:
 
 | Views (XML)            | Jetpack Compose               |
 |------------------------|-------------------------------|
-| ![](examples/view.gif) | ![](docs/jetpack_compose.gif) |
+| ![](examples/view.gif) | ![](examples/jetpack_compose.gif) |
 
 ---
 
