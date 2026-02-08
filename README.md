@@ -2,7 +2,6 @@
 
 [![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
-
 A modern and easy-to-use Android library for picking images and videos from the gallery or capturing
 them with the camera. It offers a unified API for traditional Views (Activities/Fragments with XML)
 and Jetpack Compose. <br />
