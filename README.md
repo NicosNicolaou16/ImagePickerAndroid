@@ -1,33 +1,13 @@
 # Image Picker Android
 
-This library is built to provide other developers with an easy way to implement an image picker in
-Android applications using the latest Android technologies. It supports Activities, Fragments with
-XML, and Jetpack Compose.
-Support me, and I would appreciate any feedback you provide. <br />
-Note: The example project does not include examples for all methods.
+[![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
-The library contains/features:
 
-- Picker for a single image from the gallery.
-- Picker for multiple images from the gallery (up to 9 images).
-- Camera picker for a single image (with permission handling - manage the scenario where camera
-  permission is permanently denied by directing the user to the app settings to modify the
-  permission or can use the onPermanentCameraPermissionDenied() callback to implement your own
-  custom logic).
-- Video picker.
-- Retrieve the base64 value.
-- Image scaling (resize) – available only for images.
-- All of the above features are also supported in Jetpack Compose.
-- New updates coming soon! Feel free to share your suggestions.
+A modern and easy-to-use Android library for picking images and videos from the gallery or capturing
+them with the camera. It offers a unified API for traditional Views (Activities/Fragments with XML)
+and Jetpack Compose. <br />
 
-Reasons to use this library
-
-- It supports both Activity and Fragment with XML, as well as Jetpack Compose, ensuring
-  compatibility with various Android development approaches.
-- The library provides a user-friendly way to integrate image picking functionalities, saving time
-  and effort.
-- It offers advanced features like base64 encoding support and image scaling, enhancing your app's
-  image handling capabilities.
+Note: The example project does not include examples for all methods. <br />
 
 ## 🌟 Features
 
@@ -149,8 +129,6 @@ pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable 
 ---
 
 ## ⚙️ Basic Configuration (Gradle Dependencies)
-
-[![](https://jitpack.io/v/NicosNicolaou16/ImagePickerAndroid.svg)](https://jitpack.io/#NicosNicolaou16/ImagePickerAndroid)
 
 > [!IMPORTANT]  
 > Check my article with the implementation <br />
