@@ -434,19 +434,19 @@ PickSingleVideo(listener = { uri ->
 ### Step 2 Call from Click Listeners (choose the preferred method(s))
 
 ```Kotlin
-pickSingleImage(context = context, onImagePickerNotAvailable = {
+pickSingleImage(onImagePickerNotAvailable = {
       // show custom dialog - showDialog.value = true
 })
 
-pickSingleImageWithBase64Value(context = context, onImagePickerNotAvailable = {
+pickSingleImageWithBase64Value(onImagePickerNotAvailable = {
     // show custom dialog - showDialog.value = true 
 })    
 
-pickMultipleImages(context = context, onImagePickerNotAvailable = {
+pickMultipleImages(onImagePickerNotAvailable = {
     // show custom dialog - showDialog.value = true
 })
 
-pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable = {
+pickMultipleImagesWithBase64Values(onImagePickerNotAvailable = {
     // show custom dialog - showDialog.value = true
 })
 
