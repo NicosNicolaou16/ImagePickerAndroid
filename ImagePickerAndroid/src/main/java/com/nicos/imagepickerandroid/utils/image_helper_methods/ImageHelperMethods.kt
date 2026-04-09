@@ -157,7 +157,4 @@ internal class ImageHelperMethods {
         val fileName = "${timestamp}.jpg"
         return File(context.cacheDir, fileName)
     }
-
-    internal fun isImagePickerAvailable(context: Context): Boolean =
-        ActivityResultContracts.PickVisualMedia.isPhotoPickerAvailable(context)
 }

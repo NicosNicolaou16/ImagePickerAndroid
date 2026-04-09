@@ -117,19 +117,13 @@ fun PickSingleImage(
  * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickSingleImage(
-    context: Context,
     onImagePickerNotAvailable: (() -> Unit)? = null
 ) {
-    if (imageHelperMethods.isImagePickerAvailable(context = context)) {
-        try {
-            pickSingleImage?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-        } catch (e: ActivityNotFoundException) {
-            // Catch the exception in case the picker is not available at runtime
-            e.printStackTrace()
-            imagePickerNotAvailableLogs()
-            onImagePickerNotAvailable?.invoke()
-        }
-    } else {
+    try {
+        pickSingleImage?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    } catch (e: ActivityNotFoundException) {
+        // Catch the exception in case the picker is not available at runtime
+        e.printStackTrace()
         imagePickerNotAvailableLogs()
         onImagePickerNotAvailable?.invoke()
     }
@@ -189,19 +183,13 @@ fun PickSingleImageWithBase64Value(
  * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickSingleImageWithBase64Value(
-    context: Context,
     onImagePickerNotAvailable: (() -> Unit)? = null
 ) {
-    if (imageHelperMethods.isImagePickerAvailable(context = context)) {
-        try {
-            pickSingleImageWithBase64Value?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-        } catch (e: ActivityNotFoundException) {
-            // Catch the exception in case the picker is not available at runtime
-            e.printStackTrace()
-            imagePickerNotAvailableLogs()
-            onImagePickerNotAvailable?.invoke()
-        }
-    } else {
+    try {
+        pickSingleImageWithBase64Value?.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    } catch (e: ActivityNotFoundException) {
+        // Catch the exception in case the picker is not available at runtime
+        e.printStackTrace()
         imagePickerNotAvailableLogs()
         onImagePickerNotAvailable?.invoke()
     }
@@ -261,19 +249,13 @@ fun PickMultipleImages(
  * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickMultipleImages(
-    context: Context,
     onImagePickerNotAvailable: (() -> Unit)? = null
 ) {
-    if (imageHelperMethods.isImagePickerAvailable(context = context)) {
-        try {
-            pickMultipleImages?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly))
-        } catch (e: ActivityNotFoundException) {
-            // Catch the exception in case the picker is not available at runtime
-            e.printStackTrace()
-            imagePickerNotAvailableLogs()
-            onImagePickerNotAvailable?.invoke()
-        }
-    } else {
+    try {
+        pickMultipleImages?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly))
+    } catch (e: ActivityNotFoundException) {
+        // Catch the exception in case the picker is not available at runtime
+        e.printStackTrace()
         imagePickerNotAvailableLogs()
         onImagePickerNotAvailable?.invoke()
     }
@@ -344,19 +326,13 @@ fun PickMultipleImagesWithBase64Values(
  * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickMultipleImagesWithBase64Values(
-    context: Context,
     onImagePickerNotAvailable: (() -> Unit)? = null
 ) {
-    if (imageHelperMethods.isImagePickerAvailable(context = context)) {
-        try {
-            pickMultipleImagesWithBase64Values?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly))
-        } catch (e: ActivityNotFoundException) {
-            // Catch the exception in case the picker is not available at runtime
-            e.printStackTrace()
-            imagePickerNotAvailableLogs()
-            onImagePickerNotAvailable?.invoke()
-        }
-    } else {
+    try {
+        pickMultipleImagesWithBase64Values?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.ImageOnly))
+    } catch (e: ActivityNotFoundException) {
+        // Catch the exception in case the picker is not available at runtime
+        e.printStackTrace()
         imagePickerNotAvailableLogs()
         onImagePickerNotAvailable?.invoke()
     }

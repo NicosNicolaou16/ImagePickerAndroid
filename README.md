@@ -146,6 +146,40 @@ pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable 
 })
 ```
 
+> [!IMPORTANT]  
+> Breaking changes from the version 2.5.6 and higher <br /> <br />
+>
+> Activity/Fragment/XML support <br />
+>
+> Implemented a check to ensure the image picker is available; no migration required. <br />
+> Added a new optional callback `fun onImagePickerNotAvailable() { super.onImagePickerNotAvailable() }` <br />
+>
+> Compose Support <br />
+>
+> Removed the **context** parameter from the Image Picker methods, leaving only the optional listener parameter. <br />
+> - context <- NO NEED TO PASS THIS ANYMORE, SO REMOVE THE PARAMETER <br />
+> - onImagePickerNotAvailable (optional) <br />
+>
+> Note for both types (Activity/Fragment/XML/Compose support): When the image is not available there is a Log.w(...), show only when the BuildConfig.DEBUG is true. <br />
+```logcatfilter
+ImagePickerAndroid      com.nicos.imagepickerandroidcompose  W  Image Picker is not available
+```
+
+```Kotlin
+pickSingleImage(onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+pickSingleImageWithBase64Value(onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+pickMultipleImages(onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+pickMultipleImagesWithBase64Values(onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+```
+
 ---
 
 ## ⚙️ Basic Configuration (Gradle Dependencies)
@@ -157,7 +191,7 @@ pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable 
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.5.5'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.5.6'
 ```
 
 ```Groovy
@@ -171,7 +205,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.5.5")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.5.6")
 ```
 
 ```Kotlin
@@ -189,7 +223,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.5.5"
+imagePickerAndroid = "2.5.6"
 
 [libraries]
 # other libraries here...
@@ -400,19 +434,19 @@ PickSingleVideo(listener = { uri ->
 ### Step 2 Call from Click Listeners (choose the preferred method(s))
 
 ```Kotlin
-pickSingleImage(context = context, onImagePickerNotAvailable = {
+pickSingleImage(onImagePickerNotAvailable = {
       // show custom dialog - showDialog.value = true
 })
 
-pickSingleImageWithBase64Value(context = context, onImagePickerNotAvailable = {
+pickSingleImageWithBase64Value(onImagePickerNotAvailable = {
     // show custom dialog - showDialog.value = true 
 })    
 
-pickMultipleImages(context = context, onImagePickerNotAvailable = {
+pickMultipleImages(onImagePickerNotAvailable = {
     // show custom dialog - showDialog.value = true
 })
 
-pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable = {
+pickMultipleImagesWithBase64Values(onImagePickerNotAvailable = {
     // show custom dialog - showDialog.value = true
 })
 
