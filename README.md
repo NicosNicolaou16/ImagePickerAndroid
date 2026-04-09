@@ -146,6 +146,40 @@ pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable 
 })
 ```
 
+> [!IMPORTANT]  
+> Breaking changes from the version 2.5.6 and higher <br /> <br />
+>
+> Activity/Fragment/XML support <br />
+>
+> Implemented a check to ensure the image picker is available; no migration required. <br />
+> Added a new optional callback `fun onImagePickerNotAvailable() { super.onImagePickerNotAvailable() }` <br />
+>
+> Compose Support <br />
+>
+> Removed the **context** parameter from the Image Picker methods, leaving only the optional listener parameter. <br />
+> - context (required) <br /> <<<---- REMOVE IT
+> - onImagePickerNotAvailable (optional) <br />
+>
+> Note for both types (Activity/Fragment/XML/Compose support): When the image is not available there is a Log.w(...), show only when the BuildConfig.DEBUG is true. <br />
+```logcatfilter
+ImagePickerAndroid      com.nicos.imagepickerandroidcompose  W  Image Picker is not available
+```
+
+```Kotlin
+pickSingleImage(onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+pickSingleImageWithBase64Value(onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+pickMultipleImages(onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+pickMultipleImagesWithBase64Values(onImagePickerNotAvailable = {
+  // show custom dialog - showDialog.value = true
+})
+```
+
 ---
 
 ## ⚙️ Basic Configuration (Gradle Dependencies)
