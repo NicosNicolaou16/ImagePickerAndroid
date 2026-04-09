@@ -163,7 +163,7 @@ fun ImagePicker() {
         Button(
             modifier = Modifier.size(150.dp, 50.dp),
             onClick = {
-                pickSingleImage(context = context, onImagePickerNotAvailable = {
+                pickSingleImage(onImagePickerNotAvailable = {
                     Log.d("onImagePickerNotAvailable", "callBack")
                 })
             }) {
@@ -174,7 +174,7 @@ fun ImagePicker() {
         }
         Button(
             modifier = Modifier.size(150.dp, 50.dp),
-            onClick = { pickMultipleImagesWithBase64Values(context = context) }) {
+            onClick = { pickMultipleImagesWithBase64Values() }) {
             Text(
                 text = stringResource(R.string.pick_multiple_images),
                 style = TextStyle(textAlign = TextAlign.Center)
