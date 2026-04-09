@@ -157,7 +157,7 @@ pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable 
 > Compose Support <br />
 >
 > Removed the **context** parameter from the Image Picker methods, leaving only the optional listener parameter. <br />
-> - context (required) <<<---- REMOVE IT <br />
+> - context <- NO NEED TO PASS IT ANYMORE, SO REMOVE THIS PARAMETER <br />
 > - onImagePickerNotAvailable (optional) <br />
 >
 > Note for both types (Activity/Fragment/XML/Compose support): When the image is not available there is a Log.w(...), show only when the BuildConfig.DEBUG is true. <br />
