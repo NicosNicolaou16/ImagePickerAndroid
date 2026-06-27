@@ -28,49 +28,53 @@ import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-/**
- * @see permissionLauncherCameraImage launcher for camera permission
- * @see permissionCameraImageWithBase64Launcher launcher for camera permission with base64 value
- * */
+/** launcher for camera permission */
 private var permissionLauncherCameraImage: ManagedActivityResultLauncher<String, Boolean>? = null
+
+/** launcher for camera permission with base64 value */
 private var permissionCameraImageWithBase64Launcher: ManagedActivityResultLauncher<String, Boolean>? =
     null
 
-/**
- * @see imageHelperMethods instance for image helper methods
- * */
+
+/** instance for image helper methods */
 private var imageHelperMethods = ImageHelperMethods()
 
-/**
- * @see pickSingleImage launcher for single image from gallery
- * @see pickSingleImageWithBase64Value launcher for single image from gallery with base64 value
- * @see pickMultipleImages launcher for multiple images from gallery
- * @see pickMultipleImagesWithBase64Values launcher for multiple images from gallery with base64 values
- * @see takeCameraImage launcher for single image from camera
- * @see takeCameraImagePreview launcher for single image preview from camera
- * @see takeCameraImageWithBase64Value launcher for single image from camera with base64 value
- * @see takeCameraImagePreviewWithBase64Value launcher for single image preview from camera with base64 value
- * @see pickVideo launcher for single video from gallery
- * */
+/** launcher for single image from gallery */
 private var pickSingleImage: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
+
+/** launcher for single image from gallery with base64 value */
 private var pickSingleImageWithBase64Value: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? =
     null
+
+/** launcher for multiple images from gallery */
 private var pickMultipleImages: ManagedActivityResultLauncher<PickVisualMediaRequest, List<@JvmSuppressWildcards Uri>>? =
     null
+
+/** launcher for multiple images from gallery with base64 values */
 private var pickMultipleImagesWithBase64Values: ManagedActivityResultLauncher<PickVisualMediaRequest, List<@JvmSuppressWildcards Uri>>? =
     null
+
+/** launcher for single image from camera */
 private var takeCameraImagePreview: ManagedActivityResultLauncher<Void?, Bitmap?>? = null
+
+/** launcher for single image preview from camera */
 private var takeCameraImage: ManagedActivityResultLauncher<Uri, Boolean>? = null
+
+/** launcher for single image from camera with base64 value */
 private var takeCameraImagePreviewWithBase64Value: ManagedActivityResultLauncher<Void?, Bitmap?>? =
     null
+
+/** launcher for single image preview from camera with base64 value */
 private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Uri, Boolean>? = null
+
+/** launcher for single video from gallery */
 private var pickVideo: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
 
-/**
- * @see photoUri pass Uri with the image
- * @see photoUriWithBase64 pass Uri with the image
- * */
+
+/** pass Uri with the image */
 private var photoUri by mutableStateOf<Uri?>(null)
+
+/** pass Uri with the image */
 private var photoUriWithBase64 by mutableStateOf<Uri?>(null)
 
 /**
