@@ -29,28 +29,28 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
- * @param permissionLauncherCameraImage launcher for camera permission
- * @param permissionCameraImageWithBase64Launcher launcher for camera permission with base64 value
+ * @see permissionLauncherCameraImage launcher for camera permission
+ * @see permissionCameraImageWithBase64Launcher launcher for camera permission with base64 value
  * */
 private var permissionLauncherCameraImage: ManagedActivityResultLauncher<String, Boolean>? = null
 private var permissionCameraImageWithBase64Launcher: ManagedActivityResultLauncher<String, Boolean>? =
     null
 
 /**
- * @param imageHelperMethods instance for image helper methods
+ * @see imageHelperMethods instance for image helper methods
  * */
 private var imageHelperMethods = ImageHelperMethods()
 
 /**
- * @param pickSingleImage launcher for single image from gallery
- * @param pickSingleImageWithBase64Value launcher for single image from gallery with base64 value
- * @param pickMultipleImages launcher for multiple images from gallery
- * @param pickMultipleImagesWithBase64Values launcher for multiple images from gallery with base64 values
- * @param takeCameraImage launcher for single image from camera
- * @param takeCameraImagePreview launcher for single image preview from camera
- * @param takeCameraImageWithBase64Value launcher for single image from camera with base64 value
- * @param takeCameraImagePreviewWithBase64Value launcher for single image preview from camera with base64 value
- * @param pickVideo launcher for single video from gallery
+ * @see pickSingleImage launcher for single image from gallery
+ * @see pickSingleImageWithBase64Value launcher for single image from gallery with base64 value
+ * @see pickMultipleImages launcher for multiple images from gallery
+ * @see pickMultipleImagesWithBase64Values launcher for multiple images from gallery with base64 values
+ * @see takeCameraImage launcher for single image from camera
+ * @see takeCameraImagePreview launcher for single image preview from camera
+ * @see takeCameraImageWithBase64Value launcher for single image from camera with base64 value
+ * @see takeCameraImagePreviewWithBase64Value launcher for single image preview from camera with base64 value
+ * @see pickVideo launcher for single video from gallery
  * */
 private var pickSingleImage: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
 private var pickSingleImageWithBase64Value: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? =
@@ -67,8 +67,8 @@ private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Uri, B
 private var pickVideo: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
 
 /**
- * @param photoUri pass Uri with the image
- * @param photoUriWithBase64 pass Uri with the image
+ * @see photoUri pass Uri with the image
+ * @see photoUriWithBase64 pass Uri with the image
  * */
 private var photoUri by mutableStateOf<Uri?>(null)
 private var photoUriWithBase64 by mutableStateOf<Uri?>(null)
