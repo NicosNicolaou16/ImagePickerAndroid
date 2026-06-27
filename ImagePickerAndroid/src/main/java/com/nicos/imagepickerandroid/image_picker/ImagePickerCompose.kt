@@ -73,9 +73,6 @@ private var pickVideo: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri
 
 
 /** pass Uri with the image */
-//private var photoUri by mutableStateOf<Uri?>(null)
-
-/** pass Uri with the image */
 private var photoUriWithBase64 by mutableStateOf<Uri?>(null)
 
 /**
