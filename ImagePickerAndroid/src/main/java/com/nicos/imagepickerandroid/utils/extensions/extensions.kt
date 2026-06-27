@@ -8,7 +8,6 @@ import java.io.File
 private const val authority = ".library.file.provider"
 
 internal fun File.getUriWithFileProvider(context: Context): Uri {
-    require(this.exists()) { "File must exist to get a URI with FileProvider" }
     return FileProvider.getUriForFile(
         context,
         "${context.packageName}$authority",
