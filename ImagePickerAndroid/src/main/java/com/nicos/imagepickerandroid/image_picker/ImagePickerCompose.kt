@@ -16,6 +16,7 @@ import androidx.annotation.IntRange
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
@@ -72,7 +73,7 @@ private var pickVideo: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri
 
 
 /** pass Uri with the image */
-private var photoUri by mutableStateOf<Uri?>(null)
+//private var photoUri by mutableStateOf<Uri?>(null)
 
 /** pass Uri with the image */
 private var photoUriWithBase64 by mutableStateOf<Uri?>(null)
@@ -355,6 +356,7 @@ fun TakeSingleCameraImage(
     listener: (Bitmap?, Uri?) -> Unit
 ) {
     val context = LocalContext.current
+    var photoUri by remember { mutableStateOf<Uri?>(null) }
     CameraPermission(takeImageType = takeImageType)
     val composableScope = rememberCoroutineScope()
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
@@ -414,6 +416,7 @@ fun TakeSingleCameraImage(
 @Composable
 private fun CameraPermission(takeImageType: TakeImageType) {
     val context = LocalContext.current
+    var photoUri by remember { mutableStateOf<Uri?>(null) }
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
         takeCameraImage =
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
@@ -561,6 +564,7 @@ fun TakeSingleCameraImageWithBase64Value(
 @Composable
 private fun CameraPermissionForBase64(takeImageType: TakeImageType) {
     val context = LocalContext.current
+    var photoUri by remember { mutableStateOf<Uri?>(null) }
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
         takeCameraImageWithBase64Value =
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
