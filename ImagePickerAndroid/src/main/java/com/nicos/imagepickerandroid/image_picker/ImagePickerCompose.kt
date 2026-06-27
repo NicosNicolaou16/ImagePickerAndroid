@@ -16,6 +16,7 @@ import androidx.annotation.IntRange
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
@@ -28,49 +29,50 @@ import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-/**
- * @param permissionLauncherCameraImage launcher for camera permission
- * @param permissionCameraImageWithBase64Launcher launcher for camera permission with base64 value
- * */
+/** launcher for camera permission */
 private var permissionLauncherCameraImage: ManagedActivityResultLauncher<String, Boolean>? = null
+
+/** launcher for camera permission with base64 value */
 private var permissionCameraImageWithBase64Launcher: ManagedActivityResultLauncher<String, Boolean>? =
     null
 
-/**
- * @param imageHelperMethods instance for image helper methods
- * */
+
+/** instance for image helper methods */
 private var imageHelperMethods = ImageHelperMethods()
 
-/**
- * @param pickSingleImage launcher for single image from gallery
- * @param pickSingleImageWithBase64Value launcher for single image from gallery with base64 value
- * @param pickMultipleImages launcher for multiple images from gallery
- * @param pickMultipleImagesWithBase64Values launcher for multiple images from gallery with base64 values
- * @param takeCameraImage launcher for single image from camera
- * @param takeCameraImagePreview launcher for single image preview from camera
- * @param takeCameraImageWithBase64Value launcher for single image from camera with base64 value
- * @param takeCameraImagePreviewWithBase64Value launcher for single image preview from camera with base64 value
- * @param pickVideo launcher for single video from gallery
- * */
+/** launcher for single image from gallery */
 private var pickSingleImage: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
+
+/** launcher for single image from gallery with base64 value */
 private var pickSingleImageWithBase64Value: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? =
     null
+
+/** launcher for multiple images from gallery */
 private var pickMultipleImages: ManagedActivityResultLauncher<PickVisualMediaRequest, List<@JvmSuppressWildcards Uri>>? =
     null
+
+/** launcher for multiple images from gallery with base64 values */
 private var pickMultipleImagesWithBase64Values: ManagedActivityResultLauncher<PickVisualMediaRequest, List<@JvmSuppressWildcards Uri>>? =
     null
+
+/** launcher for single image from camera */
 private var takeCameraImagePreview: ManagedActivityResultLauncher<Void?, Bitmap?>? = null
+
+/** launcher for single image preview from camera */
 private var takeCameraImage: ManagedActivityResultLauncher<Uri, Boolean>? = null
+
+/** launcher for single image from camera with base64 value */
 private var takeCameraImagePreviewWithBase64Value: ManagedActivityResultLauncher<Void?, Bitmap?>? =
     null
+
+/** launcher for single image preview from camera with base64 value */
 private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Uri, Boolean>? = null
+
+/** launcher for single video from gallery */
 private var pickVideo: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
 
-/**
- * @param photoUri pass Uri with the image
- * @param photoUriWithBase64 pass Uri with the image
- * */
-private var photoUri by mutableStateOf<Uri?>(null)
+
+/** pass Uri with the image */
 private var photoUriWithBase64 by mutableStateOf<Uri?>(null)
 
 /**
@@ -351,6 +353,7 @@ fun TakeSingleCameraImage(
     listener: (Bitmap?, Uri?) -> Unit
 ) {
     val context = LocalContext.current
+    var photoUri by remember { mutableStateOf<Uri?>(null) }
     CameraPermission(takeImageType = takeImageType)
     val composableScope = rememberCoroutineScope()
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
@@ -410,6 +413,7 @@ fun TakeSingleCameraImage(
 @Composable
 private fun CameraPermission(takeImageType: TakeImageType) {
     val context = LocalContext.current
+    var photoUri by remember { mutableStateOf<Uri?>(null) }
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
         takeCameraImage =
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
@@ -557,6 +561,7 @@ fun TakeSingleCameraImageWithBase64Value(
 @Composable
 private fun CameraPermissionForBase64(takeImageType: TakeImageType) {
     val context = LocalContext.current
+    var photoUri by remember { mutableStateOf<Uri?>(null) }
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
         takeCameraImageWithBase64Value =
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
