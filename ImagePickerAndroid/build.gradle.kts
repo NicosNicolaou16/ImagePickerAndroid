@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         minSdk = 24
-        lint.targetSdk = 36
+        lint.targetSdk = 37
         testOptions.targetSdk = 36
         buildFeatures {
             compose = true
