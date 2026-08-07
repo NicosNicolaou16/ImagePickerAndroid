@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.nicos.imagepickerandroidcompose"
     compileSdk = 36
-    buildToolsVersion = "36.0.0"
+    buildToolsVersion = "37.0.0"
 
     defaultConfig {
         applicationId = "com.nicos.imagepickerandroidcompose"
