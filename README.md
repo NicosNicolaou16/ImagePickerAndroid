@@ -368,34 +368,48 @@ pickSingleVideo()
 
 ```kotlin
 @Composable
-fun ImagePicker() {
-    val context = LocalContext.current
-    val bitmapValue = remember {
-        mutableStateOf(Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888))
-    }
-    //Initialize the call back
-    PickSingleImage(scaleBitmapModel = null, listener = { bitmap, uri ->
-        if (bitmap != null) {
-            bitmapValue.value = bitmap
+fun ImagePickerDemo() {
+  val context = LocalContext.current
+
+  // Use Nullable states instead of allocating empty Bitmaps/Uris
+  var singleImageBitmap by remember { mutableStateOf<Bitmap?>(null) }
+  var multiImageBitmaps by remember { mutableStateOf<List<Bitmap>>(emptyList()) }
+  var videoUri by remember { mutableStateOf<Uri?>(null) }
+
+  // ==========================================
+  // 1. Initialize Library Pickers
+  // ==========================================
+
+  PickSingleImage(
+    scaleBitmapModel = null,
+    listener = { bitmap, _ -> singleImageBitmap = bitmap }
+  )
+
+  PickMultipleImagesWithBase64Values(
+    scaleBitmapModel = ScaleBitmapModel(height = 100, width = 100),
+    maxNumberOfImages = 3,
+    listener = { bitmapList, _, base64List ->
+      if (bitmapList != null) {
+        multiImageBitmaps = bitmapList
+        base64List?.forEach { base64 ->
+          Log.d("ImagePicker", "Base64 value retrieved: ${base64.take(20)}...")
         }
-    })
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(20.dp, alignment = Alignment.Top),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        //other code
-        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = {
-            //pick image from the gallery 
-            pickSingleImage(context = context, onImagePickerNotAvailable = {})
-        }) {
-            Text(
-                text = stringResource(R.string.pick_single_image),
-                style = TextStyle(textAlign = TextAlign.Center)
-            )
-        }
-        //other code
+      }
     }
+  )
+
+  TakeSingleCameraImage(
+    scaleBitmapModel = null,
+    takeImageType = TakeImageType.TAKE_IMAGE_PREVIEW,
+    listener = { bitmap, _ ->
+      singleImageBitmap = bitmap
+    } // Reusing the single image state for preview
+  )
+
+  PickSingleVideo(
+    listener = { uri -> videoUri = uri }
+  ) 
+  //other code
 }
 ```
 
