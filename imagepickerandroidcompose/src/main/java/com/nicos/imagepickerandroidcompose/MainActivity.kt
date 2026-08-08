@@ -7,43 +7,30 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
-import com.nicos.imagepickerandroid.image_picker.PickMultipleImagesWithBase64Values
-import com.nicos.imagepickerandroid.image_picker.PickSingleImage
-import com.nicos.imagepickerandroid.image_picker.PickSingleVideo
-import com.nicos.imagepickerandroid.image_picker.TakeSingleCameraImage
-import com.nicos.imagepickerandroid.image_picker.pickMultipleImagesWithBase64Values
-import com.nicos.imagepickerandroid.image_picker.pickSingleImage
-import com.nicos.imagepickerandroid.image_picker.pickSingleVideo
-import com.nicos.imagepickerandroid.image_picker.takeSingleCameraImage
+import com.nicos.imagepickerandroid.image_picker.*
 import com.nicos.imagepickerandroid.utils.enums.TakeImageType
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import com.nicos.imagepickerandroidcompose.ui.theme.ImagePickerAndroidTheme
@@ -53,14 +40,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ImagePickerAndroidTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier
                         .fillMaxSize()
                         .statusBarsPadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ImagePicker()
+                    ImagePickerDemo()
                 }
             }
         }
@@ -68,135 +54,198 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ImagePicker() {
+fun ImagePickerDemo() {
     val context = LocalContext.current
-    val bitmapValue = remember {
-        mutableStateOf(Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888))
-    }
-    val bitmapListValue = remember {
-        mutableStateOf(listOf<Bitmap>())
-    }
-    val uriValue = remember {
-        mutableStateOf(Uri.EMPTY)
-    }
-    PickSingleImage(scaleBitmapModel = null, listener = { bitmap, uri ->
-        if (bitmap != null) {
-            bitmapValue.value = bitmap
-        }
-    })
+
+    // Use Nullable states instead of allocating empty Bitmaps/Uris
+    var singleImageBitmap by remember { mutableStateOf<Bitmap?>(null) }
+    var multiImageBitmaps by remember { mutableStateOf<List<Bitmap>>(emptyList()) }
+    var videoUri by remember { mutableStateOf<Uri?>(null) }
+
+    // ==========================================
+    // 1. Initialize Library Pickers
+    // ==========================================
+
+    PickSingleImage(
+        scaleBitmapModel = null,
+        listener = { bitmap, _ -> singleImageBitmap = bitmap }
+    )
+
     PickMultipleImagesWithBase64Values(
-        scaleBitmapModel = ScaleBitmapModel(
-            height = 100,
-            width = 100
-        ),
+        scaleBitmapModel = ScaleBitmapModel(height = 100, width = 100),
         maxNumberOfImages = 3,
-        listener = { bitmapList, uriList, base64List ->
+        listener = { bitmapList, _, base64List ->
             if (bitmapList != null) {
-                bitmapListValue.value = bitmapList
+                multiImageBitmaps = bitmapList
                 base64List?.forEach { base64 ->
-                    Log.d("base64Value", base64)
+                    Log.d("ImagePicker", "Base64 value retrieved: ${base64.take(20)}...")
                 }
             }
-        })
+        }
+    )
+
     TakeSingleCameraImage(
         scaleBitmapModel = null,
         takeImageType = TakeImageType.TAKE_IMAGE_PREVIEW,
-        listener = { bitmap, base64 ->
-            if (bitmap != null) {
-                bitmapValue.value = bitmap
-            }
-        })
-    val exoPlayer = remember {
-        mutableStateOf(ExoPlayer.Builder(context).build().apply {
-            setMediaItem(MediaItem.fromUri(uriValue.value))
-            prepare()
-            play()
-        })
-    }
-    PickSingleVideo(listener = { uri ->
-        if (uri != null) {
-            uriValue.value = uri
-            exoPlayer.value = ExoPlayer.Builder(context).build().apply {
-                setMediaItem(MediaItem.fromUri(uriValue.value))
-                prepare()
-                play()
-            }
-        }
-    })
+        listener = { bitmap, _ ->
+            singleImageBitmap = bitmap
+        } // Reusing the single image state for preview
+    )
+
+    PickSingleVideo(
+        listener = { uri -> videoUri = uri }
+    )
+
+    // ==========================================
+    // 2. UI Layout
+    // ==========================================
 
     Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(20.dp, alignment = Alignment.Top),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()) // Makes the screen scrollable
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Row {
-            Image(
-                bitmap = bitmapValue.value.asImageBitmap(),
-                contentDescription = null,
-                modifier = Modifier.size(200.dp, 200.dp)
-            )
-            Box(modifier = Modifier.size(200.dp, 200.dp)) {
-                AndroidView(
-                    factory = { context ->
-                        PlayerView(context).apply {
-                            player = exoPlayer.value
-                        }
-                    },
-                    modifier = Modifier.fillMaxSize(),
-                    update = {
-                        it.player = exoPlayer.value
-                    }
-                )
+
+        // --- Single Image & Camera Section ---
+        SectionContainer(title = "Single Image & Camera") {
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Button(onClick = {
+                    pickSingleImage(onImagePickerNotAvailable = {
+                        Log.d(
+                            "ImagePicker",
+                            "Picker Not Available"
+                        )
+                    })
+                }) {
+                    Text("Pick Image")
+                }
+                Button(onClick = {
+                    takeSingleCameraImage(
+                        context = context,
+                        onPermanentCameraPermissionDeniedCallBack = {
+                            Log.d(
+                                "ImagePicker",
+                                "Camera Permission Denied"
+                            )
+                        })
+                }) {
+                    Text("Open Camera")
+                }
             }
-        }
-        LazyRow {
-            items(bitmapListValue.value) {
+
+            // Preview
+            singleImageBitmap?.let { bitmap ->
                 Image(
-                    bitmap = it.asImageBitmap(),
-                    contentDescription = null,
+                    bitmap = bitmap.asImageBitmap(),
+                    contentDescription = "Selected Image",
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
-                        .size(200.dp, 200.dp)
-                        .padding(end = 15.dp)
+                        .size(200.dp)
+                        .clip(RoundedCornerShape(8.dp))
                 )
             }
-        }
-        Button(
-            modifier = Modifier.size(150.dp, 50.dp),
-            onClick = {
-                pickSingleImage(onImagePickerNotAvailable = {
-                    Log.d("onImagePickerNotAvailable", "callBack")
-                })
-            }) {
-            Text(
-                text = stringResource(R.string.pick_single_image),
-                style = TextStyle(textAlign = TextAlign.Center)
-            )
-        }
-        Button(
-            modifier = Modifier.size(150.dp, 50.dp),
-            onClick = { pickMultipleImagesWithBase64Values() }) {
-            Text(
-                text = stringResource(R.string.pick_multiple_images),
-                style = TextStyle(textAlign = TextAlign.Center)
-            )
-        }
-        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = {
-            takeSingleCameraImage(context = context, onPermanentCameraPermissionDeniedCallBack = {
-                Log.d("onPermanentCameraPermissionDeniedCallBack", "callBack")
-                // showDialog.value = true
-            })
-        }) {
-            Text(
-                text = stringResource(R.string.take_camera_images),
-                style = TextStyle(textAlign = TextAlign.Center)
-            )
-        }
-        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = { pickSingleVideo() }) {
-            Text(
-                text = stringResource(R.string.pick_single_video),
-                style = TextStyle(textAlign = TextAlign.Center)
-            )
         }
 
+        HorizontalDivider(Modifier, DividerDefaults.Thickness, DividerDefaults.color)
+
+        // --- Multiple Images Section ---
+        SectionContainer(title = "Multiple Images") {
+            Button(onClick = { pickMultipleImagesWithBase64Values() }) {
+                Text("Pick Multiple Images")
+            }
+
+            // Previews
+            if (multiImageBitmaps.isNotEmpty()) {
+                LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    items(multiImageBitmaps) { bitmap ->
+                        Image(
+                            bitmap = bitmap.asImageBitmap(),
+                            contentDescription = "Selected Image",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(100.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                        )
+                    }
+                }
+            }
+        }
+
+        HorizontalDivider(Modifier, DividerDefaults.Thickness, DividerDefaults.color)
+
+        // --- Video Section ---
+        SectionContainer(title = "Single Video") {
+            Button(onClick = { pickSingleVideo() }) {
+                Text("Pick Video")
+            }
+
+            // Preview
+            videoUri?.let { uri ->
+                VideoPlayerComposable(uri = uri)
+            }
+        }
+    }
+}
+
+// ==========================================
+// Helper Composables
+// ==========================================
+
+@Composable
+fun SectionContainer(title: String, content: @Composable ColumnScope.() -> Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold
+        )
+        content()
+    }
+}
+
+/**
+ * Handles the ExoPlayer lifecycle properly to avoid memory leaks.
+ */
+@Composable
+fun VideoPlayerComposable(uri: Uri) {
+    val context = LocalContext.current
+
+    // remember the player so it survives recompositions, but recreate it if the URI changes
+    val exoPlayer = remember(uri) {
+        ExoPlayer.Builder(context).build().apply {
+            setMediaItem(MediaItem.fromUri(uri))
+            prepare()
+            play()
+        }
+    }
+
+    // Release the player when this composable leaves the screen to prevent memory leaks
+    DisposableEffect(exoPlayer) {
+        onDispose {
+            exoPlayer.release()
+        }
+    }
+
+    Box(
+        modifier = Modifier
+            .size(250.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color.Black)
+    ) {
+        AndroidView(
+            factory = { ctx ->
+                PlayerView(ctx).apply {
+                    player = exoPlayer
+                }
+            },
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }
