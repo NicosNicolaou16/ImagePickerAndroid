@@ -54,7 +54,7 @@ features:
 
 | Views (XML)                                                                                                 | Jetpack Compose                                                                                                                   |
 |-------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| <img src="examples/view.gif" width="200">                                                                   | <img src="examples/jetpack_compose.gif" width="200">                                                                              |
+| <img src="examples/image_picker_xml.gif" width="200">                                                       | <img src="examples/image_picker_compose.gif" width="200">                                                                         |
 | <p align="center">*[Demo project](https://github.com/NicosNicolaou16/ImagePickerAndroid/tree/main/app)*</p> | <p align="center">*[Demo project](https://github.com/NicosNicolaou16/ImagePickerAndroid/tree/main/imagepickerandroidcompose)*</p> |
 
 ---
