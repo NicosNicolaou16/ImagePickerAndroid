@@ -191,7 +191,7 @@ pickMultipleImagesWithBase64Values(onImagePickerNotAvailable = {
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.5.8'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.6.0'
 ```
 
 ```Groovy
@@ -205,7 +205,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.5.8")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.6.0")
 ```
 
 ```Kotlin
@@ -223,7 +223,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.5.8"
+imagePickerAndroid = "2.6.0"
 
 [libraries]
 # other libraries here...
