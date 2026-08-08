@@ -4,6 +4,8 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
-
+    <style name="ShapeAppearanceOverlay.App.CornerSize8Percent" parent="">
+        <item name="cornerSize">8dp</item>
+    </style>
     <style name="Theme.ImagePickerAndroid" parent="Base.Theme.ImagePickerAndroid" />
 </resources>

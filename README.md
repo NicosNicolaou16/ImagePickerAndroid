@@ -54,7 +54,7 @@ features:
 
 | Views (XML)                                                                                                 | Jetpack Compose                                                                                                                   |
 |-------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| <img src="examples/view.gif" width="200">                                                                   | <img src="examples/jetpack_compose.gif" width="200">                                                                              |
+| <img src="examples/image_picker_xml.gif" width="200">                                                       | <img src="examples/image_picker_compose.gif" width="200">                                                                         |
 | <p align="center">*[Demo project](https://github.com/NicosNicolaou16/ImagePickerAndroid/tree/main/app)*</p> | <p align="center">*[Demo project](https://github.com/NicosNicolaou16/ImagePickerAndroid/tree/main/imagepickerandroidcompose)*</p> |
 
 ---
@@ -72,113 +72,13 @@ features:
 
 ## !! IMPORTANT NOTE
 
-THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br /> <br />
+THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br />
 
 ---
 
 ## 🚚 Migration Guide
 
-> [!IMPORTANT]  
-> Breaking changes from the version 2.3.0 and higher <br /> <br />
-> `takeSingleCameraImage()` changed to `takeSingleCameraImage(context = context)` <br /> <br />
-> `takeSingleCameraImageWithBase64Value()` changed to
-`takeSingleCameraImageWithBase64Value(context = context)`
-
-> [!IMPORTANT]  
-> Breaking changes from the version 2.4.0 and higher <br /> <br />
-> Added a new optional parameter `takeImageType: TakeImageType = TakeImageType.TAKE_IMAGE` (By
-> default is `TakeImageType.TAKE_IMAGE`) <br /> <br />
-> Those parameters are used to select whether you want `ActivityResultContracts.TakePicture()` or
-> `ActivityResultContracts.TakePicturePreview()`. <br /> <br />
-> The two options (enum) are `TakeImageType.TAKE_IMAGE` or
-`TakeImageType.TAKE_IMAGE_PREVIEW` <br /> <br />
-
-```Kotlin
-// The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
-// by default is `TakeImageType.TAKE_IMAGE`
-TakeSingleCameraImage(
-    scaleBitmapModel = null,
-    takeImageType = TakeImageType.TAKE_IMAGE,
-    listener = { bitmap, uri ->
-        //...your code here
-    })
-
-// The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
-// by default is `TakeImageType.TAKE_IMAGE`
-TakeSingleCameraImageWithBase64Value(
-    scaleBitmapModel = null,
-    takeImageType = TakeImageType.TAKE_IMAGE,
-    listener = { bitmap, uri, base64 ->
-        //...your code here
-    })
-```
-> [!IMPORTANT]  
-> Breaking changes from the version 2.5.0 and higher <br /> <br />
->
-> Activity/Fragment/XML support <br />
-> 
-> Implemented a check to ensure the image picker is available; no migration required. <br />
-> Added a new optional callback `fun onImagePickerNotAvailable() { super.onImagePickerNotAvailable() }` <br />
-> 
-> Compose Support <br />
->
-> Added two new parameters to the Image Picker methods called in listener, one parameter is required, the second is optional. <br />
-> - context (required) <br />
-> - onImagePickerNotAvailable (optional) <br />
-> 
-> Note for both types (Activity/Fragment/XML/Compose support): When the image is not available there is a Log.w(...), show only when the BuildConfig.DEBUG is true. <br />
-```logcatfilter
-ImagePickerAndroid      com.nicos.imagepickerandroidcompose  W  Image Picker is not available
-```
-
-```Kotlin
-pickSingleImage(context = context, onImagePickerNotAvailable = {
-  // show custom dialog - showDialog.value = true
-})
-pickSingleImageWithBase64Value(context = context, onImagePickerNotAvailable = {
-  // show custom dialog - showDialog.value = true
-})
-pickMultipleImages(context = context, onImagePickerNotAvailable = {
-  // show custom dialog - showDialog.value = true
-})
-pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable = {
-  // show custom dialog - showDialog.value = true
-})
-```
-
-> [!IMPORTANT]  
-> Breaking changes from the version 2.5.6 and higher <br /> <br />
->
-> Activity/Fragment/XML support <br />
->
-> Implemented a check to ensure the image picker is available; no migration required. <br />
-> Added a new optional callback `fun onImagePickerNotAvailable() { super.onImagePickerNotAvailable() }` <br />
->
-> Compose Support <br />
->
-> Removed the **context** parameter from the Image Picker methods, leaving only the optional listener parameter. <br />
-> - context <- NO NEED TO PASS THIS ANYMORE, SO REMOVE THE PARAMETER <br />
-> - onImagePickerNotAvailable (optional) <br />
->
-> Note for both types (Activity/Fragment/XML/Compose support): When the image is not available there is a Log.w(...), show only when the BuildConfig.DEBUG is true. <br />
-```logcatfilter
-ImagePickerAndroid      com.nicos.imagepickerandroidcompose  W  Image Picker is not available
-```
-
-```Kotlin
-pickSingleImage(onImagePickerNotAvailable = {
-  // show custom dialog - showDialog.value = true
-})
-pickSingleImageWithBase64Value(onImagePickerNotAvailable = {
-  // show custom dialog - showDialog.value = true
-})
-pickMultipleImages(onImagePickerNotAvailable = {
-  // show custom dialog - showDialog.value = true
-})
-pickMultipleImagesWithBase64Values(onImagePickerNotAvailable = {
-  // show custom dialog - showDialog.value = true
-})
-```
+⚠️ **Breaking changes?** Check [MIGRATION.md](./MIGRATION.md) before upgrading.
 
 ---
 
@@ -191,7 +91,7 @@ pickMultipleImagesWithBase64Values(onImagePickerNotAvailable = {
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.5.8'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.6.0'
 ```
 
 ```Groovy
@@ -205,7 +105,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.5.8")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.6.0")
 ```
 
 ```Kotlin
@@ -223,7 +123,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.5.8"
+imagePickerAndroid = "2.6.0"
 
 [libraries]
 # other libraries here...
@@ -468,34 +368,48 @@ pickSingleVideo()
 
 ```kotlin
 @Composable
-fun ImagePicker() {
-    val context = LocalContext.current
-    val bitmapValue = remember {
-        mutableStateOf(Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888))
-    }
-    //Initialize the call back
-    PickSingleImage(scaleBitmapModel = null, listener = { bitmap, uri ->
-        if (bitmap != null) {
-            bitmapValue.value = bitmap
+fun ImagePickerDemo() {
+  val context = LocalContext.current
+
+  // Use Nullable states instead of allocating empty Bitmaps/Uris
+  var singleImageBitmap by remember { mutableStateOf<Bitmap?>(null) }
+  var multiImageBitmaps by remember { mutableStateOf<List<Bitmap>>(emptyList()) }
+  var videoUri by remember { mutableStateOf<Uri?>(null) }
+
+  // ==========================================
+  // 1. Initialize Library Pickers
+  // ==========================================
+
+  PickSingleImage(
+    scaleBitmapModel = null,
+    listener = { bitmap, _ -> singleImageBitmap = bitmap }
+  )
+
+  PickMultipleImagesWithBase64Values(
+    scaleBitmapModel = ScaleBitmapModel(height = 100, width = 100),
+    maxNumberOfImages = 3,
+    listener = { bitmapList, _, base64List ->
+      if (bitmapList != null) {
+        multiImageBitmaps = bitmapList
+        base64List?.forEach { base64 ->
+          Log.d("ImagePicker", "Base64 value retrieved: ${base64.take(20)}...")
         }
-    })
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(20.dp, alignment = Alignment.Top),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        //other code
-        Button(modifier = Modifier.size(150.dp, 50.dp), onClick = {
-            //pick image from the gallery 
-            pickSingleImage(context = context, onImagePickerNotAvailable = {})
-        }) {
-            Text(
-                text = stringResource(R.string.pick_single_image),
-                style = TextStyle(textAlign = TextAlign.Center)
-            )
-        }
-        //other code
+      }
     }
+  )
+
+  TakeSingleCameraImage(
+    scaleBitmapModel = null,
+    takeImageType = TakeImageType.TAKE_IMAGE_PREVIEW,
+    listener = { bitmap, _ ->
+      singleImageBitmap = bitmap
+    } // Reusing the single image state for preview
+  )
+
+  PickSingleVideo(
+    listener = { uri -> videoUri = uri }
+  ) 
+  //other code
 }
 ```
 

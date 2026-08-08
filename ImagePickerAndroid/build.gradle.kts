@@ -8,13 +8,13 @@ plugins {
 
 android {
     namespace = "com.nick.imagepickerandroid"
-    compileSdk = 36
-    buildToolsVersion = "36.0.0"
+    compileSdk = 37
+    buildToolsVersion = "37.0.0"
 
     defaultConfig {
         minSdk = 24
-        lint.targetSdk = 36
-        testOptions.targetSdk = 36
+        lint.targetSdk = 37
+        testOptions.targetSdk = 37
         buildFeatures {
             compose = true
             buildConfig = true
@@ -89,7 +89,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.NicosNicolaou16"
             artifactId = "ImagePickerAndroid"
-            version = "2.5.8"
+            version = "2.6.0"
             afterEvaluate {
                 from(components["release"])
             }
