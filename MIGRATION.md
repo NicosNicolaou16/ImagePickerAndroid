@@ -1,13 +1,13 @@
 ## 🚚 Migration Guide
 
 > [!IMPORTANT]  
-> Breaking changes from the version 2.3.0 and higher <br /> <br />
+> # Breaking changes from the version 2.3.0 and higher <br /> <br />
 > `takeSingleCameraImage()` changed to `takeSingleCameraImage(context = context)` <br /> <br />
 > `takeSingleCameraImageWithBase64Value()` changed to
 `takeSingleCameraImageWithBase64Value(context = context)`
 
 > [!IMPORTANT]  
-> Breaking changes from the version 2.4.0 and higher <br /> <br />
+> # Breaking changes from the version 2.4.0 and higher <br /> <br />
 > Added a new optional parameter `takeImageType: TakeImageType = TakeImageType.TAKE_IMAGE` (By
 > default is `TakeImageType.TAKE_IMAGE`) <br /> <br />
 > Those parameters are used to select whether you want `ActivityResultContracts.TakePicture()` or
@@ -35,7 +35,7 @@ TakeSingleCameraImageWithBase64Value(
     })
 ```
 > [!IMPORTANT]  
-> Breaking changes from the version 2.5.0 and higher <br /> <br />
+> # Breaking changes from the version 2.5.0 and higher <br /> <br />
 >
 > Activity/Fragment/XML support <br />
 >
@@ -69,7 +69,7 @@ pickMultipleImagesWithBase64Values(context = context, onImagePickerNotAvailable 
 ```
 
 > [!IMPORTANT]  
-> Breaking changes from the version 2.5.6 and higher <br /> <br />
+> # Breaking changes from the version 2.5.6 and higher <br /> <br />
 >
 > Activity/Fragment/XML support <br />
 >
