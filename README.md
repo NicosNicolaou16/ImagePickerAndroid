@@ -62,11 +62,11 @@ features:
 ### 🛠️ Versioning
 
 *   **JDK Version**: `17`
-*   **Target SDK**: `36`
+*   **Target SDK**: `37`
 *   **Minimum SDK**: `24`
-*   **Kotlin Version**: `2.4.0`
-*   **Gradle Version**: `9.2.1`
-*   **Build Tool Version**: `36.0.0`
+*   **Kotlin Version**: `2.4.10`
+*   **Gradle Version**: `9.3.1`
+*   **Build Tool Version**: `37.0.0`
 
 ---
 
