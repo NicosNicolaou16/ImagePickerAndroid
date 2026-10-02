@@ -42,7 +42,7 @@ data class ImagePicker(
     private var fragmentActivity: FragmentActivity? = null,
     private var fragment: Fragment? = null,
     private var coroutineScope: CoroutineScope,
-    var scaleBitmapModelForSingleImage: ScaleBitmapModel? = null,
+    private var scaleBitmapModelForSingleImage: ScaleBitmapModel? = null,
     var scaleBitmapModelForMultipleImages: ScaleBitmapModel? = null,
     var scaleBitmapModelForCameraImage: ScaleBitmapModel? = null,
     private var enabledBase64ValueForSingleImage: Boolean = false,
@@ -139,8 +139,8 @@ data class ImagePicker(
                 )
                 if (scaleBitmapModelForSingleImage != null) {
                     imageHelperMethods.scaleBitmap(bitmap, scaleBitmapModelForSingleImage!!)
-                        .collect {
-                            handleImage(uri = uri, bitmap = bitmap)
+                        .collect { scaledBitmap ->
+                            handleImage(uri = uri, bitmap = scaledBitmap)
                         }
                 } else {
                     handleImage(uri = uri, bitmap = bitmap)
