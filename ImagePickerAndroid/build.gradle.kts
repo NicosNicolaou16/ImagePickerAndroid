@@ -89,7 +89,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.NicosNicolaou16"
             artifactId = "ImagePickerAndroid"
-            version = "2.6.0"
+            version = "2.6.1"
             afterEvaluate {
                 from(components["release"])
             }
