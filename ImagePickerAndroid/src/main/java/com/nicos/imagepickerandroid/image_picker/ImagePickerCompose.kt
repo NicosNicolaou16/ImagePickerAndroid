@@ -147,12 +147,11 @@ fun PickSingleImageWithBase64Value(
         rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia()) { uri ->
             composableScope.launch(Dispatchers.IO) {
                 if (uri != null) {
-                    val bitmap = withContext(Dispatchers.IO) {
+                    val bitmap =
                         imageHelperMethods.convertUriToBitmap(
                             contentResolver = context.contentResolver,
                             uri = uri
                         )
-                    }
                     if (scaleBitmapModel != null) {
                         imageHelperMethods.scaleBitmap(
                             bitmap = bitmap,
