@@ -63,7 +63,7 @@ internal class ImageHelperMethods {
                 val byteArrayOutputStream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
                 val bytes: ByteArray = byteArrayOutputStream.toByteArray()
-                emit(Base64.encodeToString(bytes, Base64.DEFAULT) ?: null)
+                emit(Base64.encodeToString(bytes, Base64.NO_WRAP) ?: null)
             } catch (e: Exception) {
                 e.printStackTrace()
                 emit(null)
@@ -84,7 +84,7 @@ internal class ImageHelperMethods {
                     val byteArrayOutputStream = ByteArrayOutputStream()
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
                     val bytes: ByteArray = byteArrayOutputStream.toByteArray()
-                    bitmapListToBase64List.add(Base64.encodeToString(bytes, Base64.DEFAULT))
+                    bitmapListToBase64List.add(Base64.encodeToString(bytes, Base64.NO_WRAP))
                 }
                 emit(bitmapListToBase64List)
             } catch (e: Exception) {
