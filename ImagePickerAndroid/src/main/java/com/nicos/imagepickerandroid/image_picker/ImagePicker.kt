@@ -134,10 +134,9 @@ data class ImagePicker(
     ) = coroutineScope.launch(Dispatchers.Main) {
         try {
             if (uri != null) {
-                val bitmap = imageHelperMethods.convertUriToBitmap(
-                    contentResolver = contentResolver,
-                    uri = uri
-                )
+                val bitmap = withContext(Dispatchers.IO) {
+                    imageHelperMethods.convertUriToBitmap(contentResolver, uri)
+                }
                 if (scaleBitmapModelForSingleImage != null) {
                     imageHelperMethods.scaleBitmap(bitmap, scaleBitmapModelForSingleImage!!)
                         .collect { scaledBitmap ->
