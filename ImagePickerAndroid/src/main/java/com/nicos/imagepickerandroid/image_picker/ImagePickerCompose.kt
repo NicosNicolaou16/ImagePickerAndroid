@@ -29,6 +29,7 @@ import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethod
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /** launcher for camera permission */
 private var permissionLauncherCameraImage: ManagedActivityResultLauncher<String, Boolean>? = null
@@ -211,20 +212,16 @@ fun PickMultipleImages(
                 maxItems = maxNumberOfImages
             )
         ) { uriList ->
-            composableScope.launch(Dispatchers.Default) {
-                val bitmapList = mutableListOf<Bitmap>()
-                if (uriList.isNotEmpty()) {
-                    uriList.forEach { uri ->
-                        val bitmap = imageHelperMethods.convertUriToBitmap(
-                            contentResolver = context.contentResolver,
-                            uri = uri
-                        )
-                        if (bitmap != null) bitmapList.add(bitmap)
-                    }
+            composableScope.launch(Dispatchers.IO) {
+                val decoded: ImageHelperMethods.DecodedImages = withContext(Dispatchers.IO) {
+                    imageHelperMethods.decodeUrisToBitmaps(
+                        contentResolver = context.contentResolver,
+                        uris = uriList
+                    )
                 }
                 if (scaleBitmapModel != null) {
                     imageHelperMethods.scaleBitmapList(
-                        bitmapList = bitmapList,
+                        bitmapList = decoded.bitmaps,
                         scaleBitmapModel = scaleBitmapModel
                     ).collect { scaledBitmapList ->
                         composableScope.launch(Dispatchers.Main) {
@@ -233,7 +230,7 @@ fun PickMultipleImages(
                     }
                 } else {
                     composableScope.launch(Dispatchers.Main) {
-                        listener(bitmapList, uriList.toMutableList())
+                        listener(decoded.bitmaps, uriList.toMutableList())
                     }
                 }
             }
@@ -278,19 +275,15 @@ fun PickMultipleImagesWithBase64Values(
             )
         ) { uriList ->
             composableScope.launch(Dispatchers.Default) {
-                val bitmapList = mutableListOf<Bitmap>()
-                if (uriList.isNotEmpty()) {
-                    uriList.forEach { uri ->
-                        val bitmap = imageHelperMethods.convertUriToBitmap(
-                            contentResolver = context.contentResolver,
-                            uri = uri
-                        )
-                        if (bitmap != null) bitmapList.add(bitmap)
-                    }
+                val decoded: ImageHelperMethods.DecodedImages = withContext(Dispatchers.IO) {
+                    imageHelperMethods.decodeUrisToBitmaps(
+                        contentResolver = context.contentResolver,
+                        uris = uriList
+                    )
                 }
                 if (scaleBitmapModel != null) {
                     imageHelperMethods.scaleBitmapList(
-                        bitmapList = bitmapList,
+                        bitmapList = decoded.bitmaps,
                         scaleBitmapModel = scaleBitmapModel
                     ).collect { scaledBitmapList ->
                         imageHelperMethods.convertListOfBitmapsToListOfBase64(bitmapList = scaledBitmapList)
@@ -305,10 +298,10 @@ fun PickMultipleImagesWithBase64Values(
                             }
                     }
                 } else {
-                    imageHelperMethods.convertListOfBitmapsToListOfBase64(bitmapList = bitmapList)
+                    imageHelperMethods.convertListOfBitmapsToListOfBase64(bitmapList = decoded.bitmaps)
                         .collect { base64List ->
                             composableScope.launch(Dispatchers.Main) {
-                                listener(bitmapList, uriList.toMutableList(), base64List)
+                                listener(decoded.bitmaps, uriList.toMutableList(), base64List)
                             }
                         }
                 }

@@ -253,26 +253,21 @@ data class ImagePicker(
     ) = coroutineScope.launch(Dispatchers.Main) {
         try {
             if (!uris.isNullOrEmpty()) {
-                val bitmapList = mutableListOf<Bitmap>()
-                withContext(Dispatchers.Default) {
-                    uris.forEach { uri ->
-                        val bitmap =
-                            imageHelperMethods.convertUriToBitmap(
-                                contentResolver = contentResolver,
-                                uri = uri
-                            )
-                        if (bitmap != null) bitmapList.add(bitmap)
-                    }
+                val decoded: ImageHelperMethods.DecodedImages = withContext(Dispatchers.IO) {
+                    imageHelperMethods.decodeUrisToBitmaps(
+                        contentResolver = contentResolver,
+                        uris = uris
+                    )
                 }
                 if (scaleBitmapModelForMultipleImages != null) {
                     imageHelperMethods.scaleBitmapList(
-                        bitmapList = bitmapList,
+                        bitmapList = decoded.bitmaps,
                         scaleBitmapModel = scaleBitmapModelForMultipleImages!!
                     ).collect {
-                        handleMultipleImages(bitmapList = bitmapList, uris = uris)
+                        handleMultipleImages(bitmapList = decoded.bitmaps, uris = uris)
                     }
                 } else {
-                    handleMultipleImages(bitmapList = bitmapList, uris = uris)
+                    handleMultipleImages(bitmapList = decoded.bitmaps, uris = uris)
                 }
             } else {
                 imagePickerInterface?.onMultipleGalleryImages(
