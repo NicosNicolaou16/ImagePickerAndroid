@@ -13,6 +13,7 @@ import android.util.Log
 import androidx.core.graphics.scale
 import com.nicos.imagepickerandroid.model.DecodedImages
 import com.nicos.imagepickerandroid.utils.extensions.getUriWithFileProvider
+import com.nicos.imagepickerandroid.utils.extensions.rotateIfNeeded
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -38,6 +39,7 @@ internal class ImageHelperMethods {
     ): Bitmap? {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
             MediaStore.Images.Media.getBitmap(contentResolver, uri)
+                ?.let { contentResolver.rotateIfNeeded(uri!!, it) }
         } else {
             val source: ImageDecoder.Source? =
                 uri?.let { ImageDecoder.createSource(contentResolver, it) }
@@ -69,7 +71,7 @@ internal class ImageHelperMethods {
                 val byteArrayOutputStream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
                 val bytes: ByteArray = byteArrayOutputStream.toByteArray()
-                emit(Base64.encodeToString(bytes, Base64.NO_WRAP) ?: null)
+                emit(Base64.encodeToString(bytes, Base64.NO_WRAP))
             } catch (e: Exception) {
                 e.printStackTrace()
                 emit(null)
@@ -157,7 +159,6 @@ internal class ImageHelperMethods {
             Date()
         )
         val fileName = "${timestamp}.jpg"
-        Log.d("rewewrwr", fileName)
         return File(context.cacheDir, fileName)
     }
 

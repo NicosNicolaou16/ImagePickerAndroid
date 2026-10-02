@@ -1,8 +1,12 @@
 package com.nicos.imagepickerandroid.utils.extensions
 
 import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
 import android.content.ContextWrapper
+import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import androidx.core.content.FileProvider
 import java.io.File
@@ -53,4 +57,36 @@ internal tailrec fun Context.findActivity(): Activity? = when (this) {
     is Activity -> this
     is ContextWrapper -> baseContext.findActivity()
     else -> null
+}
+
+/**
+ * Rotates a bitmap so it is shown upright, based on the EXIF orientation of the original file.
+ *
+ * Most phone cameras store portrait photos sideways and add an EXIF orientation tag
+ * (for example "rotate 90°") instead of rotating the pixels. [MediaStore.Images.Media.getBitmap]
+ * ignores that tag, so without this method portrait photos appear sideways on API < 28.
+ *
+ * Only rotation is applied (90°, 180°, 270°). Mirrored orientations are very rare and are
+ * returned with the correct rotation but without the mirror.
+ *
+ * If the EXIF data cannot be read, or no rotation is needed, the original bitmap is returned.
+ * When a rotated copy is created, the original bitmap is recycled to free its memory.
+ *
+ * @param contentResolver content resolver used to open the image again and read its EXIF data
+ * @param uri the image Uri the bitmap was decoded from
+ * @param bitmap the bitmap decoded from [uri]
+ * @return the upright bitmap
+ * */
+internal fun ContentResolver.rotateIfNeeded(uri: Uri, bitmap: Bitmap): Bitmap {
+    val orientation = openInputStream(uri)?.use {
+        ExifInterface(it).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+    } ?: return bitmap
+    val degrees = when (orientation) {
+        ExifInterface.ORIENTATION_ROTATE_90 -> 90f
+        ExifInterface.ORIENTATION_ROTATE_180 -> 180f
+        ExifInterface.ORIENTATION_ROTATE_270 -> 270f
+        else -> return bitmap
+    }
+    val matrix = Matrix().apply { postRotate(degrees) }
+    return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 }
