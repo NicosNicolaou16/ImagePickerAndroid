@@ -15,10 +15,10 @@
       </SelectionState>
       <SelectionState runConfigName="imagepickerandroidcompose">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-10-25T22:02:59.578759400Z">
+        <DropdownSelection timestamp="2026-10-02T18:09:15.601747700Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Nicos\.android\avd\Pixel_9_Pro_API_35.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\Nicos\.android\avd\Pixel_2_XL.avd" />
             </handle>
           </Target>
         </DropdownSelection>

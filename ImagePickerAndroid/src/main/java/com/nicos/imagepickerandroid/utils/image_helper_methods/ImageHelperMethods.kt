@@ -39,7 +39,11 @@ internal class ImageHelperMethods {
         } else {
             val source: ImageDecoder.Source? =
                 uri?.let { ImageDecoder.createSource(contentResolver, it) }
-            source?.let { ImageDecoder.decodeBitmap(it) }
+            source?.let {
+                ImageDecoder.decodeBitmap(it) { decoder, _, _ ->
+                    decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
+                }
+            }
         }
     }
 
