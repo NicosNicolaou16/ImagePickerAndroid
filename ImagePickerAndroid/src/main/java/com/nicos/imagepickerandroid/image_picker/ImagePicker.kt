@@ -428,18 +428,30 @@ data class ImagePicker(
      * */
     fun pickSingleVideoFromGallery() {
         fragmentActivity?.let {
-            pickVideoFromGalleryResultLauncher?.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.VideoOnly
+            try {
+                pickVideoFromGalleryResultLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.VideoOnly
+                    )
                 )
-            )
-        }
-        fragment?.let {
-            pickVideoFromGalleryResultLauncher?.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.VideoOnly
-                )
-            )
+            } catch (e: ActivityNotFoundException) {
+                e.printStackTrace()
+                imagePickerNotAvailableLogs()
+                imagePickerInterface?.onImagePickerNotAvailable()
+            }
+            fragment?.let {
+                try {
+                    pickVideoFromGalleryResultLauncher?.launch(
+                        PickVisualMediaRequest(
+                            ActivityResultContracts.PickVisualMedia.VideoOnly
+                        )
+                    )
+                } catch (e: ActivityNotFoundException) {
+                    e.printStackTrace()
+                    imagePickerNotAvailableLogs()
+                    imagePickerInterface?.onImagePickerNotAvailable()
+                }
+            }
         }
     }
 
