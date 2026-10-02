@@ -72,7 +72,6 @@ internal tailrec fun Context.findActivity(): Activity? = when (this) {
  * If the EXIF data cannot be read, or no rotation is needed, the original bitmap is returned.
  * When a rotated copy is created, the original bitmap is recycled to free its memory.
  *
- * @param contentResolver content resolver used to open the image again and read its EXIF data
  * @param uri the image Uri the bitmap was decoded from
  * @param bitmap the bitmap decoded from [uri]
  * @return the upright bitmap
@@ -88,5 +87,7 @@ internal fun ContentResolver.rotateIfNeeded(uri: Uri, bitmap: Bitmap): Bitmap {
         else -> return bitmap
     }
     val matrix = Matrix().apply { postRotate(degrees) }
-    return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    val rotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    if (rotated != bitmap) bitmap.recycle()
+    return rotated
 }
