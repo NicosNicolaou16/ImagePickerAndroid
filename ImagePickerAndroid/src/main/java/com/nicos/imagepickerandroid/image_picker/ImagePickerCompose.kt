@@ -89,14 +89,14 @@ fun PickSingleImage(
     pickSingleImage =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             var bitmap: Bitmap? = null
-            if (uri != null) {
-                bitmap = imageHelperMethods.convertUriToBitmap(
-                    contentResolver = context.contentResolver,
-                    uri = uri
-                )
-            }
-            if (scaleBitmapModel != null) {
-                composableScope.launch(Dispatchers.Default) {
+            composableScope.launch(Dispatchers.IO) {
+                if (uri != null) {
+                    bitmap = imageHelperMethods.convertUriToBitmap(
+                        contentResolver = context.contentResolver,
+                        uri = uri
+                    )
+                }
+                if (scaleBitmapModel != null) {
                     imageHelperMethods.scaleBitmap(
                         bitmap = bitmap,
                         scaleBitmapModel = scaleBitmapModel
@@ -105,9 +105,11 @@ fun PickSingleImage(
                             listener(scaledBitmap, uri)
                         }
                     }
+                } else {
+                    composableScope.launch(Dispatchers.Main) {
+                        listener(bitmap, uri)
+                    }
                 }
-            } else {
-                listener(bitmap, uri)
             }
         }
 }
