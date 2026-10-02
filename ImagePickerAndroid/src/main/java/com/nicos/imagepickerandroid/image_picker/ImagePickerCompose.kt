@@ -29,7 +29,6 @@ import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethod
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /** launcher for camera permission */
 private var permissionLauncherCameraImage: ManagedActivityResultLauncher<String, Boolean>? = null
