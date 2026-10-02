@@ -461,7 +461,6 @@ fun TakeSingleCameraImageWithBase64Value(
 ) {
     val composableScope = rememberCoroutineScope()
     val context = LocalContext.current
-    CameraPermissionForBase64(takeImageType = takeImageType)
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
         takeCameraImageWithBase64Value =
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
@@ -533,24 +532,21 @@ fun TakeSingleCameraImageWithBase64Value(
                 }
             }
     }
+
+    CameraPermissionForBase64(
+        takeImageType = takeImageType,
+        onUriCreated = { uri -> photoUriWithBase64 = uri })
 }
 
 /**
  * @param takeImageType pass TakeImageType.TAKE_IMAGE if you want to take a picture with camera and TakeImageType.TAKE_IMAGE_PREVIEW to take picture a preview
  * */
 @Composable
-private fun CameraPermissionForBase64(takeImageType: TakeImageType) {
+private fun CameraPermissionForBase64(
+    takeImageType: TakeImageType,
+    onUriCreated: (Uri) -> Unit
+) {
     val context = LocalContext.current
-    var photoUri by remember { mutableStateOf<Uri?>(null) }
-    if (takeImageType == TakeImageType.TAKE_IMAGE) {
-        takeCameraImageWithBase64Value =
-            rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
-                if (!success) {
-                    photoUri = null
-                }
-            }
-    }
-
     permissionCameraImageWithBase64Launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -558,7 +554,7 @@ private fun CameraPermissionForBase64(takeImageType: TakeImageType) {
             if (takeImageType == TakeImageType.TAKE_IMAGE) {
                 val photoFile = imageHelperMethods.createImageFile(context)
                 val uri = photoFile.getUriWithFileProvider(context)
-                photoUriWithBase64 = uri
+                onUriCreated(uri)
                 takeCameraImageWithBase64Value?.launch(input = uri)
             } else {
                 takeCameraImagePreviewWithBase64Value?.launch(input = null)
