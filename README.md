@@ -65,7 +65,7 @@ features:
 *   **Target SDK**: `37`
 *   **Minimum SDK**: `24`
 *   **Kotlin Version**: `2.4.20`
-*   **Gradle Version**: `9.3.1`
+*   **Gradle Version**: `9.4.1`
 *   **Build Tool Version**: `37.0.0`
 
 ---
