@@ -439,18 +439,18 @@ data class ImagePicker(
                 imagePickerNotAvailableLogs()
                 imagePickerInterface?.onImagePickerNotAvailable()
             }
-            fragment?.let {
-                try {
-                    pickVideoFromGalleryResultLauncher?.launch(
-                        PickVisualMediaRequest(
-                            ActivityResultContracts.PickVisualMedia.VideoOnly
-                        )
+        }
+        fragment?.let {
+            try {
+                pickVideoFromGalleryResultLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.VideoOnly
                     )
-                } catch (e: ActivityNotFoundException) {
-                    e.printStackTrace()
-                    imagePickerNotAvailableLogs()
-                    imagePickerInterface?.onImagePickerNotAvailable()
-                }
+                )
+            } catch (e: ActivityNotFoundException) {
+                e.printStackTrace()
+                imagePickerNotAvailableLogs()
+                imagePickerInterface?.onImagePickerNotAvailable()
             }
         }
     }
