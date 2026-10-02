@@ -146,13 +146,14 @@ fun PickSingleImageWithBase64Value(
     pickSingleImageWithBase64Value =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia()) { uri ->
             val bitmap: Bitmap?
+
             if (uri != null) {
                 bitmap = imageHelperMethods.convertUriToBitmap(
                     contentResolver = context.contentResolver,
                     uri = uri
                 )
                 if (scaleBitmapModel != null) {
-                    composableScope.launch(Dispatchers.Default) {
+                    composableScope.launch(Dispatchers.IO) {
                         imageHelperMethods.scaleBitmap(
                             bitmap = bitmap,
                             scaleBitmapModel = scaleBitmapModel
@@ -166,7 +167,7 @@ fun PickSingleImageWithBase64Value(
                         }
                     }
                 } else {
-                    composableScope.launch(Dispatchers.Default) {
+                    composableScope.launch(Dispatchers.IO) {
                         imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
                             .collect { base64 ->
                                 composableScope.launch(Dispatchers.Main) {
