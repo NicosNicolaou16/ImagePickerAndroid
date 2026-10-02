@@ -364,7 +364,9 @@ fun TakeSingleCameraImage(
                                     }
                                 }
                             } else {
-                                listener(bitmap, photoUri)
+                                composableScope.launch(Dispatchers.Main) {
+                                    listener(bitmap, photoUri)
+                                }
                             }
                         }
                     }
