@@ -264,8 +264,8 @@ data class ImagePicker(
                     imageHelperMethods.scaleBitmapList(
                         bitmapList = decoded.bitmaps,
                         scaleBitmapModel = scaleBitmapModelForMultipleImages!!
-                    ).collect {
-                        handleMultipleImages(bitmapList = decoded.bitmaps, uris = uris)
+                    ).collect { scaledBitmapList ->
+                        handleMultipleImages(bitmapList = scaledBitmapList, uris = uris)
                     }
                 } else {
                     handleMultipleImages(bitmapList = decoded.bitmaps, uris = uris)
@@ -398,8 +398,8 @@ data class ImagePicker(
         val bitmap = imageHelperMethods.getExtrasBitmapAccordingWithSDK(intent)
         if (scaleBitmapModelForCameraImage != null) {
             imageHelperMethods.scaleBitmap(bitmap, scaleBitmapModelForCameraImage!!)
-                .collect {
-                    handleCameraImage(bitmap = bitmap)
+                .collect { scaledBitmap ->
+                    handleCameraImage(bitmap = scaledBitmap)
                 }
         } else {
             handleCameraImage(bitmap = bitmap)
