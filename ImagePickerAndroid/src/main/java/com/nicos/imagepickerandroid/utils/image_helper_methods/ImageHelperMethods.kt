@@ -10,6 +10,7 @@ import android.os.Build
 import android.provider.MediaStore
 import android.util.Base64
 import androidx.core.graphics.scale
+import com.nicos.imagepickerandroid.utils.extensions.getUriWithFileProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -141,16 +142,12 @@ internal class ImageHelperMethods {
             }
         }.flowOn(Dispatchers.Default)
 
-    internal fun getUriFromBitmap(bitmap: Bitmap): Uri? {
-        val file = File.createTempFile("image", ".jpg")
-        val bytes = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
-        val bitmapData = bytes.toByteArray()
-        val fileOutPut = FileOutputStream(file)
-        fileOutPut.write(bitmapData)
-        fileOutPut.flush()
-        fileOutPut.close()
-        return Uri.fromFile(file)
+    internal fun getUriFromBitmap(context: Context, bitmap: Bitmap): Uri {
+        val file = createImageFile(context)
+        FileOutputStream(file).use { out ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+        }
+        return file.getUriWithFileProvider(context)
     }
 
     internal fun createImageFile(context: Context): File {
