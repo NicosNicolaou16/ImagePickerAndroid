@@ -592,8 +592,14 @@ fun PickSingleVideo(
 /**
  * This method is calling from listener to pick single video from gallery
  * */
-fun pickSingleVideo() {
-    pickVideo?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.VideoOnly))
+fun pickSingleVideo(onImagePickerNotAvailable: (() -> Unit)? = null) {
+    try {
+        pickVideo?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.VideoOnly))
+    } catch (e: ActivityNotFoundException) {
+        e.printStackTrace()
+        imagePickerNotAvailableLogs()
+        onImagePickerNotAvailable?.invoke()
+    }
 }
 
 /**
