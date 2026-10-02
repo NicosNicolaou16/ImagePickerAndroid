@@ -145,7 +145,6 @@ fun PickSingleImageWithBase64Value(
     val composableScope = rememberCoroutineScope()
     pickSingleImageWithBase64Value =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia()) { uri ->
-            //val bitmap: Bitmap?
             composableScope.launch {
                 if (uri != null) {
                     val bitmap = withContext(Dispatchers.IO) {
