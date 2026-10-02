@@ -143,7 +143,28 @@ dependencyResolutionManagement {
     }
 }
 ```
+---
 
+## 📷 Camera Permission (Optional)
+
+The library declares the `CAMERA` permission in its manifest, so it is added to your app
+automatically and the user is asked for it the first time the camera is opened.
+
+If you don't want the `CAMERA` permission in your app (for example, if you only use the gallery
+pickers, or you don't want the permission dialog), remove it in your app's `AndroidManifest.xml`:
+
+```xml
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Optional: remove the CAMERA permission added by ImagePickerAndroid.
+         The camera still works; the library opens it without asking for permission. -->
+    <uses-permission
+        android:name="android.permission.CAMERA"
+        tools:node="remove" />
+
+</manifest>
+```
 ---
 
 ## 🚀 Standard Configuration (XML)
