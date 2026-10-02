@@ -265,10 +265,10 @@ data class ImagePicker(
                         bitmapList = decoded.bitmaps,
                         scaleBitmapModel = scaleBitmapModelForMultipleImages!!
                     ).collect { scaledBitmapList ->
-                        handleMultipleImages(bitmapList = scaledBitmapList, uris = uris)
+                        handleMultipleImages(bitmapList = scaledBitmapList, uris = decoded.uris)
                     }
                 } else {
-                    handleMultipleImages(bitmapList = decoded.bitmaps, uris = uris)
+                    handleMultipleImages(bitmapList = decoded.bitmaps, uris = decoded.uris)
                 }
             } else {
                 imagePickerInterface?.onMultipleGalleryImages(
