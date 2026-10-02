@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
@@ -349,8 +350,7 @@ fun TakeSingleCameraImage(
     listener: (Bitmap?, Uri?) -> Unit
 ) {
     val context = LocalContext.current
-    var photoUri by remember { mutableStateOf<Uri?>(null) }
-    CameraPermission(takeImageType = takeImageType)
+    var photoUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     val composableScope = rememberCoroutineScope()
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
         takeCameraImage =
@@ -401,24 +401,19 @@ fun TakeSingleCameraImage(
                 }
             }
     }
+    CameraPermission(takeImageType = takeImageType, onUriCreated = { uri -> photoUri = uri })
 }
 
 /**
  * @param takeImageType pass TakeImageType.TAKE_IMAGE if you want to take a picture with camera and TakeImageType.TAKE_IMAGE_PREVIEW to take picture a preview
+ * @param onUriCreated called with the file Uri the camera will write into, before the camera is launched
  * */
 @Composable
-private fun CameraPermission(takeImageType: TakeImageType) {
+private fun CameraPermission(
+    takeImageType: TakeImageType,
+    onUriCreated: (Uri) -> Unit
+) {
     val context = LocalContext.current
-    var photoUri by remember { mutableStateOf<Uri?>(null) }
-    if (takeImageType == TakeImageType.TAKE_IMAGE) {
-        takeCameraImage =
-            rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
-                if (!success) {
-                    photoUri = null
-                }
-            }
-    }
-
     permissionLauncherCameraImage = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -426,7 +421,7 @@ private fun CameraPermission(takeImageType: TakeImageType) {
             if (takeImageType == TakeImageType.TAKE_IMAGE) {
                 val photoFile = imageHelperMethods.createImageFile(context)
                 val uri = photoFile.getUriWithFileProvider(context)
-                photoUri = uri
+                onUriCreated(uri)
                 takeCameraImage?.launch(input = uri)
             } else {
                 takeCameraImagePreview?.launch(input = null)
