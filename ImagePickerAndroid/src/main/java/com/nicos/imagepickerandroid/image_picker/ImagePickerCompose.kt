@@ -115,7 +115,6 @@ fun PickSingleImage(
 
 /**
  * This method is calling from listener to pick single image
- * @param context pass context
  * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickSingleImage(
@@ -181,7 +180,6 @@ fun PickSingleImageWithBase64Value(
 
 /**
  * This method is calling from listener to pick single image with base64 value
- * @param context pass context
  * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickSingleImageWithBase64Value(
@@ -247,7 +245,6 @@ fun PickMultipleImages(
 
 /**
  * This method is calling from listener to pick multiple images
- * @param context pass context
  * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickMultipleImages(
@@ -324,7 +321,6 @@ fun PickMultipleImagesWithBase64Values(
 
 /**
  * This method is calling from listener to pick multiple images with base64 values
- * @param context pass context
  * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickMultipleImagesWithBase64Values(
