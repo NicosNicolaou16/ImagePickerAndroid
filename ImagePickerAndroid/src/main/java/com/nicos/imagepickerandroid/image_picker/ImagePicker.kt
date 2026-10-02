@@ -16,6 +16,7 @@ import androidx.annotation.IntRange
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.nicos.imagepickerandroid.model.DecodedImages
 import com.nicos.imagepickerandroid.utils.constants.Constants.imagePickerNotAvailableLogs
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
@@ -253,7 +254,7 @@ data class ImagePicker(
     ) = coroutineScope.launch(Dispatchers.Main) {
         try {
             if (!uris.isNullOrEmpty()) {
-                val decoded: ImageHelperMethods.DecodedImages = withContext(Dispatchers.IO) {
+                val decoded: DecodedImages = withContext(Dispatchers.IO) {
                     imageHelperMethods.decodeUrisToBitmaps(
                         contentResolver = contentResolver,
                         uris = uris

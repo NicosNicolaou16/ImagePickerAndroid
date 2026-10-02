@@ -21,6 +21,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import com.nicos.imagepickerandroid.model.DecodedImages
 import com.nicos.imagepickerandroid.utils.constants.Constants.imagePickerNotAvailableLogs
 import com.nicos.imagepickerandroid.utils.enums.TakeImageType
 import com.nicos.imagepickerandroid.utils.extensions.findActivity
@@ -213,7 +214,7 @@ fun PickMultipleImages(
             )
         ) { uriList ->
             composableScope.launch(Dispatchers.IO) {
-                val decoded: ImageHelperMethods.DecodedImages = withContext(Dispatchers.IO) {
+                val decoded: DecodedImages = withContext(Dispatchers.IO) {
                     imageHelperMethods.decodeUrisToBitmaps(
                         contentResolver = context.contentResolver,
                         uris = uriList
@@ -275,7 +276,7 @@ fun PickMultipleImagesWithBase64Values(
             )
         ) { uriList ->
             composableScope.launch(Dispatchers.Default) {
-                val decoded: ImageHelperMethods.DecodedImages = withContext(Dispatchers.IO) {
+                val decoded: DecodedImages = withContext(Dispatchers.IO) {
                     imageHelperMethods.decodeUrisToBitmaps(
                         contentResolver = context.contentResolver,
                         uris = uriList
