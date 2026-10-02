@@ -214,12 +214,11 @@ fun PickMultipleImages(
             )
         ) { uriList ->
             composableScope.launch(Dispatchers.IO) {
-                val decoded: DecodedImages = withContext(Dispatchers.IO) {
+                val decoded: DecodedImages =
                     imageHelperMethods.decodeUrisToBitmaps(
                         contentResolver = context.contentResolver,
                         uris = uriList
                     )
-                }
                 if (scaleBitmapModel != null) {
                     imageHelperMethods.scaleBitmapList(
                         bitmapList = decoded.bitmaps,
