@@ -567,7 +567,7 @@ fun takeSingleCameraImageWithBase64Value(
 ) {
     requestCameraPermission(
         context = context,
-        permissionLauncher = permissionLauncherCameraImage,
+        permissionLauncher = permissionCameraImageWithBase64Launcher,
         onPermanentCameraPermissionDeniedCallBack = onPermanentCameraPermissionDeniedCallBack
     )
 }
