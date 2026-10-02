@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Base64
+import android.util.Log
 import androidx.core.graphics.scale
 import com.nicos.imagepickerandroid.model.DecodedImages
 import com.nicos.imagepickerandroid.utils.extensions.getUriWithFileProvider
@@ -25,7 +26,7 @@ import java.util.Locale
 internal class ImageHelperMethods {
 
     companion object {
-        private const val PATTERN_DATE_FORMAT: String = "yyyy-MM-dd HH:mm:ss"
+        private const val PATTERN_DATE_FORMAT: String = "yyyyMMdd_HHmmss_SSS"
     }
 
     /**
@@ -156,6 +157,7 @@ internal class ImageHelperMethods {
             Date()
         )
         val fileName = "${timestamp}.jpg"
+        Log.d("rewewrwr", fileName)
         return File(context.cacheDir, fileName)
     }
 
