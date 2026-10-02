@@ -533,6 +533,7 @@ fun TakeSingleCameraImageWithBase64Value(
 
 /**
  * @param takeImageType pass TakeImageType.TAKE_IMAGE if you want to take a picture with camera and TakeImageType.TAKE_IMAGE_PREVIEW to take picture a preview
+ * @param onUriCreated called with the file Uri the camera will write into, before the camera is launched
  * */
 @Composable
 private fun CameraPermissionForBase64(
@@ -590,6 +591,7 @@ fun PickSingleVideo(
 
 /**
  * This method is calling from listener to pick single video from gallery
+ * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickSingleVideo(onImagePickerNotAvailable: (() -> Unit)? = null) {
     try {
