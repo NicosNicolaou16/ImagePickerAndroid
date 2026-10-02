@@ -10,6 +10,7 @@ import android.os.Build
 import android.provider.MediaStore
 import android.util.Base64
 import androidx.core.graphics.scale
+import com.nicos.imagepickerandroid.model.DecodedImages
 import com.nicos.imagepickerandroid.utils.extensions.getUriWithFileProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
@@ -156,5 +157,33 @@ internal class ImageHelperMethods {
         )
         val fileName = "${timestamp}.jpg"
         return File(context.cacheDir, fileName)
+    }
+
+    /**
+     * Decodes each Uri into a Bitmap, keeping Uris and Bitmaps paired.
+     * A Uri that fails to decode is skipped together with its Bitmap, so the two lists never drift apart.
+     * Call this from a background dispatcher (it reads files).
+     * @param contentResolver content resolver from Activity/Context
+     * @param uris list of uris returned by the picker
+     * */
+    internal fun decodeUrisToBitmaps(
+        contentResolver: ContentResolver,
+        uris: List<Uri>,
+    ): DecodedImages {
+        val validUris = mutableListOf<Uri>()
+        val bitmaps = mutableListOf<Bitmap>()
+        uris.forEach { uri ->
+            val bitmap = try {
+                convertUriToBitmap(contentResolver = contentResolver, uri = uri)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+            if (bitmap != null) {
+                validUris.add(uri)
+                bitmaps.add(bitmap)
+            }
+        }
+        return DecodedImages(uris = validUris, bitmaps = bitmaps)
     }
 }
