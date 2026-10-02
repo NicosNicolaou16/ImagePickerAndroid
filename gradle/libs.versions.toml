@@ -1,6 +1,6 @@
 [versions]
 agp = "9.4.1"
-kotlin = "2.4.10"
+kotlin = "2.4.20"
 activityVersion = "1.13.0"
 appCompatVersion = "1.7.1"
 composeBomVersion = "2026.06.01"
