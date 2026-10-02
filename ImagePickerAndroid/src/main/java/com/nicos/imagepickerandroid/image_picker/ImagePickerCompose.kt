@@ -446,22 +446,6 @@ fun takeSingleCameraImage(
         permissionLauncher = permissionLauncherCameraImage,
         onPermanentCameraPermissionDeniedCallBack = onPermanentCameraPermissionDeniedCallBack
     )
-    /*if (shouldShowRequestPermissionRationale(
-            context as Activity,
-            Manifest.permission.CAMERA
-        )
-    ) {
-        if (onPermanentCameraPermissionDeniedCallBack == null) {
-            context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = Uri.fromParts("package", context.packageName, null)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            })
-        } else {
-            onPermanentCameraPermissionDeniedCallBack()
-        }
-    } else {
-        permissionLauncherCameraImage?.launch(Manifest.permission.CAMERA)
-    }*/
 }
 
 /**
@@ -598,22 +582,6 @@ fun takeSingleCameraImageWithBase64Value(
         permissionLauncher = permissionLauncherCameraImage,
         onPermanentCameraPermissionDeniedCallBack = onPermanentCameraPermissionDeniedCallBack
     )
-    /*if (shouldShowRequestPermissionRationale(
-            context as Activity,
-            Manifest.permission.CAMERA
-        )
-    ) {
-        if (onPermanentCameraPermissionDeniedCallBack == null) {
-            context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = Uri.fromParts("package", context.packageName, null)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            })
-        } else {
-            onPermanentCameraPermissionDeniedCallBack()
-        }
-    } else {
-        permissionCameraImageWithBase64Launcher?.launch(Manifest.permission.CAMERA)
-    }*/
 }
 
 /**
