@@ -378,11 +378,11 @@ fun TakeSingleCameraImage(
     } else {
         takeCameraImagePreview =
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { bitmap ->
-                if (bitmap != null) {
-                    val uri =
-                        imageHelperMethods.getUriFromBitmap(context = context, bitmap = bitmap)
-                    if (scaleBitmapModel != null) {
-                        composableScope.launch(Dispatchers.Default) {
+                composableScope.launch(Dispatchers.IO) {
+                    if (bitmap != null) {
+                        val uri: Uri =
+                            imageHelperMethods.getUriFromBitmap(context = context, bitmap = bitmap)
+                        if (scaleBitmapModel != null) {
                             imageHelperMethods.scaleBitmap(
                                 bitmap = bitmap,
                                 scaleBitmapModel = scaleBitmapModel
@@ -391,9 +391,11 @@ fun TakeSingleCameraImage(
                                     listener(scaledBitmap, uri)
                                 }
                             }
+                        } else {
+                            composableScope.launch(Dispatchers.Main) {
+                                listener(bitmap, uri)
+                            }
                         }
-                    } else {
-                        listener(bitmap, uri)
                     }
                 }
             }
