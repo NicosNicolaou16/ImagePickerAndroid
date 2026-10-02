@@ -145,35 +145,38 @@ fun PickSingleImageWithBase64Value(
     val composableScope = rememberCoroutineScope()
     pickSingleImageWithBase64Value =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia()) { uri ->
-            val bitmap: Bitmap?
-
-            if (uri != null) {
-                bitmap = imageHelperMethods.convertUriToBitmap(
-                    contentResolver = context.contentResolver,
-                    uri = uri
-                )
-                if (scaleBitmapModel != null) {
-                    composableScope.launch(Dispatchers.IO) {
-                        imageHelperMethods.scaleBitmap(
-                            bitmap = bitmap,
-                            scaleBitmapModel = scaleBitmapModel
-                        ).collect { scaledBitmap ->
-                            imageHelperMethods.convertBitmapToBase64(bitmap = scaledBitmap)
+            //val bitmap: Bitmap?
+            composableScope.launch {
+                if (uri != null) {
+                    val bitmap = withContext(Dispatchers.IO) {
+                        imageHelperMethods.convertUriToBitmap(
+                            contentResolver = context.contentResolver,
+                            uri = uri
+                        )
+                    }
+                    if (scaleBitmapModel != null) {
+                        composableScope.launch(Dispatchers.IO) {
+                            imageHelperMethods.scaleBitmap(
+                                bitmap = bitmap,
+                                scaleBitmapModel = scaleBitmapModel
+                            ).collect { scaledBitmap ->
+                                imageHelperMethods.convertBitmapToBase64(bitmap = scaledBitmap)
+                                    .collect { base64 ->
+                                        composableScope.launch(Dispatchers.Main) {
+                                            listener(scaledBitmap, uri, base64)
+                                        }
+                                    }
+                            }
+                        }
+                    } else {
+                        composableScope.launch(Dispatchers.IO) {
+                            imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
                                 .collect { base64 ->
                                     composableScope.launch(Dispatchers.Main) {
-                                        listener(scaledBitmap, uri, base64)
+                                        listener(bitmap, uri, base64)
                                     }
                                 }
                         }
-                    }
-                } else {
-                    composableScope.launch(Dispatchers.IO) {
-                        imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
-                            .collect { base64 ->
-                                composableScope.launch(Dispatchers.Main) {
-                                    listener(bitmap, uri, base64)
-                                }
-                            }
                     }
                 }
             }
