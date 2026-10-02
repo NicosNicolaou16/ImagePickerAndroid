@@ -347,13 +347,14 @@ fun TakeSingleCameraImage(
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
                 if (success) {
                     if (photoUri != null) {
-                        val bitmap =
-                            imageHelperMethods.convertUriToBitmap(
-                                contentResolver = context.contentResolver,
-                                photoUri
-                            )
-                        if (scaleBitmapModel != null) {
-                            composableScope.launch(Dispatchers.Default) {
+                        composableScope.launch(Dispatchers.IO) {
+                            val bitmap =
+                                imageHelperMethods.convertUriToBitmap(
+                                    contentResolver = context.contentResolver,
+                                    photoUri
+                                )
+                            if (scaleBitmapModel != null) {
+
                                 imageHelperMethods.scaleBitmap(
                                     bitmap = bitmap,
                                     scaleBitmapModel = scaleBitmapModel
@@ -362,9 +363,9 @@ fun TakeSingleCameraImage(
                                         listener(scaledBitmap, photoUri)
                                     }
                                 }
+                            } else {
+                                listener(bitmap, photoUri)
                             }
-                        } else {
-                            listener(bitmap, photoUri)
                         }
                     }
                 }
