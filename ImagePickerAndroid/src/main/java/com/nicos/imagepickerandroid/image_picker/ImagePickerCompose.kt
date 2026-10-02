@@ -274,13 +274,12 @@ fun PickMultipleImagesWithBase64Values(
                 maxItems = maxNumberOfImages
             )
         ) { uriList ->
-            composableScope.launch(Dispatchers.Default) {
-                val decoded: DecodedImages = withContext(Dispatchers.IO) {
+            composableScope.launch(Dispatchers.IO) {
+                val decoded: DecodedImages =
                     imageHelperMethods.decodeUrisToBitmaps(
                         contentResolver = context.contentResolver,
                         uris = uriList
                     )
-                }
                 if (scaleBitmapModel != null) {
                     imageHelperMethods.scaleBitmapList(
                         bitmapList = decoded.bitmaps,
