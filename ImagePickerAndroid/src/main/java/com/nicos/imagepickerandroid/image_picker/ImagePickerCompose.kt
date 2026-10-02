@@ -153,7 +153,7 @@ fun PickSingleImageWithBase64Value(
                             bitmap = bitmap,
                             scaleBitmapModel = scaleBitmapModel
                         ).collect { scaledBitmap ->
-                            imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
+                            imageHelperMethods.convertBitmapToBase64(bitmap = scaledBitmap)
                                 .collect { base64 ->
                                     composableScope.launch(Dispatchers.Main) {
                                         listener(scaledBitmap, uri, base64)
