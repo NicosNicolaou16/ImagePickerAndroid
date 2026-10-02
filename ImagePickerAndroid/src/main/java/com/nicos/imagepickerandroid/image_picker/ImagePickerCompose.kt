@@ -226,12 +226,12 @@ fun PickMultipleImages(
                         scaleBitmapModel = scaleBitmapModel
                     ).collect { scaledBitmapList ->
                         composableScope.launch(Dispatchers.Main) {
-                            listener(scaledBitmapList, uriList.toMutableList())
+                            listener(scaledBitmapList, decoded.uris.toMutableList())
                         }
                     }
                 } else {
                     composableScope.launch(Dispatchers.Main) {
-                        listener(decoded.bitmaps, uriList.toMutableList())
+                        listener(decoded.bitmaps, decoded.uris.toMutableList())
                     }
                 }
             }
@@ -292,7 +292,7 @@ fun PickMultipleImagesWithBase64Values(
                                 composableScope.launch(Dispatchers.Main) {
                                     listener(
                                         scaledBitmapList,
-                                        uriList.toMutableList(),
+                                        decoded.uris.toMutableList(),
                                         base64List
                                     )
                                 }
@@ -302,7 +302,7 @@ fun PickMultipleImagesWithBase64Values(
                     imageHelperMethods.convertListOfBitmapsToListOfBase64(bitmapList = decoded.bitmaps)
                         .collect { base64List ->
                             composableScope.launch(Dispatchers.Main) {
-                                listener(decoded.bitmaps, uriList.toMutableList(), base64List)
+                                listener(decoded.bitmaps, decoded.uris.toMutableList(), base64List)
                             }
                         }
                 }
