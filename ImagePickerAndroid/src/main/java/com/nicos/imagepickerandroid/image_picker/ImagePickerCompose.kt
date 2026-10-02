@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import com.nicos.imagepickerandroid.utils.constants.Constants.imagePickerNotAvailableLogs
 import com.nicos.imagepickerandroid.utils.enums.TakeImageType
+import com.nicos.imagepickerandroid.utils.extensions.findActivity
 import com.nicos.imagepickerandroid.utils.extensions.getUriWithFileProvider
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
@@ -440,7 +441,12 @@ fun takeSingleCameraImage(
     context: Context,
     onPermanentCameraPermissionDeniedCallBack: (() -> Unit)? = null
 ) {
-    if (shouldShowRequestPermissionRationale(
+    requestCameraPermission(
+        context = context,
+        permissionLauncher = permissionLauncherCameraImage,
+        onPermanentCameraPermissionDeniedCallBack = onPermanentCameraPermissionDeniedCallBack
+    )
+    /*if (shouldShowRequestPermissionRationale(
             context as Activity,
             Manifest.permission.CAMERA
         )
@@ -455,7 +461,7 @@ fun takeSingleCameraImage(
         }
     } else {
         permissionLauncherCameraImage?.launch(Manifest.permission.CAMERA)
-    }
+    }*/
 }
 
 /**
@@ -587,7 +593,12 @@ fun takeSingleCameraImageWithBase64Value(
     context: Context,
     onPermanentCameraPermissionDeniedCallBack: (() -> Unit)? = null
 ) {
-    if (shouldShowRequestPermissionRationale(
+    requestCameraPermission(
+        context = context,
+        permissionLauncher = permissionLauncherCameraImage,
+        onPermanentCameraPermissionDeniedCallBack = onPermanentCameraPermissionDeniedCallBack
+    )
+    /*if (shouldShowRequestPermissionRationale(
             context as Activity,
             Manifest.permission.CAMERA
         )
@@ -602,7 +613,7 @@ fun takeSingleCameraImageWithBase64Value(
         }
     } else {
         permissionCameraImageWithBase64Launcher?.launch(Manifest.permission.CAMERA)
-    }
+    }*/
 }
 
 /**
@@ -626,4 +637,31 @@ fun PickSingleVideo(
  * */
 fun pickSingleVideo() {
     pickVideo?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.VideoOnly))
+}
+
+/**
+ * Shared logic for both camera entry points.
+ * Keeps the existing behavior: if rationale should be shown → callback, or App Info when the callback is null.
+ * */
+private fun requestCameraPermission(
+    context: Context,
+    permissionLauncher: ManagedActivityResultLauncher<String, Boolean>?,
+    onPermanentCameraPermissionDeniedCallBack: (() -> Unit)?
+) {
+    val activity = context.findActivity()
+    val shouldShowRationale = activity != null &&
+            shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)
+
+    if (shouldShowRationale) {
+        if (onPermanentCameraPermissionDeniedCallBack == null) {
+            context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.fromParts("package", context.packageName, null)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            })
+        } else {
+            onPermanentCameraPermissionDeniedCallBack()
+        }
+    } else {
+        permissionLauncher?.launch(Manifest.permission.CAMERA)
+    }
 }

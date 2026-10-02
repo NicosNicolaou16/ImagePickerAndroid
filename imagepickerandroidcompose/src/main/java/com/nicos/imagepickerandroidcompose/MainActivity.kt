@@ -125,12 +125,12 @@ fun ImagePickerDemo() {
                 Button(onClick = {
                     takeSingleCameraImage(
                         context = context,
-                        onPermanentCameraPermissionDeniedCallBack = {
+                        /*onPermanentCameraPermissionDeniedCallBack = {
                             Log.d(
                                 "ImagePicker",
                                 "Camera Permission Denied"
                             )
-                        })
+                        }*/)
                 }) {
                     Text("Open Camera")
                 }
