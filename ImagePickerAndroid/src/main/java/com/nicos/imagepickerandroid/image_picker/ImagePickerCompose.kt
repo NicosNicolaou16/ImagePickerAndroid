@@ -1,7 +1,6 @@
 package com.nicos.imagepickerandroid.image_picker
 
 import android.Manifest
-import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -16,13 +15,15 @@ import androidx.annotation.IntRange
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
+import com.nicos.imagepickerandroid.model.DecodedImages
 import com.nicos.imagepickerandroid.utils.constants.Constants.imagePickerNotAvailableLogs
 import com.nicos.imagepickerandroid.utils.enums.TakeImageType
+import com.nicos.imagepickerandroid.utils.extensions.findActivity
 import com.nicos.imagepickerandroid.utils.extensions.getUriWithFileProvider
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
@@ -71,10 +72,6 @@ private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Uri, B
 /** launcher for single video from gallery */
 private var pickVideo: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
 
-
-/** pass Uri with the image */
-private var photoUriWithBase64 by mutableStateOf<Uri?>(null)
-
 /**
  * Callback for the single image to view
  * @param scaleBitmapModel pass ScaleBitmapModel with height and width to resize an image
@@ -90,14 +87,14 @@ fun PickSingleImage(
     pickSingleImage =
         rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             var bitmap: Bitmap? = null
-            if (uri != null) {
-                bitmap = imageHelperMethods.convertUriToBitmap(
-                    contentResolver = context.contentResolver,
-                    uri = uri
-                )
-            }
-            if (scaleBitmapModel != null) {
-                composableScope.launch(Dispatchers.Default) {
+            composableScope.launch(Dispatchers.IO) {
+                if (uri != null) {
+                    bitmap = imageHelperMethods.convertUriToBitmap(
+                        contentResolver = context.contentResolver,
+                        uri = uri
+                    )
+                }
+                if (scaleBitmapModel != null) {
                     imageHelperMethods.scaleBitmap(
                         bitmap = bitmap,
                         scaleBitmapModel = scaleBitmapModel
@@ -106,16 +103,17 @@ fun PickSingleImage(
                             listener(scaledBitmap, uri)
                         }
                     }
+                } else {
+                    composableScope.launch(Dispatchers.Main) {
+                        listener(bitmap, uri)
+                    }
                 }
-            } else {
-                listener(bitmap, uri)
             }
         }
 }
 
 /**
  * This method is calling from listener to pick single image
- * @param context pass context
  * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickSingleImage(
@@ -145,28 +143,26 @@ fun PickSingleImageWithBase64Value(
     val composableScope = rememberCoroutineScope()
     pickSingleImageWithBase64Value =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia()) { uri ->
-            val bitmap: Bitmap?
-            if (uri != null) {
-                bitmap = imageHelperMethods.convertUriToBitmap(
-                    contentResolver = context.contentResolver,
-                    uri = uri
-                )
-                if (scaleBitmapModel != null) {
-                    composableScope.launch(Dispatchers.Default) {
+            composableScope.launch(Dispatchers.IO) {
+                if (uri != null) {
+                    val bitmap =
+                        imageHelperMethods.convertUriToBitmap(
+                            contentResolver = context.contentResolver,
+                            uri = uri
+                        )
+                    if (scaleBitmapModel != null) {
                         imageHelperMethods.scaleBitmap(
                             bitmap = bitmap,
                             scaleBitmapModel = scaleBitmapModel
                         ).collect { scaledBitmap ->
-                            imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
+                            imageHelperMethods.convertBitmapToBase64(bitmap = scaledBitmap)
                                 .collect { base64 ->
                                     composableScope.launch(Dispatchers.Main) {
                                         listener(scaledBitmap, uri, base64)
                                     }
                                 }
                         }
-                    }
-                } else {
-                    composableScope.launch(Dispatchers.Default) {
+                    } else {
                         imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
                             .collect { base64 ->
                                 composableScope.launch(Dispatchers.Main) {
@@ -181,7 +177,6 @@ fun PickSingleImageWithBase64Value(
 
 /**
  * This method is calling from listener to pick single image with base64 value
- * @param context pass context
  * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickSingleImageWithBase64Value(
@@ -216,29 +211,24 @@ fun PickMultipleImages(
                 maxItems = maxNumberOfImages
             )
         ) { uriList ->
-            composableScope.launch(Dispatchers.Default) {
-                val bitmapList = mutableListOf<Bitmap>()
-                if (uriList.isNotEmpty()) {
-                    uriList.forEach { uri ->
-                        val bitmap = imageHelperMethods.convertUriToBitmap(
-                            contentResolver = context.contentResolver,
-                            uri = uri
-                        )
-                        if (bitmap != null) bitmapList.add(bitmap)
-                    }
-                }
+            composableScope.launch(Dispatchers.IO) {
+                val decoded: DecodedImages =
+                    imageHelperMethods.decodeUrisToBitmaps(
+                        contentResolver = context.contentResolver,
+                        uris = uriList
+                    )
                 if (scaleBitmapModel != null) {
                     imageHelperMethods.scaleBitmapList(
-                        bitmapList = bitmapList,
+                        bitmapList = decoded.bitmaps,
                         scaleBitmapModel = scaleBitmapModel
                     ).collect { scaledBitmapList ->
                         composableScope.launch(Dispatchers.Main) {
-                            listener(scaledBitmapList, uriList.toMutableList())
+                            listener(scaledBitmapList, decoded.uris.toMutableList())
                         }
                     }
                 } else {
                     composableScope.launch(Dispatchers.Main) {
-                        listener(bitmapList, uriList.toMutableList())
+                        listener(decoded.bitmaps, decoded.uris.toMutableList())
                     }
                 }
             }
@@ -247,7 +237,6 @@ fun PickMultipleImages(
 
 /**
  * This method is calling from listener to pick multiple images
- * @param context pass context
  * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickMultipleImages(
@@ -283,20 +272,15 @@ fun PickMultipleImagesWithBase64Values(
                 maxItems = maxNumberOfImages
             )
         ) { uriList ->
-            composableScope.launch(Dispatchers.Default) {
-                val bitmapList = mutableListOf<Bitmap>()
-                if (uriList.isNotEmpty()) {
-                    uriList.forEach { uri ->
-                        val bitmap = imageHelperMethods.convertUriToBitmap(
-                            contentResolver = context.contentResolver,
-                            uri = uri
-                        )
-                        if (bitmap != null) bitmapList.add(bitmap)
-                    }
-                }
+            composableScope.launch(Dispatchers.IO) {
+                val decoded: DecodedImages =
+                    imageHelperMethods.decodeUrisToBitmaps(
+                        contentResolver = context.contentResolver,
+                        uris = uriList
+                    )
                 if (scaleBitmapModel != null) {
                     imageHelperMethods.scaleBitmapList(
-                        bitmapList = bitmapList,
+                        bitmapList = decoded.bitmaps,
                         scaleBitmapModel = scaleBitmapModel
                     ).collect { scaledBitmapList ->
                         imageHelperMethods.convertListOfBitmapsToListOfBase64(bitmapList = scaledBitmapList)
@@ -304,17 +288,17 @@ fun PickMultipleImagesWithBase64Values(
                                 composableScope.launch(Dispatchers.Main) {
                                     listener(
                                         scaledBitmapList,
-                                        uriList.toMutableList(),
+                                        decoded.uris.toMutableList(),
                                         base64List
                                     )
                                 }
                             }
                     }
                 } else {
-                    imageHelperMethods.convertListOfBitmapsToListOfBase64(bitmapList = bitmapList)
+                    imageHelperMethods.convertListOfBitmapsToListOfBase64(bitmapList = decoded.bitmaps)
                         .collect { base64List ->
                             composableScope.launch(Dispatchers.Main) {
-                                listener(bitmapList, uriList.toMutableList(), base64List)
+                                listener(decoded.bitmaps, decoded.uris.toMutableList(), base64List)
                             }
                         }
                 }
@@ -324,7 +308,6 @@ fun PickMultipleImagesWithBase64Values(
 
 /**
  * This method is calling from listener to pick multiple images with base64 values
- * @param context pass context
  * @param onImagePickerNotAvailable callback for image picker not available
  * */
 fun pickMultipleImagesWithBase64Values(
@@ -353,21 +336,21 @@ fun TakeSingleCameraImage(
     listener: (Bitmap?, Uri?) -> Unit
 ) {
     val context = LocalContext.current
-    var photoUri by remember { mutableStateOf<Uri?>(null) }
-    CameraPermission(takeImageType = takeImageType)
+    var photoUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     val composableScope = rememberCoroutineScope()
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
         takeCameraImage =
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
                 if (success) {
                     if (photoUri != null) {
-                        val bitmap =
-                            imageHelperMethods.convertUriToBitmap(
-                                contentResolver = context.contentResolver,
-                                photoUri
-                            )
-                        if (scaleBitmapModel != null) {
-                            composableScope.launch(Dispatchers.Default) {
+                        composableScope.launch(Dispatchers.IO) {
+                            val bitmap =
+                                imageHelperMethods.convertUriToBitmap(
+                                    contentResolver = context.contentResolver,
+                                    photoUri
+                                )
+                            if (scaleBitmapModel != null) {
+
                                 imageHelperMethods.scaleBitmap(
                                     bitmap = bitmap,
                                     scaleBitmapModel = scaleBitmapModel
@@ -376,9 +359,11 @@ fun TakeSingleCameraImage(
                                         listener(scaledBitmap, photoUri)
                                     }
                                 }
+                            } else {
+                                composableScope.launch(Dispatchers.Main) {
+                                    listener(bitmap, photoUri)
+                                }
                             }
-                        } else {
-                            listener(bitmap, photoUri)
                         }
                     }
                 }
@@ -386,10 +371,11 @@ fun TakeSingleCameraImage(
     } else {
         takeCameraImagePreview =
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { bitmap ->
-                if (bitmap != null) {
-                    val uri = imageHelperMethods.getUriFromBitmap(bitmap)
-                    if (scaleBitmapModel != null) {
-                        composableScope.launch(Dispatchers.Default) {
+                composableScope.launch(Dispatchers.IO) {
+                    if (bitmap != null) {
+                        val uri: Uri =
+                            imageHelperMethods.getUriFromBitmap(context = context, bitmap = bitmap)
+                        if (scaleBitmapModel != null) {
                             imageHelperMethods.scaleBitmap(
                                 bitmap = bitmap,
                                 scaleBitmapModel = scaleBitmapModel
@@ -398,31 +384,28 @@ fun TakeSingleCameraImage(
                                     listener(scaledBitmap, uri)
                                 }
                             }
+                        } else {
+                            composableScope.launch(Dispatchers.Main) {
+                                listener(bitmap, uri)
+                            }
                         }
-                    } else {
-                        listener(bitmap, uri)
                     }
                 }
             }
     }
+    CameraPermission(takeImageType = takeImageType, onUriCreated = { uri -> photoUri = uri })
 }
 
 /**
  * @param takeImageType pass TakeImageType.TAKE_IMAGE if you want to take a picture with camera and TakeImageType.TAKE_IMAGE_PREVIEW to take picture a preview
+ * @param onUriCreated called with the file Uri the camera will write into, before the camera is launched
  * */
 @Composable
-private fun CameraPermission(takeImageType: TakeImageType) {
+private fun CameraPermission(
+    takeImageType: TakeImageType,
+    onUriCreated: (Uri) -> Unit
+) {
     val context = LocalContext.current
-    var photoUri by remember { mutableStateOf<Uri?>(null) }
-    if (takeImageType == TakeImageType.TAKE_IMAGE) {
-        takeCameraImage =
-            rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
-                if (!success) {
-                    photoUri = null
-                }
-            }
-    }
-
     permissionLauncherCameraImage = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -430,7 +413,7 @@ private fun CameraPermission(takeImageType: TakeImageType) {
             if (takeImageType == TakeImageType.TAKE_IMAGE) {
                 val photoFile = imageHelperMethods.createImageFile(context)
                 val uri = photoFile.getUriWithFileProvider(context)
-                photoUri = uri
+                onUriCreated(uri)
                 takeCameraImage?.launch(input = uri)
             } else {
                 takeCameraImagePreview?.launch(input = null)
@@ -449,22 +432,11 @@ fun takeSingleCameraImage(
     context: Context,
     onPermanentCameraPermissionDeniedCallBack: (() -> Unit)? = null
 ) {
-    if (shouldShowRequestPermissionRationale(
-            context as Activity,
-            Manifest.permission.CAMERA
-        )
-    ) {
-        if (onPermanentCameraPermissionDeniedCallBack == null) {
-            context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = Uri.fromParts("package", context.packageName, null)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            })
-        } else {
-            onPermanentCameraPermissionDeniedCallBack()
-        }
-    } else {
-        permissionLauncherCameraImage?.launch(Manifest.permission.CAMERA)
-    }
+    requestCameraPermission(
+        context = context,
+        permissionLauncher = permissionLauncherCameraImage,
+        onPermanentCameraPermissionDeniedCallBack = onPermanentCameraPermissionDeniedCallBack
+    )
 }
 
 /**
@@ -481,23 +453,23 @@ fun TakeSingleCameraImageWithBase64Value(
 ) {
     val composableScope = rememberCoroutineScope()
     val context = LocalContext.current
-    CameraPermissionForBase64(takeImageType = takeImageType)
+    var photoUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
         takeCameraImageWithBase64Value =
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
                 if (success) {
-                    if (photoUriWithBase64 != null) {
+                    if (photoUri != null) {
                         if (scaleBitmapModel != null) {
                             composableScope.launch(context = Dispatchers.Default) {
                                 val bitmap = imageHelperMethods.convertUriToBitmap(
                                     contentResolver = context.contentResolver,
-                                    uri = photoUriWithBase64
+                                    uri = photoUri
                                 )
                                 imageHelperMethods.scaleBitmap(
                                     bitmap = bitmap,
                                     scaleBitmapModel = scaleBitmapModel
                                 ).collect { scaledBitmap ->
-                                    imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
+                                    imageHelperMethods.convertBitmapToBase64(bitmap = scaledBitmap)
                                         .collect { base64 ->
                                             composableScope.launch(Dispatchers.Main) {
                                                 listener(scaledBitmap, base64)
@@ -509,7 +481,7 @@ fun TakeSingleCameraImageWithBase64Value(
                             composableScope.launch(Dispatchers.Default) {
                                 val bitmap = imageHelperMethods.convertUriToBitmap(
                                     contentResolver = context.contentResolver,
-                                    uri = photoUriWithBase64
+                                    uri = photoUri
                                 )
                                 imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
                                     .collect { base64 ->
@@ -532,7 +504,7 @@ fun TakeSingleCameraImageWithBase64Value(
                                 bitmap = bitmap,
                                 scaleBitmapModel = scaleBitmapModel
                             ).collect { scaledBitmap ->
-                                imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
+                                imageHelperMethods.convertBitmapToBase64(bitmap = scaledBitmap)
                                     .collect { base64 ->
                                         composableScope.launch(context = Dispatchers.Main) {
                                             listener(scaledBitmap, base64)
@@ -553,24 +525,22 @@ fun TakeSingleCameraImageWithBase64Value(
                 }
             }
     }
+
+    CameraPermissionForBase64(
+        takeImageType = takeImageType,
+        onUriCreated = { uri -> photoUri = uri })
 }
 
 /**
  * @param takeImageType pass TakeImageType.TAKE_IMAGE if you want to take a picture with camera and TakeImageType.TAKE_IMAGE_PREVIEW to take picture a preview
+ * @param onUriCreated called with the file Uri the camera will write into, before the camera is launched
  * */
 @Composable
-private fun CameraPermissionForBase64(takeImageType: TakeImageType) {
+private fun CameraPermissionForBase64(
+    takeImageType: TakeImageType,
+    onUriCreated: (Uri) -> Unit
+) {
     val context = LocalContext.current
-    var photoUri by remember { mutableStateOf<Uri?>(null) }
-    if (takeImageType == TakeImageType.TAKE_IMAGE) {
-        takeCameraImageWithBase64Value =
-            rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
-                if (!success) {
-                    photoUri = null
-                }
-            }
-    }
-
     permissionCameraImageWithBase64Launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
@@ -578,7 +548,7 @@ private fun CameraPermissionForBase64(takeImageType: TakeImageType) {
             if (takeImageType == TakeImageType.TAKE_IMAGE) {
                 val photoFile = imageHelperMethods.createImageFile(context)
                 val uri = photoFile.getUriWithFileProvider(context)
-                photoUriWithBase64 = uri
+                onUriCreated(uri)
                 takeCameraImageWithBase64Value?.launch(input = uri)
             } else {
                 takeCameraImagePreviewWithBase64Value?.launch(input = null)
@@ -596,22 +566,11 @@ fun takeSingleCameraImageWithBase64Value(
     context: Context,
     onPermanentCameraPermissionDeniedCallBack: (() -> Unit)? = null
 ) {
-    if (shouldShowRequestPermissionRationale(
-            context as Activity,
-            Manifest.permission.CAMERA
-        )
-    ) {
-        if (onPermanentCameraPermissionDeniedCallBack == null) {
-            context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                data = Uri.fromParts("package", context.packageName, null)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            })
-        } else {
-            onPermanentCameraPermissionDeniedCallBack()
-        }
-    } else {
-        permissionCameraImageWithBase64Launcher?.launch(Manifest.permission.CAMERA)
-    }
+    requestCameraPermission(
+        context = context,
+        permissionLauncher = permissionCameraImageWithBase64Launcher,
+        onPermanentCameraPermissionDeniedCallBack = onPermanentCameraPermissionDeniedCallBack
+    )
 }
 
 /**
@@ -632,7 +591,41 @@ fun PickSingleVideo(
 
 /**
  * This method is calling from listener to pick single video from gallery
+ * @param onImagePickerNotAvailable callback for image picker not available
  * */
-fun pickSingleVideo() {
-    pickVideo?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.VideoOnly))
+fun pickSingleVideo(onImagePickerNotAvailable: (() -> Unit)? = null) {
+    try {
+        pickVideo?.launch(input = PickVisualMediaRequest(mediaType = ActivityResultContracts.PickVisualMedia.VideoOnly))
+    } catch (e: ActivityNotFoundException) {
+        e.printStackTrace()
+        imagePickerNotAvailableLogs()
+        onImagePickerNotAvailable?.invoke()
+    }
+}
+
+/**
+ * Shared logic for both camera entry points.
+ * Keeps the existing behavior: if rationale should be shown → callback, or App Info when the callback is null.
+ * */
+private fun requestCameraPermission(
+    context: Context,
+    permissionLauncher: ManagedActivityResultLauncher<String, Boolean>?,
+    onPermanentCameraPermissionDeniedCallBack: (() -> Unit)?
+) {
+    val activity = context.findActivity()
+    val shouldShowRationale = activity != null &&
+            shouldShowRequestPermissionRationale(activity, Manifest.permission.CAMERA)
+
+    if (shouldShowRationale) {
+        if (onPermanentCameraPermissionDeniedCallBack == null) {
+            context.startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.fromParts("package", context.packageName, null)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            })
+        } else {
+            onPermanentCameraPermissionDeniedCallBack()
+        }
+    } else {
+        permissionLauncher?.launch(Manifest.permission.CAMERA)
+    }
 }

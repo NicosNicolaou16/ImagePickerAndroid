@@ -16,6 +16,7 @@ import androidx.annotation.IntRange
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.nicos.imagepickerandroid.model.DecodedImages
 import com.nicos.imagepickerandroid.utils.constants.Constants.imagePickerNotAvailableLogs
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
@@ -42,9 +43,9 @@ data class ImagePicker(
     private var fragmentActivity: FragmentActivity? = null,
     private var fragment: Fragment? = null,
     private var coroutineScope: CoroutineScope,
-    var scaleBitmapModelForSingleImage: ScaleBitmapModel? = null,
-    var scaleBitmapModelForMultipleImages: ScaleBitmapModel? = null,
-    var scaleBitmapModelForCameraImage: ScaleBitmapModel? = null,
+    private var scaleBitmapModelForSingleImage: ScaleBitmapModel? = null,
+    private var scaleBitmapModelForMultipleImages: ScaleBitmapModel? = null,
+    private var scaleBitmapModelForCameraImage: ScaleBitmapModel? = null,
     private var enabledBase64ValueForSingleImage: Boolean = false,
     private var enabledBase64ValueForMultipleImages: Boolean = false,
     private var enabledBase64ValueForCameraImage: Boolean = false,
@@ -133,14 +134,13 @@ data class ImagePicker(
     ) = coroutineScope.launch(Dispatchers.Main) {
         try {
             if (uri != null) {
-                val bitmap = imageHelperMethods.convertUriToBitmap(
-                    contentResolver = contentResolver,
-                    uri = uri
-                )
+                val bitmap = withContext(Dispatchers.IO) {
+                    imageHelperMethods.convertUriToBitmap(contentResolver, uri)
+                }
                 if (scaleBitmapModelForSingleImage != null) {
                     imageHelperMethods.scaleBitmap(bitmap, scaleBitmapModelForSingleImage!!)
-                        .collect {
-                            handleImage(uri = uri, bitmap = bitmap)
+                        .collect { scaledBitmap ->
+                            handleImage(uri = uri, bitmap = scaledBitmap)
                         }
                 } else {
                     handleImage(uri = uri, bitmap = bitmap)
@@ -253,26 +253,21 @@ data class ImagePicker(
     ) = coroutineScope.launch(Dispatchers.Main) {
         try {
             if (!uris.isNullOrEmpty()) {
-                val bitmapList = mutableListOf<Bitmap>()
-                withContext(Dispatchers.Default) {
-                    uris.forEach { uri ->
-                        val bitmap =
-                            imageHelperMethods.convertUriToBitmap(
-                                contentResolver = contentResolver,
-                                uri = uri
-                            )
-                        if (bitmap != null) bitmapList.add(bitmap)
-                    }
+                val decoded: DecodedImages = withContext(Dispatchers.IO) {
+                    imageHelperMethods.decodeUrisToBitmaps(
+                        contentResolver = contentResolver,
+                        uris = uris
+                    )
                 }
                 if (scaleBitmapModelForMultipleImages != null) {
                     imageHelperMethods.scaleBitmapList(
-                        bitmapList = bitmapList,
+                        bitmapList = decoded.bitmaps,
                         scaleBitmapModel = scaleBitmapModelForMultipleImages!!
-                    ).collect {
-                        handleMultipleImages(bitmapList = bitmapList, uris = uris)
+                    ).collect { scaledBitmapList ->
+                        handleMultipleImages(bitmapList = scaledBitmapList, uris = decoded.uris)
                     }
                 } else {
-                    handleMultipleImages(bitmapList = bitmapList, uris = uris)
+                    handleMultipleImages(bitmapList = decoded.bitmaps, uris = decoded.uris)
                 }
             } else {
                 imagePickerInterface?.onMultipleGalleryImages(
@@ -402,8 +397,8 @@ data class ImagePicker(
         val bitmap = imageHelperMethods.getExtrasBitmapAccordingWithSDK(intent)
         if (scaleBitmapModelForCameraImage != null) {
             imageHelperMethods.scaleBitmap(bitmap, scaleBitmapModelForCameraImage!!)
-                .collect {
-                    handleCameraImage(bitmap = bitmap)
+                .collect { scaledBitmap ->
+                    handleCameraImage(bitmap = scaledBitmap)
                 }
         } else {
             handleCameraImage(bitmap = bitmap)
@@ -432,18 +427,30 @@ data class ImagePicker(
      * */
     fun pickSingleVideoFromGallery() {
         fragmentActivity?.let {
-            pickVideoFromGalleryResultLauncher?.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.VideoOnly
+            try {
+                pickVideoFromGalleryResultLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.VideoOnly
+                    )
                 )
-            )
+            } catch (e: ActivityNotFoundException) {
+                e.printStackTrace()
+                imagePickerNotAvailableLogs()
+                imagePickerInterface?.onImagePickerNotAvailable()
+            }
         }
         fragment?.let {
-            pickVideoFromGalleryResultLauncher?.launch(
-                PickVisualMediaRequest(
-                    ActivityResultContracts.PickVisualMedia.VideoOnly
+            try {
+                pickVideoFromGalleryResultLauncher?.launch(
+                    PickVisualMediaRequest(
+                        ActivityResultContracts.PickVisualMedia.VideoOnly
+                    )
                 )
-            )
+            } catch (e: ActivityNotFoundException) {
+                e.printStackTrace()
+                imagePickerNotAvailableLogs()
+                imagePickerInterface?.onImagePickerNotAvailable()
+            }
         }
     }
 

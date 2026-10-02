@@ -9,8 +9,10 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Base64
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.graphics.scale
+import com.nicos.imagepickerandroid.model.DecodedImages
+import com.nicos.imagepickerandroid.utils.extensions.getUriWithFileProvider
+import com.nicos.imagepickerandroid.utils.extensions.rotateIfNeeded
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -24,7 +26,7 @@ import java.util.Locale
 internal class ImageHelperMethods {
 
     companion object {
-        private const val PATTERN_DATE_FORMAT: String = "yyyy-MM-dd HH:mm:ss"
+        private const val PATTERN_DATE_FORMAT: String = "yyyyMMdd_HHmmss_SSS"
     }
 
     /**
@@ -36,10 +38,15 @@ internal class ImageHelperMethods {
     ): Bitmap? {
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
             MediaStore.Images.Media.getBitmap(contentResolver, uri)
+                ?.let { contentResolver.rotateIfNeeded(uri!!, it) }
         } else {
             val source: ImageDecoder.Source? =
                 uri?.let { ImageDecoder.createSource(contentResolver, it) }
-            source?.let { ImageDecoder.decodeBitmap(it) }
+            source?.let {
+                ImageDecoder.decodeBitmap(it) { decoder, _, _ ->
+                    decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
+                }
+            }
         }
     }
 
@@ -63,7 +70,7 @@ internal class ImageHelperMethods {
                 val byteArrayOutputStream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
                 val bytes: ByteArray = byteArrayOutputStream.toByteArray()
-                emit(Base64.encodeToString(bytes, Base64.DEFAULT) ?: null)
+                emit(Base64.encodeToString(bytes, Base64.NO_WRAP))
             } catch (e: Exception) {
                 e.printStackTrace()
                 emit(null)
@@ -84,7 +91,7 @@ internal class ImageHelperMethods {
                     val byteArrayOutputStream = ByteArrayOutputStream()
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
                     val bytes: ByteArray = byteArrayOutputStream.toByteArray()
-                    bitmapListToBase64List.add(Base64.encodeToString(bytes, Base64.DEFAULT))
+                    bitmapListToBase64List.add(Base64.encodeToString(bytes, Base64.NO_WRAP))
                 }
                 emit(bitmapListToBase64List)
             } catch (e: Exception) {
@@ -138,16 +145,12 @@ internal class ImageHelperMethods {
             }
         }.flowOn(Dispatchers.Default)
 
-    internal fun getUriFromBitmap(bitmap: Bitmap): Uri? {
-        val file = File.createTempFile("image", ".jpg")
-        val bytes = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bytes)
-        val bitmapData = bytes.toByteArray()
-        val fileOutPut = FileOutputStream(file)
-        fileOutPut.write(bitmapData)
-        fileOutPut.flush()
-        fileOutPut.close()
-        return Uri.fromFile(file)
+    internal fun getUriFromBitmap(context: Context, bitmap: Bitmap): Uri {
+        val file = createImageFile(context)
+        FileOutputStream(file).use { out ->
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out)
+        }
+        return file.getUriWithFileProvider(context)
     }
 
     internal fun createImageFile(context: Context): File {
@@ -156,5 +159,33 @@ internal class ImageHelperMethods {
         )
         val fileName = "${timestamp}.jpg"
         return File(context.cacheDir, fileName)
+    }
+
+    /**
+     * Decodes each Uri into a Bitmap, keeping Uris and Bitmaps paired.
+     * A Uri that fails to decode is skipped together with its Bitmap, so the two lists never drift apart.
+     * Call this from a background dispatcher (it reads files).
+     * @param contentResolver content resolver from Activity/Context
+     * @param uris list of uris returned by the picker
+     * */
+    internal fun decodeUrisToBitmaps(
+        contentResolver: ContentResolver,
+        uris: List<Uri>,
+    ): DecodedImages {
+        val validUris = mutableListOf<Uri>()
+        val bitmaps = mutableListOf<Bitmap>()
+        uris.forEach { uri ->
+            val bitmap = try {
+                convertUriToBitmap(contentResolver = contentResolver, uri = uri)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+            if (bitmap != null) {
+                validUris.add(uri)
+                bitmaps.add(bitmap)
+            }
+        }
+        return DecodedImages(uris = validUris, bitmaps = bitmaps)
     }
 }
