@@ -72,10 +72,6 @@ private var takeCameraImageWithBase64Value: ManagedActivityResultLauncher<Uri, B
 /** launcher for single video from gallery */
 private var pickVideo: ManagedActivityResultLauncher<PickVisualMediaRequest, Uri?>? = null
 
-
-/** pass Uri with the image */
-private var photoUriWithBase64 by mutableStateOf<Uri?>(null)
-
 /**
  * Callback for the single image to view
  * @param scaleBitmapModel pass ScaleBitmapModel with height and width to resize an image
@@ -461,16 +457,17 @@ fun TakeSingleCameraImageWithBase64Value(
 ) {
     val composableScope = rememberCoroutineScope()
     val context = LocalContext.current
+    var photoUri by rememberSaveable { mutableStateOf<Uri?>(null) }
     if (takeImageType == TakeImageType.TAKE_IMAGE) {
         takeCameraImageWithBase64Value =
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicture()) { success ->
                 if (success) {
-                    if (photoUriWithBase64 != null) {
+                    if (photoUri != null) {
                         if (scaleBitmapModel != null) {
                             composableScope.launch(context = Dispatchers.Default) {
                                 val bitmap = imageHelperMethods.convertUriToBitmap(
                                     contentResolver = context.contentResolver,
-                                    uri = photoUriWithBase64
+                                    uri = photoUri
                                 )
                                 imageHelperMethods.scaleBitmap(
                                     bitmap = bitmap,
@@ -488,7 +485,7 @@ fun TakeSingleCameraImageWithBase64Value(
                             composableScope.launch(Dispatchers.Default) {
                                 val bitmap = imageHelperMethods.convertUriToBitmap(
                                     contentResolver = context.contentResolver,
-                                    uri = photoUriWithBase64
+                                    uri = photoUri
                                 )
                                 imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
                                     .collect { base64 ->
@@ -535,7 +532,7 @@ fun TakeSingleCameraImageWithBase64Value(
 
     CameraPermissionForBase64(
         takeImageType = takeImageType,
-        onUriCreated = { uri -> photoUriWithBase64 = uri })
+        onUriCreated = { uri -> photoUri = uri })
 }
 
 /**
