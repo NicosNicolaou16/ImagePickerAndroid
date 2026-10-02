@@ -18,7 +18,7 @@ materialDesignVersion = "1.14.0"
 media3ExoplayerVersion = "1.11.1"
 recyclerViewVersion = "1.4.0"
 uiTestManifestVersion = "1.12.1"
-composeMaterialVersion = "1.11.4"
+composeMaterialVersion = "1.12.1"
 
 [libraries]
 # Architecture
