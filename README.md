@@ -342,7 +342,7 @@ PickMultipleImagesWithBase64Values(
 // The two options (enum) are `TakeImageType.TAKE_IMAGE` or `TakeImageType.TAKE_IMAGE_PREVIEW`,
 // by default is `TakeImageType.TAKE_IMAGE`
 TakeSingleCameraImage(
-    scaleBitmapModel = null,
+    scaleBitmapModel = ScaleBitmapModel(height = 1080, width = 1080, keepAspectRatio = true),
     takeImageType = TakeImageType.TAKE_IMAGE,
     listener = { bitmap, uri ->
         //...your code here
