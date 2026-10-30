@@ -214,8 +214,8 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 > `ScaleBitmapModel(height, width, keepAspectRatio)`
 > - `keepAspectRatio = false` (default): the image is resized to exactly `width` × `height`, which can stretch it.
 > - `keepAspectRatio = true`: the image fits inside `width` × `height` and keeps its shape
-    >   (for example, a 4000 × 3000 photo with `ScaleBitmapModel(500, 500, true)` becomes 500 × 375).
-    >   Smaller images are not enlarged.
+>   (for example, a 4000 × 3000 photo with `ScaleBitmapModel(500, 500, true)` becomes 500 × 375).
+>   Smaller images are not enlarged.
 
 ### Step 2 - Initialize the methods for Image Pickers (choose the preferred method(s))
 
