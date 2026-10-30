@@ -92,7 +92,7 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br />
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.6.1'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.6.2'
 ```
 
 ```Groovy
