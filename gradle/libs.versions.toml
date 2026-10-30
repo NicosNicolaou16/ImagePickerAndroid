@@ -19,6 +19,7 @@ media3ExoplayerVersion = "1.11.1"
 recyclerViewVersion = "1.4.0"
 uiTestManifestVersion = "1.12.1"
 composeMaterialVersion = "1.12.1"
+exifinterfaceVersion = "1.4.2"
 
 [libraries]
 # Architecture
@@ -58,6 +59,7 @@ androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifestVersion" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCoreVersion" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junit" }
+androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "exifinterfaceVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
