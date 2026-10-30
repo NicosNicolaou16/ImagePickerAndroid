@@ -190,7 +190,8 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             ), // optional, change the scale for image, by default is null
             scaleBitmapModelForMultipleImages = ScaleBitmapModel(
                 height = 100,
-                width = 100
+                width = 100,
+                keepAspectRatio = true
             ), // optional, change the scale for image, by default is null
             scaleBitmapModelForCameraImage = ScaleBitmapModel(
                 height = 100,
