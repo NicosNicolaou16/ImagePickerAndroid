@@ -106,7 +106,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.6.1")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.6.2")
 ```
 
 ```Kotlin
