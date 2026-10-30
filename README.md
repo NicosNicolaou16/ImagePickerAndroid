@@ -186,12 +186,12 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             coroutineScope = lifecycleScope, // mandatory - coroutine scope from activity or fragment - private
             scaleBitmapModelForSingleImage = ScaleBitmapModel(
                 height = 100,
-                width = 100
+                width = 100,
+                keepAspectRatio = true
             ), // optional, change the scale for image, by default is null
             scaleBitmapModelForMultipleImages = ScaleBitmapModel(
                 height = 100,
-                width = 100,
-                keepAspectRatio = true
+                width = 100
             ), // optional, change the scale for image, by default is null
             scaleBitmapModelForCameraImage = ScaleBitmapModel(
                 height = 100,
