@@ -53,13 +53,14 @@ coroutine-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutine
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlinBomVersion" }
 # Material
 material = { module = "com.google.android.material:material", version.ref = "materialDesignVersion" }
+# Exifinterface
+androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "exifinterfaceVersion" }
 # Unit Test
 junit = { module = "junit:junit", version.ref = "junitVersion" }
 androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestManifestVersion" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCoreVersion" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junit" }
-androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "exifinterfaceVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
