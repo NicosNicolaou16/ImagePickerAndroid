@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.Matrix
-import android.media.ExifInterface
+import androidx.exifinterface.media.ExifInterface
 import android.net.Uri
 import androidx.core.content.FileProvider
 import java.io.File
@@ -63,7 +63,7 @@ internal tailrec fun Context.findActivity(): Activity? = when (this) {
  * Rotates a bitmap so it is shown upright, based on the EXIF orientation of the original file.
  *
  * Most phone cameras store portrait photos sideways and add an EXIF orientation tag
- * (for example "rotate 90°") instead of rotating the pixels. [MediaStore.Images.Media.getBitmap]
+ * (for example "rotate 90°") instead of rotating the pixels. `MediaStore.Images.Media.getBitmap`
  * ignores that tag, so without this method portrait photos appear sideways on API < 28.
  *
  * Only rotation is applied (90°, 180°, 270°). Mirrored orientations are very rare and are
@@ -72,14 +72,25 @@ internal tailrec fun Context.findActivity(): Activity? = when (this) {
  * If the EXIF data cannot be read, or no rotation is needed, the original bitmap is returned.
  * When a rotated copy is created, the original bitmap is recycled to free its memory.
  *
+ * @receiver content resolver used to open the image again and read its EXIF data
  * @param uri the image Uri the bitmap was decoded from
  * @param bitmap the bitmap decoded from [uri]
  * @return the upright bitmap
  * */
 internal fun ContentResolver.rotateIfNeeded(uri: Uri, bitmap: Bitmap): Bitmap {
-    val orientation = openInputStream(uri)?.use {
-        ExifInterface(it).getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+    val orientation = try {
+        openInputStream(uri)?.use {
+            ExifInterface(it).getAttributeInt(
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.ORIENTATION_NORMAL
+            )
+        }
+    } catch (e: Exception) {
+        // EXIF could not be read: keep the image as it is instead of losing it
+        e.printStackTrace()
+        null
     } ?: return bitmap
+
     val degrees = when (orientation) {
         ExifInterface.ORIENTATION_ROTATE_90 -> 90f
         ExifInterface.ORIENTATION_ROTATE_180 -> 180f
