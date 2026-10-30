@@ -85,7 +85,7 @@ fun ImagePickerDemo() {
     )
 
     TakeSingleCameraImage(
-        scaleBitmapModel = null,
+        scaleBitmapModel = ScaleBitmapModel(height = 1080, width = 1080, keepAspectRatio = true),
         takeImageType = TakeImageType.TAKE_IMAGE_PREVIEW,
         listener = { bitmap, _ ->
             singleImageBitmap = bitmap
