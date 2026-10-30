@@ -173,12 +173,33 @@ internal class ImageHelperMethods {
         return file.getUriWithFileProvider(context)
     }
 
+    /**
+     * Creates a new, unique file for a camera or preview image.
+     *
+     * @param context context used to find the cache directory
+     * @return the new (still empty) file
+     * */
     internal fun createImageFile(context: Context): File {
         val timestamp = SimpleDateFormat(PATTERN_DATE_FORMAT, Locale.getDefault()).format(
             Date()
         )
         val fileName = "${timestamp}.jpg"
         return File(context.cacheDir, fileName)
+    }
+
+    /**
+     * Deletes a camera image file created by the library.
+     * Used for files the developer never receives (cancelled photos, Base64 camera),
+     * so it never removes a Uri the app might still use. Errors are ignored.
+     * @param context context used to access the content resolver
+     * @param uri FileProvider Uri of the file to delete
+     * */
+    internal fun deleteCameraFile(context: Context, uri: Uri) {
+        try {
+            context.contentResolver.delete(uri, null, null)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     /**
