@@ -373,8 +373,9 @@ fun TakeSingleCameraImage(
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { bitmap ->
                 composableScope.launch(Dispatchers.IO) {
                     if (bitmap != null) {
-                        val uri: Uri =
+                        val uri: Uri? = runCatching {
                             imageHelperMethods.getUriFromBitmap(context = context, bitmap = bitmap)
+                        }.onFailure { it.printStackTrace() }.getOrNull()
                         if (scaleBitmapModel != null) {
                             imageHelperMethods.scaleBitmap(
                                 bitmap = bitmap,
