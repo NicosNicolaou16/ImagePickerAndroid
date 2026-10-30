@@ -31,7 +31,7 @@ features:
   your own custom logic).
 * **📹 Video Picker**: Select a single video from the gallery.
 * **🔄 Base64 Conversion**: Automatically convert selected images to a Base64 string.
-* **✂️ Image Scaling**: Easily resize images to your desired dimensions.
+* **✂️ Image Scaling**: Easily resize images to your desired dimensions, with an option to keep the aspect ratio.
 * **🚀 Jetpack Compose Support**: First-class support for Jetpack Compose, with dedicated
   composables.
 
@@ -187,7 +187,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
             scaleBitmapModelForSingleImage = ScaleBitmapModel(
                 height = 100,
                 width = 100,
-                keepAspectRatio = true
+                keepAspectRatio = true  // optional, by default is false - if true, fits inside the size without stretching
             ), // optional, change the scale for image, by default is null
             scaleBitmapModelForMultipleImages = ScaleBitmapModel(
                 height = 100,
@@ -208,6 +208,13 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
     //...
 }
 ```
+
+> [!TIP]
+> `ScaleBitmapModel(height, width, keepAspectRatio)`
+> - `keepAspectRatio = false` (default): the image is resized to exactly `width` × `height`, which can stretch it.
+> - `keepAspectRatio = true`: the image fits inside `width` × `height` and keeps its shape
+    >   (for example, a 4000 × 3000 photo with `ScaleBitmapModel(500, 500, true)` becomes 500 × 375).
+    >   Smaller images are not enlarged.
 
 ### Step 2 - Initialize the methods for Image Pickers (choose the preferred method(s))
 
@@ -307,7 +314,8 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
 PickSingleImage(
     scaleBitmapModel = ScaleBitmapModel(
         height = 100,
-        width = 100
+        width = 100,
+        keepAspectRatio = true // optional, by default is false
     ), listener = { bitmap, uri ->
         //...your code here
     })
@@ -352,6 +360,10 @@ PickSingleVideo(listener = { uri ->
     //...your code here
 })
 ```
+
+> [!TIP]
+> Set `keepAspectRatio = true` in `ScaleBitmapModel` to resize without stretching
+> (see the tip in [Standard Configuration (XML)](#-standard-configuration-xml)).
 
 ### Step 2 Call from Click Listeners (choose the preferred method(s))
 
