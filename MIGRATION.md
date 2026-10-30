@@ -101,3 +101,9 @@ pickMultipleImagesWithBase64Values(onImagePickerNotAvailable = {
   // show custom dialog - showDialog.value = true
 })
 ```
+
+### 2.6.0 → 2.6.1
+
+`scaleBitmapModelForSingleImage`, `scaleBitmapModelForMultipleImages` and
+`scaleBitmapModelForCameraImage` are no longer public properties. Pass them in the
+`ImagePicker(...)` constructor instead of setting them afterwards.
