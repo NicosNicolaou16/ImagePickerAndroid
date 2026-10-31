@@ -57,6 +57,7 @@ dependencies {
     // Architecture
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.exifinterface)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -89,7 +90,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "com.github.NicosNicolaou16"
             artifactId = "ImagePickerAndroid"
-            version = "2.6.1"
+            version = "2.6.2"
             afterEvaluate {
                 from(components["release"])
             }

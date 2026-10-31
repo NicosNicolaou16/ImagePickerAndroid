@@ -1,6 +1,6 @@
 [versions]
-agp = "9.4.1"
-kotlin = "2.4.20"
+agp = "9.5.0"
+kotlin = "2.4.21"
 activityVersion = "1.13.0"
 appCompatVersion = "1.8.0"
 composeBomVersion = "2026.09.00"
@@ -19,6 +19,7 @@ media3ExoplayerVersion = "1.11.1"
 recyclerViewVersion = "1.4.0"
 uiTestManifestVersion = "1.12.1"
 composeMaterialVersion = "1.12.1"
+exifinterfaceVersion = "1.4.2"
 
 [libraries]
 # Architecture
@@ -52,6 +53,8 @@ coroutine-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutine
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlinBomVersion" }
 # Material
 material = { module = "com.google.android.material:material", version.ref = "materialDesignVersion" }
+# Exifinterface
+androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "exifinterfaceVersion" }
 # Unit Test
 junit = { module = "junit:junit", version.ref = "junitVersion" }
 androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }

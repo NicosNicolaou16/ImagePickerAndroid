@@ -22,6 +22,7 @@ import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.roundToInt
 
 internal class ImageHelperMethods {
 
@@ -111,7 +112,7 @@ internal class ImageHelperMethods {
         if (bitmap != null) {
             try {
                 emit(
-                    bitmap.scale(scaleBitmapModel.width, scaleBitmapModel.height)
+                    resize(bitmap, scaleBitmapModel)
                 )
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -135,7 +136,7 @@ internal class ImageHelperMethods {
                 val bitmapAfterScaleList = mutableListOf<Bitmap>()
                 bitmapList.forEach { bitmap ->
                     bitmapAfterScaleList.add(
-                        bitmap.scale(scaleBitmapModel.width, scaleBitmapModel.height)
+                        resize(bitmap, scaleBitmapModel)
                     )
                 }
                 emit(bitmapAfterScaleList)
@@ -145,6 +146,25 @@ internal class ImageHelperMethods {
             }
         }.flowOn(Dispatchers.Default)
 
+    /**
+     * Resizes a bitmap according to [scaleBitmapModel].
+     * Exact size when keepAspectRatio is false; fit inside the box, keeping the shape, when true.
+     * */
+    private fun resize(bitmap: Bitmap, scaleBitmapModel: ScaleBitmapModel): Bitmap {
+        if (!scaleBitmapModel.keepAspectRatio) {
+            return bitmap.scale(scaleBitmapModel.width, scaleBitmapModel.height)
+        }
+        val ratio = minOf(
+            scaleBitmapModel.width.toFloat() / bitmap.width,
+            scaleBitmapModel.height.toFloat() / bitmap.height,
+            1f // never enlarge
+        )
+        if (ratio == 1f) return bitmap
+        val newWidth = (bitmap.width * ratio).roundToInt().coerceAtLeast(1)
+        val newHeight = (bitmap.height * ratio).roundToInt().coerceAtLeast(1)
+        return bitmap.scale(newWidth, newHeight)
+    }
+
     internal fun getUriFromBitmap(context: Context, bitmap: Bitmap): Uri {
         val file = createImageFile(context)
         FileOutputStream(file).use { out ->
@@ -153,12 +173,33 @@ internal class ImageHelperMethods {
         return file.getUriWithFileProvider(context)
     }
 
+    /**
+     * Creates a new, unique file for a camera or preview image.
+     *
+     * @param context context used to find the cache directory
+     * @return the new (still empty) file
+     * */
     internal fun createImageFile(context: Context): File {
         val timestamp = SimpleDateFormat(PATTERN_DATE_FORMAT, Locale.getDefault()).format(
             Date()
         )
         val fileName = "${timestamp}.jpg"
         return File(context.cacheDir, fileName)
+    }
+
+    /**
+     * Deletes a camera image file created by the library.
+     * Used for files the developer never receives (cancelled photos, Base64 camera),
+     * so it never removes a Uri the app might still use. Errors are ignored.
+     * @param context context used to access the content resolver
+     * @param uri FileProvider Uri of the file to delete
+     * */
+    internal fun deleteCameraFile(context: Context, uri: Uri) {
+        try {
+            context.contentResolver.delete(uri, null, null)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     /**

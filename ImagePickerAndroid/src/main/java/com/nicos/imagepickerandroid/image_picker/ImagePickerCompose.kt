@@ -350,7 +350,6 @@ fun TakeSingleCameraImage(
                                     photoUri
                                 )
                             if (scaleBitmapModel != null) {
-
                                 imageHelperMethods.scaleBitmap(
                                     bitmap = bitmap,
                                     scaleBitmapModel = scaleBitmapModel
@@ -366,6 +365,17 @@ fun TakeSingleCameraImage(
                             }
                         }
                     }
+                } else {
+                    // Cancelled: remove the (empty) file created before opening the camera
+                    photoUri?.let { uri ->
+                        composableScope.launch(Dispatchers.IO) {
+                            imageHelperMethods.deleteCameraFile(
+                                context,
+                                uri
+                            )
+                        }
+                    }
+                    photoUri = null
                 }
             }
     } else {
@@ -373,8 +383,9 @@ fun TakeSingleCameraImage(
             rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { bitmap ->
                 composableScope.launch(Dispatchers.IO) {
                     if (bitmap != null) {
-                        val uri: Uri =
+                        val uri: Uri? = runCatching {
                             imageHelperMethods.getUriFromBitmap(context = context, bitmap = bitmap)
+                        }.onFailure { it.printStackTrace() }.getOrNull()
                         if (scaleBitmapModel != null) {
                             imageHelperMethods.scaleBitmap(
                                 bitmap = bitmap,
@@ -465,6 +476,8 @@ fun TakeSingleCameraImageWithBase64Value(
                                     contentResolver = context.contentResolver,
                                     uri = photoUri
                                 )
+                                // The listener never receives this Uri, so the file is no longer needed
+                                photoUri?.let { imageHelperMethods.deleteCameraFile(context, it) }
                                 imageHelperMethods.scaleBitmap(
                                     bitmap = bitmap,
                                     scaleBitmapModel = scaleBitmapModel
@@ -483,6 +496,8 @@ fun TakeSingleCameraImageWithBase64Value(
                                     contentResolver = context.contentResolver,
                                     uri = photoUri
                                 )
+                                // The listener never receives this Uri, so the file is no longer needed
+                                photoUri?.let { imageHelperMethods.deleteCameraFile(context, it) }
                                 imageHelperMethods.convertBitmapToBase64(bitmap = bitmap)
                                     .collect { base64 ->
                                         composableScope.launch(Dispatchers.Main) {
@@ -492,6 +507,17 @@ fun TakeSingleCameraImageWithBase64Value(
                             }
                         }
                     }
+                } else {
+                    // Cancelled: remove the (empty) file created before opening the camera
+                    photoUri?.let { uri ->
+                        composableScope.launch(Dispatchers.IO) {
+                            imageHelperMethods.deleteCameraFile(
+                                context,
+                                uri
+                            )
+                        }
+                    }
+                    photoUri = null
                 }
             }
     } else {

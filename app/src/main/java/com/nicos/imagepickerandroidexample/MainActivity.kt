@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), ImagePickerInterface {
         imagePicker = ImagePicker(
             fragmentActivity = this,
             coroutineScope = lifecycleScope,
-            scaleBitmapModelForSingleImage = ScaleBitmapModel(height = 100, width = 100),
+            scaleBitmapModelForSingleImage = ScaleBitmapModel(height = 100, width = 100, keepAspectRatio = true),
             scaleBitmapModelForMultipleImages = ScaleBitmapModel(height = 100, width = 100),
             enabledBase64ValueForSingleImage = true,
             enabledBase64ValueForMultipleImages = true,
