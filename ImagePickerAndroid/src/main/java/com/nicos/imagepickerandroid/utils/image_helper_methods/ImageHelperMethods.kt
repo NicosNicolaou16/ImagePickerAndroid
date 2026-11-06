@@ -260,6 +260,7 @@ internal class ImageHelperMethods {
      * Call this from a background dispatcher (it reads files).
      * @param contentResolver content resolver from Activity/Context
      * @param uris list of uris returned by the picker
+     * @param scaleBitmapModel optional target size, used to decode each image at a smaller size
      * */
     internal fun decodeUrisToBitmaps(
         contentResolver: ContentResolver,
