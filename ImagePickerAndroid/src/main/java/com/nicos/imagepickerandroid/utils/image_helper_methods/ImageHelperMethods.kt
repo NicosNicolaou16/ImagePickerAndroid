@@ -31,21 +31,31 @@ internal class ImageHelperMethods {
     }
 
     /**
-     * This make the conversion from Uri to Bitmap
+     * Converts a Uri into a Bitmap, upright on every API level.
+     *
+     * When [scaleBitmapModel] is given, the image is decoded directly at (or close to) the target
+     * size, so the full-size bitmap is never created in memory. The final exact size is still
+     * applied by scaleBitmap / scaleBitmapList afterwards.
+     *
+     * @param contentResolver content resolver from Activity/Context
+     * @param uri the image Uri returned by the picker or camera
+     * @param scaleBitmapModel optional target size, null decodes at full size
      * */
     internal fun convertUriToBitmap(
         contentResolver: ContentResolver,
-        uri: Uri?
+        uri: Uri?,
+        scaleBitmapModel: ScaleBitmapModel? = null,
     ): Bitmap? {
+        if (uri == null) return null
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            MediaStore.Images.Media.getBitmap(contentResolver, uri)
-                ?.let { contentResolver.rotateIfNeeded(uri!!, it) }
+            decodeSampledBitmap(contentResolver, uri, scaleBitmapModel)
+                ?.let { contentResolver.rotateIfNeeded(uri, it) }
         } else {
-            val source: ImageDecoder.Source? =
-                uri?.let { ImageDecoder.createSource(contentResolver, it) }
-            source?.let {
-                ImageDecoder.decodeBitmap(it) { decoder, _, _ ->
-                    decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
+            ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, uri)) { decoder, info, _ ->
+                decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
+                if (scaleBitmapModel != null) {
+                    val (w, h) = targetSize(info.size.width, info.size.height, scaleBitmapModel)
+                    if (w != info.size.width || h != info.size.height) decoder.setTargetSize(w, h)
                 }
             }
         }
