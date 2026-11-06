@@ -351,7 +351,7 @@ fun TakeSingleCameraImage(
                             val bitmap =
                                 imageHelperMethods.convertUriToBitmap(
                                     contentResolver = context.contentResolver,
-                                    photoUri,
+                                    uri = photoUri,
                                     scaleBitmapModel = scaleBitmapModel
                                 )
                             if (scaleBitmapModel != null) {
