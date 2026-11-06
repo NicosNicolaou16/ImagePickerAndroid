@@ -264,7 +264,7 @@ internal class ImageHelperMethods {
     internal fun decodeUrisToBitmaps(
         contentResolver: ContentResolver,
         uris: List<Uri>,
-        scaleBitmapModel: ScaleBitmapModel
+        scaleBitmapModel: ScaleBitmapModel? = null
     ): DecodedImages {
         val validUris = mutableListOf<Uri>()
         val bitmaps = mutableListOf<Bitmap>()

@@ -256,7 +256,7 @@ data class ImagePicker(
                 val decoded: DecodedImages = withContext(Dispatchers.IO) {
                     imageHelperMethods.decodeUrisToBitmaps(
                         contentResolver = contentResolver,
-                        uris = uris
+                        uris = uris,
                     )
                 }
                 if (scaleBitmapModelForMultipleImages != null) {
