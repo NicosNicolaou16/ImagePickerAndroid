@@ -81,6 +81,19 @@ internal class ImageHelperMethods {
         return contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, options) }
     }
 
+    /**
+     * Largest power of 2 that still keeps the decoded image at least as big as the target,
+     * so the final resize only shrinks. It compares the short side of the image with the long
+     * side of the target, so it stays correct whether or not the photo is later rotated by EXIF.
+     * */
+    private fun calculateInSampleSize(width: Int, height: Int, model: ScaleBitmapModel): Int {
+        if (width <= 0 || height <= 0) return 1
+        val shortSide = minOf(width, height)
+        val target = maxOf(model.width, model.height)
+        var sample = 1
+        while (shortSide / (sample * 2) >= target) sample *= 2
+        return sample
+    }
 
     /**
      * This method return the image from Intent when take with Camera
