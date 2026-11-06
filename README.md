@@ -171,6 +171,7 @@ you can remove the permission from your app's `AndroidManifest.xml`:
 > Only remove the permission if you don't use the camera features
 > (`TakeSingleCameraImage`, `TakeSingleCameraImageWithBase64Value` or `takeSinglePhotoWithCamera()`).
 > Without the `CAMERA` permission, these features won't open the camera.
+
 ---
 
 ## 🚀 Standard Configuration (XML)
