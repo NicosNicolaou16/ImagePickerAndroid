@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
@@ -60,6 +61,26 @@ internal class ImageHelperMethods {
             }
         }
     }
+
+    /**
+     * API < 28: decodes the image, using inSampleSize to skip pixels when a target size is given.
+     * The file is read twice: first only its size (no pixels), then the pixels at the chosen sample.
+     * */
+    private fun decodeSampledBitmap(
+        contentResolver: ContentResolver,
+        uri: Uri,
+        scaleBitmapModel: ScaleBitmapModel?,
+    ): Bitmap? {
+        val options = BitmapFactory.Options()
+        if (scaleBitmapModel != null) {
+            options.inJustDecodeBounds = true
+            contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, options) }
+            options.inSampleSize = calculateInSampleSize(options.outWidth, options.outHeight, scaleBitmapModel)
+            options.inJustDecodeBounds = false
+        }
+        return contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, options) }
+    }
+
 
     /**
      * This method return the image from Intent when take with Camera
