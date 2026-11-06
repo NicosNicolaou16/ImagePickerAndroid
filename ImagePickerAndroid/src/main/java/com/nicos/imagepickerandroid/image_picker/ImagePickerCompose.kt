@@ -149,7 +149,8 @@ fun PickSingleImageWithBase64Value(
                     val bitmap =
                         imageHelperMethods.convertUriToBitmap(
                             contentResolver = context.contentResolver,
-                            uri = uri
+                            uri = uri,
+                            scaleBitmapModel = scaleBitmapModel
                         )
                     if (scaleBitmapModel != null) {
                         imageHelperMethods.scaleBitmap(
