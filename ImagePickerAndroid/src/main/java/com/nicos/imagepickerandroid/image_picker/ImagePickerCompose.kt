@@ -217,7 +217,8 @@ fun PickMultipleImages(
                 val decoded: DecodedImages =
                     imageHelperMethods.decodeUrisToBitmaps(
                         contentResolver = context.contentResolver,
-                        uris = uriList
+                        uris = uriList,
+                        scaleBitmapModel = scaleBitmapModel
                     )
                 if (scaleBitmapModel != null) {
                     imageHelperMethods.scaleBitmapList(
