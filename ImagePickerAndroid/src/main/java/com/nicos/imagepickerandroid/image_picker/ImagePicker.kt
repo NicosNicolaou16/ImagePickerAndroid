@@ -261,6 +261,7 @@ data class ImagePicker(
                     imageHelperMethods.decodeUrisToBitmaps(
                         contentResolver = contentResolver,
                         uris = uris,
+                        scaleBitmapModel = scaleBitmapModelForMultipleImages,
                     )
                 }
                 if (scaleBitmapModelForMultipleImages != null) {
