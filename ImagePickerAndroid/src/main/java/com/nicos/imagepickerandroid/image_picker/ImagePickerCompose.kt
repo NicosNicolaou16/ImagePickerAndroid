@@ -91,7 +91,8 @@ fun PickSingleImage(
                 if (uri != null) {
                     bitmap = imageHelperMethods.convertUriToBitmap(
                         contentResolver = context.contentResolver,
-                        uri = uri
+                        uri = uri,
+                        scaleBitmapModel = scaleBitmapModel
                     )
                 }
                 if (scaleBitmapModel != null) {
