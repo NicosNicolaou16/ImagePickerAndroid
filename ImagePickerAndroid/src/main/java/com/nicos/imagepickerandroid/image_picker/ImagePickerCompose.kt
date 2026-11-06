@@ -91,7 +91,8 @@ fun PickSingleImage(
                 if (uri != null) {
                     bitmap = imageHelperMethods.convertUriToBitmap(
                         contentResolver = context.contentResolver,
-                        uri = uri
+                        uri = uri,
+                        scaleBitmapModel = scaleBitmapModel
                     )
                 }
                 if (scaleBitmapModel != null) {
@@ -148,7 +149,8 @@ fun PickSingleImageWithBase64Value(
                     val bitmap =
                         imageHelperMethods.convertUriToBitmap(
                             contentResolver = context.contentResolver,
-                            uri = uri
+                            uri = uri,
+                            scaleBitmapModel = scaleBitmapModel
                         )
                     if (scaleBitmapModel != null) {
                         imageHelperMethods.scaleBitmap(
@@ -215,7 +217,8 @@ fun PickMultipleImages(
                 val decoded: DecodedImages =
                     imageHelperMethods.decodeUrisToBitmaps(
                         contentResolver = context.contentResolver,
-                        uris = uriList
+                        uris = uriList,
+                        scaleBitmapModel = scaleBitmapModel
                     )
                 if (scaleBitmapModel != null) {
                     imageHelperMethods.scaleBitmapList(
@@ -276,7 +279,8 @@ fun PickMultipleImagesWithBase64Values(
                 val decoded: DecodedImages =
                     imageHelperMethods.decodeUrisToBitmaps(
                         contentResolver = context.contentResolver,
-                        uris = uriList
+                        uris = uriList,
+                        scaleBitmapModel = scaleBitmapModel
                     )
                 if (scaleBitmapModel != null) {
                     imageHelperMethods.scaleBitmapList(
@@ -347,7 +351,8 @@ fun TakeSingleCameraImage(
                             val bitmap =
                                 imageHelperMethods.convertUriToBitmap(
                                     contentResolver = context.contentResolver,
-                                    photoUri
+                                    uri = photoUri,
+                                    scaleBitmapModel = scaleBitmapModel
                                 )
                             if (scaleBitmapModel != null) {
                                 imageHelperMethods.scaleBitmap(
@@ -474,7 +479,8 @@ fun TakeSingleCameraImageWithBase64Value(
                             composableScope.launch(context = Dispatchers.Default) {
                                 val bitmap = imageHelperMethods.convertUriToBitmap(
                                     contentResolver = context.contentResolver,
-                                    uri = photoUri
+                                    uri = photoUri,
+                                    scaleBitmapModel = scaleBitmapModel
                                 )
                                 // The listener never receives this Uri, so the file is no longer needed
                                 photoUri?.let { imageHelperMethods.deleteCameraFile(context, it) }

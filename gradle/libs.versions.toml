@@ -1,5 +1,5 @@
 [versions]
-agp = "9.5.0"
+agp = "9.5.1"
 kotlin = "2.4.21"
 activityVersion = "1.13.0"
 appCompatVersion = "1.8.0"

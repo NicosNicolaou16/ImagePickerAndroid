@@ -135,7 +135,11 @@ data class ImagePicker(
         try {
             if (uri != null) {
                 val bitmap = withContext(Dispatchers.IO) {
-                    imageHelperMethods.convertUriToBitmap(contentResolver, uri)
+                    imageHelperMethods.convertUriToBitmap(
+                        contentResolver = contentResolver,
+                        uri = uri,
+                        scaleBitmapModel = scaleBitmapModelForSingleImage
+                    )
                 }
                 if (scaleBitmapModelForSingleImage != null) {
                     imageHelperMethods.scaleBitmap(bitmap, scaleBitmapModelForSingleImage!!)
@@ -256,7 +260,8 @@ data class ImagePicker(
                 val decoded: DecodedImages = withContext(Dispatchers.IO) {
                     imageHelperMethods.decodeUrisToBitmaps(
                         contentResolver = contentResolver,
-                        uris = uris
+                        uris = uris,
+                        scaleBitmapModel = scaleBitmapModelForMultipleImages,
                     )
                 }
                 if (scaleBitmapModelForMultipleImages != null) {

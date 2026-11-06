@@ -65,7 +65,7 @@ features:
 *   **Target SDK**: `37`
 *   **Minimum SDK**: `24`
 *   **Kotlin Version**: `2.4.21`
-*   **AGP Version**: `9.5.0`
+*   **AGP Version**: `9.5.1`
 *   **Gradle Version**: `9.8.2`
 *   **Build Tool Version**: `37.0.0`
 
@@ -92,7 +92,7 @@ THE BETA RELEASES MAY CONTAIN MAJOR OR MINOR CHANGES. <br />
 ### Groovy
 
 ```Groovy
-implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.6.2'
+implementation 'com.github.NicosNicolaou16:ImagePickerAndroid:2.6.3'
 ```
 
 ```Groovy
@@ -106,7 +106,7 @@ allprojects {
 ### Kotlin DSL
 
 ```Kotlin
-implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.6.2")
+implementation("com.github.NicosNicolaou16:ImagePickerAndroid:2.6.3")
 ```
 
 ```Kotlin
@@ -124,7 +124,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.6.2"
+imagePickerAndroid = "2.6.3"
 
 [libraries]
 # other libraries here...
@@ -148,24 +148,30 @@ dependencyResolutionManagement {
 
 ## 📷 Camera Permission (Optional)
 
-The library declares the `CAMERA` permission in its manifest, so it is added to your app
-automatically and the user is asked for it the first time the camera is opened.
+The library declares the `CAMERA` permission in its manifest, so it is merged into your app
+automatically, and the user is asked for it the first time the camera is opened.
 
-If you don't want the `CAMERA` permission in your app (for example, if you only use the gallery
-pickers, or you don't want the permission dialog), remove it in your app's `AndroidManifest.xml`:
+If your app **doesn't use the camera features** (for example, you only use the gallery pickers),
+you can remove the permission from your app's `AndroidManifest.xml`:
 
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Optional: remove the CAMERA permission added by ImagePickerAndroid.
-         The camera still works; the library opens it without asking for permission. -->
+    <!-- Remove the CAMERA permission added by ImagePickerAndroid
+         (only if your app doesn't use the camera features). -->
     <uses-permission
         android:name="android.permission.CAMERA"
         tools:node="remove" />
 
 </manifest>
 ```
+
+> [!WARNING]
+> Only remove the permission if you don't use the camera features
+> (`TakeSingleCameraImage`, `TakeSingleCameraImageWithBase64Value` or `takeSinglePhotoWithCamera()`).
+> Without the `CAMERA` permission, these features won't open the camera.
+
 ---
 
 ## 🚀 Standard Configuration (XML)

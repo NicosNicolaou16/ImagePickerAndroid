@@ -4,10 +4,10 @@ import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import android.provider.MediaStore
 import android.util.Base64
 import androidx.core.graphics.scale
 import com.nicos.imagepickerandroid.model.DecodedImages
@@ -31,24 +31,75 @@ internal class ImageHelperMethods {
     }
 
     /**
-     * This make the conversion from Uri to Bitmap
+     * Converts a Uri into a Bitmap, upright on every API level.
+     *
+     * When [scaleBitmapModel] is given, the image is decoded directly at (or close to) the target
+     * size, so the full-size bitmap is never created in memory. The final exact size is still
+     * applied by scaleBitmap / scaleBitmapList afterwards.
+     *
+     * @param contentResolver content resolver from Activity/Context
+     * @param uri the image Uri returned by the picker or camera
+     * @param scaleBitmapModel optional target size, null decodes at full size
      * */
     internal fun convertUriToBitmap(
         contentResolver: ContentResolver,
-        uri: Uri?
+        uri: Uri?,
+        scaleBitmapModel: ScaleBitmapModel? = null,
     ): Bitmap? {
+        if (uri == null) return null
         return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            MediaStore.Images.Media.getBitmap(contentResolver, uri)
-                ?.let { contentResolver.rotateIfNeeded(uri!!, it) }
+            decodeSampledBitmap(contentResolver, uri, scaleBitmapModel)
+                ?.let { contentResolver.rotateIfNeeded(uri, it) }
         } else {
-            val source: ImageDecoder.Source? =
-                uri?.let { ImageDecoder.createSource(contentResolver, it) }
-            source?.let {
-                ImageDecoder.decodeBitmap(it) { decoder, _, _ ->
-                    decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
+            ImageDecoder.decodeBitmap(
+                ImageDecoder.createSource(
+                    contentResolver,
+                    uri
+                )
+            ) { decoder, info, _ ->
+                decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
+                if (scaleBitmapModel != null) {
+                    val (w, h) = targetSize(info.size.width, info.size.height, scaleBitmapModel)
+                    if (w != info.size.width || h != info.size.height) decoder.setTargetSize(w, h)
                 }
             }
         }
+    }
+
+    /**
+     * API < 28: decodes the image, using inSampleSize to skip pixels when a target size is given.
+     * The file is read twice: first only its size (no pixels), then the pixels at the chosen sample.
+     * */
+    private fun decodeSampledBitmap(
+        contentResolver: ContentResolver,
+        uri: Uri,
+        scaleBitmapModel: ScaleBitmapModel?,
+    ): Bitmap? {
+        val options = BitmapFactory.Options()
+        if (scaleBitmapModel != null) {
+            options.inJustDecodeBounds = true
+            contentResolver.openInputStream(uri)
+                ?.use { BitmapFactory.decodeStream(it, null, options) }
+            options.inSampleSize =
+                calculateInSampleSize(options.outWidth, options.outHeight, scaleBitmapModel)
+            options.inJustDecodeBounds = false
+        }
+        return contentResolver.openInputStream(uri)
+            ?.use { BitmapFactory.decodeStream(it, null, options) }
+    }
+
+    /**
+     * Largest power of 2 that still keeps the decoded image at least as big as the target,
+     * so the final resize only shrinks. It compares the short side of the image with the long
+     * side of the target, so it stays correct whether or not the photo is later rotated by EXIF.
+     * */
+    private fun calculateInSampleSize(width: Int, height: Int, model: ScaleBitmapModel): Int {
+        if (width <= 0 || height <= 0) return 1
+        val shortSide = minOf(width, height)
+        val target = maxOf(model.width, model.height)
+        var sample = 1
+        while (shortSide / (sample * 2) >= target) sample *= 2
+        return sample
     }
 
     /**
@@ -147,22 +198,23 @@ internal class ImageHelperMethods {
         }.flowOn(Dispatchers.Default)
 
     /**
+     * Final size for an image of [width] × [height]:
+     * exactly model.width × model.height, or fit inside it (never enlarged) when keepAspectRatio is true.
+     * */
+    private fun targetSize(width: Int, height: Int, model: ScaleBitmapModel): Pair<Int, Int> {
+        if (!model.keepAspectRatio) return model.width to model.height
+        val ratio = minOf(model.width.toFloat() / width, model.height.toFloat() / height, 1f)
+        return (width * ratio).roundToInt().coerceAtLeast(1) to
+                (height * ratio).roundToInt().coerceAtLeast(1)
+    }
+
+    /**
      * Resizes a bitmap according to [scaleBitmapModel].
      * Exact size when keepAspectRatio is false; fit inside the box, keeping the shape, when true.
      * */
     private fun resize(bitmap: Bitmap, scaleBitmapModel: ScaleBitmapModel): Bitmap {
-        if (!scaleBitmapModel.keepAspectRatio) {
-            return bitmap.scale(scaleBitmapModel.width, scaleBitmapModel.height)
-        }
-        val ratio = minOf(
-            scaleBitmapModel.width.toFloat() / bitmap.width,
-            scaleBitmapModel.height.toFloat() / bitmap.height,
-            1f // never enlarge
-        )
-        if (ratio == 1f) return bitmap
-        val newWidth = (bitmap.width * ratio).roundToInt().coerceAtLeast(1)
-        val newHeight = (bitmap.height * ratio).roundToInt().coerceAtLeast(1)
-        return bitmap.scale(newWidth, newHeight)
+        val (w, h) = targetSize(bitmap.width, bitmap.height, scaleBitmapModel)
+        return if (w == bitmap.width && h == bitmap.height) bitmap else bitmap.scale(w, h)
     }
 
     internal fun getUriFromBitmap(context: Context, bitmap: Bitmap): Uri {
@@ -208,16 +260,22 @@ internal class ImageHelperMethods {
      * Call this from a background dispatcher (it reads files).
      * @param contentResolver content resolver from Activity/Context
      * @param uris list of uris returned by the picker
+     * @param scaleBitmapModel optional target size, used to decode each image at a smaller size
      * */
     internal fun decodeUrisToBitmaps(
         contentResolver: ContentResolver,
         uris: List<Uri>,
+        scaleBitmapModel: ScaleBitmapModel? = null
     ): DecodedImages {
         val validUris = mutableListOf<Uri>()
         val bitmaps = mutableListOf<Bitmap>()
         uris.forEach { uri ->
             val bitmap = try {
-                convertUriToBitmap(contentResolver = contentResolver, uri = uri)
+                convertUriToBitmap(
+                    contentResolver = contentResolver,
+                    uri = uri,
+                    scaleBitmapModel = scaleBitmapModel
+                )
             } catch (e: Exception) {
                 e.printStackTrace()
                 null
