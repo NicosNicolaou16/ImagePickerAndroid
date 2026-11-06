@@ -264,12 +264,17 @@ internal class ImageHelperMethods {
     internal fun decodeUrisToBitmaps(
         contentResolver: ContentResolver,
         uris: List<Uri>,
+        scaleBitmapModel: ScaleBitmapModel
     ): DecodedImages {
         val validUris = mutableListOf<Uri>()
         val bitmaps = mutableListOf<Bitmap>()
         uris.forEach { uri ->
             val bitmap = try {
-                convertUriToBitmap(contentResolver = contentResolver, uri = uri)
+                convertUriToBitmap(
+                    contentResolver = contentResolver,
+                    uri = uri,
+                    scaleBitmapModel = scaleBitmapModel
+                )
             } catch (e: Exception) {
                 e.printStackTrace()
                 null
