@@ -52,7 +52,12 @@ internal class ImageHelperMethods {
             decodeSampledBitmap(contentResolver, uri, scaleBitmapModel)
                 ?.let { contentResolver.rotateIfNeeded(uri, it) }
         } else {
-            ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, uri)) { decoder, info, _ ->
+            ImageDecoder.decodeBitmap(
+                ImageDecoder.createSource(
+                    contentResolver,
+                    uri
+                )
+            ) { decoder, info, _ ->
                 decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
                 if (scaleBitmapModel != null) {
                     val (w, h) = targetSize(info.size.width, info.size.height, scaleBitmapModel)
@@ -74,11 +79,14 @@ internal class ImageHelperMethods {
         val options = BitmapFactory.Options()
         if (scaleBitmapModel != null) {
             options.inJustDecodeBounds = true
-            contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, options) }
-            options.inSampleSize = calculateInSampleSize(options.outWidth, options.outHeight, scaleBitmapModel)
+            contentResolver.openInputStream(uri)
+                ?.use { BitmapFactory.decodeStream(it, null, options) }
+            options.inSampleSize =
+                calculateInSampleSize(options.outWidth, options.outHeight, scaleBitmapModel)
             options.inJustDecodeBounds = false
         }
-        return contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, options) }
+        return contentResolver.openInputStream(uri)
+            ?.use { BitmapFactory.decodeStream(it, null, options) }
     }
 
     /**
@@ -191,22 +199,23 @@ internal class ImageHelperMethods {
         }.flowOn(Dispatchers.Default)
 
     /**
+     * Final size for an image of [width] × [height]:
+     * exactly model.width × model.height, or fit inside it (never enlarged) when keepAspectRatio is true.
+     * */
+    private fun targetSize(width: Int, height: Int, model: ScaleBitmapModel): Pair<Int, Int> {
+        if (!model.keepAspectRatio) return model.width to model.height
+        val ratio = minOf(model.width.toFloat() / width, model.height.toFloat() / height, 1f)
+        return (width * ratio).roundToInt().coerceAtLeast(1) to
+                (height * ratio).roundToInt().coerceAtLeast(1)
+    }
+
+    /**
      * Resizes a bitmap according to [scaleBitmapModel].
      * Exact size when keepAspectRatio is false; fit inside the box, keeping the shape, when true.
      * */
     private fun resize(bitmap: Bitmap, scaleBitmapModel: ScaleBitmapModel): Bitmap {
-        if (!scaleBitmapModel.keepAspectRatio) {
-            return bitmap.scale(scaleBitmapModel.width, scaleBitmapModel.height)
-        }
-        val ratio = minOf(
-            scaleBitmapModel.width.toFloat() / bitmap.width,
-            scaleBitmapModel.height.toFloat() / bitmap.height,
-            1f // never enlarge
-        )
-        if (ratio == 1f) return bitmap
-        val newWidth = (bitmap.width * ratio).roundToInt().coerceAtLeast(1)
-        val newHeight = (bitmap.height * ratio).roundToInt().coerceAtLeast(1)
-        return bitmap.scale(newWidth, newHeight)
+        val (w, h) = targetSize(bitmap.width, bitmap.height, scaleBitmapModel)
+        return if (w == bitmap.width && h == bitmap.height) bitmap else bitmap.scale(w, h)
     }
 
     internal fun getUriFromBitmap(context: Context, bitmap: Bitmap): Uri {
