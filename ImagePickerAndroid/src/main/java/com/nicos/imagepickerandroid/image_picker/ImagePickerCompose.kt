@@ -577,7 +577,7 @@ private fun CameraPermissionForBase64(
     permissionCameraImageWithBase64Launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        if (isGranted) {
+        if (isGranted || !context.isCameraPermissionDeclared()) {
             if (takeImageType == TakeImageType.TAKE_IMAGE) {
                 val photoFile = imageHelperMethods.createImageFile(context)
                 val uri = photoFile.getUriWithFileProvider(context)
