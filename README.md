@@ -124,7 +124,7 @@ dependencyResolutionManagement {
 ```toml
 [versions]
 # other versions here...
-imagePickerAndroid = "2.6.3"
+imagePickerAndroid = "2.6.4"
 
 [libraries]
 # other libraries here...
