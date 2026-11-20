@@ -40,6 +40,7 @@ internal class ImageHelperMethods {
      * @param contentResolver content resolver from Activity/Context
      * @param uri the image Uri returned by the picker or camera
      * @param scaleBitmapModel optional target size, null decodes at full size
+     * @return the decoded bitmap, or null if the Uri is null or the image could not be read
      * */
     internal fun convertUriToBitmap(
         contentResolver: ContentResolver,
@@ -47,22 +48,31 @@ internal class ImageHelperMethods {
         scaleBitmapModel: ScaleBitmapModel? = null,
     ): Bitmap? {
         if (uri == null) return null
-        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            decodeSampledBitmap(contentResolver, uri, scaleBitmapModel)
-                ?.let { contentResolver.rotateIfNeeded(uri, it) }
-        } else {
-            ImageDecoder.decodeBitmap(
-                ImageDecoder.createSource(
-                    contentResolver,
-                    uri
-                )
-            ) { decoder, info, _ ->
-                decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
-                if (scaleBitmapModel != null) {
-                    val (w, h) = targetSize(info.size.width, info.size.height, scaleBitmapModel)
-                    if (w != info.size.width || h != info.size.height) decoder.setTargetSize(w, h)
+        return try {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+                decodeSampledBitmap(contentResolver, uri, scaleBitmapModel)
+                    ?.let { contentResolver.rotateIfNeeded(uri, it) }
+            } else {
+                ImageDecoder.decodeBitmap(
+                    ImageDecoder.createSource(
+                        contentResolver,
+                        uri
+                    )
+                ) { decoder, info, _ ->
+                    decoder.allocator = ImageDecoder.ALLOCATOR_SOFTWARE
+                    if (scaleBitmapModel != null) {
+                        val (w, h) = targetSize(info.size.width, info.size.height, scaleBitmapModel)
+                        if (w != info.size.width || h != info.size.height) decoder.setTargetSize(
+                            w,
+                            h
+                        )
+                    }
                 }
             }
+        } catch (e: Exception) {
+            // The image could not be read (corrupted, deleted or unsupported): return null instead of crashing
+            e.printStackTrace()
+            null
         }
     }
 

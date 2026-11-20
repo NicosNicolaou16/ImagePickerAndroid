@@ -1,13 +1,16 @@
 package com.nicos.imagepickerandroid.utils.extensions
 
+import android.Manifest
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.ContextWrapper
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import androidx.exifinterface.media.ExifInterface
 import android.net.Uri
+import android.os.Build
 import androidx.core.content.FileProvider
 import java.io.File
 
@@ -101,4 +104,23 @@ internal fun ContentResolver.rotateIfNeeded(uri: Uri, bitmap: Bitmap): Bitmap {
     val rotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
     if (rotated != bitmap) bitmap.recycle()
     return rotated
+}
+
+/**
+ * Returns true if the app's final (merged) manifest declares the CAMERA permission.
+ * When it doesn't, the camera intents can be launched without asking for any permission.
+ * */
+internal fun Context.isCameraPermissionDeclared(): Boolean = try {
+    val packageInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        packageManager.getPackageInfo(
+            packageName,
+            PackageManager.PackageInfoFlags.of(PackageManager.GET_PERMISSIONS.toLong())
+        )
+    } else {
+        @Suppress("DEPRECATION")
+        packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
+    }
+    packageInfo.requestedPermissions?.contains(Manifest.permission.CAMERA) == true
+} catch (e: Exception) {
+    true // if it can't be read, keep the current behavior and ask for the permission
 }

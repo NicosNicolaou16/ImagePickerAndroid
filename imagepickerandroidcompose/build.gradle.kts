@@ -9,6 +9,7 @@ android {
     namespace = "com.nicos.imagepickerandroidcompose"
     compileSdk = 37
     buildToolsVersion = "37.0.0"
+    compileSdkMinor = 1
 
     defaultConfig {
         applicationId = "com.nicos.imagepickerandroidcompose"
