@@ -40,6 +40,7 @@ internal class ImageHelperMethods {
      * @param contentResolver content resolver from Activity/Context
      * @param uri the image Uri returned by the picker or camera
      * @param scaleBitmapModel optional target size, null decodes at full size
+     * @return the decoded bitmap, or null if the Uri is null or the image could not be read
      * */
     internal fun convertUriToBitmap(
         contentResolver: ContentResolver,
