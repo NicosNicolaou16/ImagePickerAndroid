@@ -476,7 +476,7 @@ fun TakeSingleCameraImageWithBase64Value(
                 if (success) {
                     if (photoUri != null) {
                         if (scaleBitmapModel != null) {
-                            composableScope.launch(context = Dispatchers.Default) {
+                            composableScope.launch(context = Dispatchers.IO) {
                                 val bitmap = imageHelperMethods.convertUriToBitmap(
                                     contentResolver = context.contentResolver,
                                     uri = photoUri,
