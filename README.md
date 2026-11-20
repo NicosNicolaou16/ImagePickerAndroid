@@ -151,15 +151,19 @@ dependencyResolutionManagement {
 The library declares the `CAMERA` permission in its manifest, so it is merged into your app
 automatically, and the user is asked for it the first time the camera is opened.
 
-If your app **doesn't use the camera features** (for example, you only use the gallery pickers),
-you can remove the permission from your app's `AndroidManifest.xml`:
+The camera features open the **system camera app** with an intent (`ACTION_IMAGE_CAPTURE`),
+so the library never accesses the camera directly. The user sees the camera, takes the photo
+and can cancel at any time. Because of this, Android recommends not declaring the `CAMERA`
+permission when an app only takes photos through the system camera app. For more information, see
+[Evaluate whether your app needs permissions](https://developer.android.com/training/permissions/evaluating).
+
+You can remove the permission from your app's `AndroidManifest.xml`:
 
 ```xml
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Remove the CAMERA permission added by ImagePickerAndroid
-         (only if your app doesn't use the camera features). -->
+    <!-- Remove the CAMERA permission added by ImagePickerAndroid -->
     <uses-permission
         android:name="android.permission.CAMERA"
         tools:node="remove" />
@@ -167,10 +171,13 @@ you can remove the permission from your app's `AndroidManifest.xml`:
 </manifest>
 ```
 
-> [!WARNING]
-> Only remove the permission if you don't use the camera features
-> (`TakeSingleCameraImage`, `TakeSingleCameraImageWithBase64Value` or `takeSinglePhotoWithCamera()`).
-> Without the `CAMERA` permission, these features won't open the camera.
+| Your app's manifest      | What happens when the camera is opened               |
+|--------------------------|------------------------------------------------------|
+| Keeps `CAMERA` (default) | The user is asked for the permission first           |
+| Removes `CAMERA`         | The camera opens directly, with no permission dialog |
+
+> [!NOTE]
+> Keep the permission if your app also uses the camera directly (for example with CameraX or Camera2).
 
 ---
 
