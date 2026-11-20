@@ -25,6 +25,7 @@ import com.nicos.imagepickerandroid.utils.constants.Constants.imagePickerNotAvai
 import com.nicos.imagepickerandroid.utils.enums.TakeImageType
 import com.nicos.imagepickerandroid.utils.extensions.findActivity
 import com.nicos.imagepickerandroid.utils.extensions.getUriWithFileProvider
+import com.nicos.imagepickerandroid.utils.extensions.isCameraPermissionDeclared
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ImageHelperMethods
 import com.nicos.imagepickerandroid.utils.image_helper_methods.ScaleBitmapModel
 import kotlinx.coroutines.Dispatchers
@@ -425,7 +426,7 @@ private fun CameraPermission(
     permissionLauncherCameraImage = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
-        if (isGranted) {
+        if (isGranted || !context.isCameraPermissionDeclared()) {
             if (takeImageType == TakeImageType.TAKE_IMAGE) {
                 val photoFile = imageHelperMethods.createImageFile(context)
                 val uri = photoFile.getUriWithFileProvider(context)
