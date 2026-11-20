@@ -25,8 +25,11 @@ internal class PermissionsHelper(
                 ) == PackageManager.PERMISSION_GRANTED
 
 
-    internal fun isPermissionGranted(fragment: Fragment) =
-        (fragment.context?.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
+    internal fun isPermissionGranted(fragment: Fragment): Boolean {
+        val context = fragment.context ?: return false
+        return !context.isCameraPermissionDeclared() ||
+                context.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+    }
 
     internal fun initRegisterForRequestPermissionInFragment(
         fragment: Fragment?,
